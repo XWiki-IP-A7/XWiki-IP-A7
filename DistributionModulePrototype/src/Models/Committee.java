@@ -12,4 +12,19 @@ public class Committee {
             teacher.setCommittee(this);
         }
     }
+
+    public void addTeacher(Teacher teacher) {
+        committee.add(teacher);
+        teacher.setCommittee(this);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("[");
+        for (Teacher teacher:committee) {
+            stringBuilder.append(teacher + " ");
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
 }
