@@ -20,6 +20,7 @@ public class Student {
 
     public Student setCoordinator(Teacher coordinator) {
         this.coordinator = coordinator;
+        coordinator.addStudent(this);
         return this;
     }
 

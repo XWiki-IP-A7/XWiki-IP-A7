@@ -9,5 +9,5 @@ import javafx.util.Pair;
 import java.util.List;
 
 public interface DistributionAlgorithm {
-    List<Repartition> getRepatitions(List<Student> students, List<Committee> committees);
+    List<Repartition> getRepatitions(List<Student> students,List<Teacher> teachers, List<Committee> committees);
 }

@@ -40,11 +40,11 @@ public class Main {
         for (int i = 0; i < noOfStudents; i++) {
             students.add(new Student(String.format("%d", i), "stud" + i).setCoordinator(teachers.get(teacher)));
             teacher++;
-            if (teacher == noOfTeachers - 1)
+            if (teacher == noOfTeachers)
                 teacher = 0;
         }
 
-        List<Repartition> repartitions = new DegreeDistributionAlgorithm().getRepatitions(students,committees);
+        List<Repartition> repartitions = new DegreeDistributionAlgorithm().getRepatitions(students,teachers,committees);
 
         for (Repartition repartition:repartitions) {
             System.out.println(repartition);
