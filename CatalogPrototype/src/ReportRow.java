@@ -6,7 +6,22 @@ public class ReportRow {
         this.student = student;
     }
 
+    public Student getStudent() {
+        return student;
+    }
+
+    public double calculateAverage(Task task) {
+        int total = 0, num = 0;
+        for (Grade g : student.getNote()) {
+            if (g.getTask() == task) {
+                total += g.getValoare();
+                num++;
+            }
+        }
+        return (double)total / (double)num;
+    }
+
     public double calculateAverage() {
-        return (this.student.getTotalProba1()/3.0 + this.student.getTotalProba2()/3.0)/2.0;
+        return (calculateAverage(Task.TASK1) + calculateAverage(Task.TASK2)) / 2.0;
     }
 }

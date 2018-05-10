@@ -1,12 +1,26 @@
-enum Task {
-    Task_1, Task_2
-}
 
 public class Grade {
-    public Grade(Task task, Student student, int valoare) {
-        if (task.compareTo(Task.Task_1) == 0)
-            student.noteazaProba1(valoare);
-        else if (task.compareTo(Task.Task_2) == 0)
-            student.noteazaProba2(valoare);
+    private Task task;
+    private Student student;
+    private Profesor profesor;
+    private int valoare;
+
+    public Grade(Task task, Student student, Profesor profesor, int valoare) {
+        this.task = task;
+        this.student = student;
+        this.profesor = profesor;
+        this.valoare = valoare;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public int getValoare() {
+        return valoare;
     }
 }
