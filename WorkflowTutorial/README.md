@@ -1,7 +1,13 @@
-#XWiki Peasant Guide
-##Jar setup
-Using [Păluș's Archeive](https://drive.google.com/file/d/171qbJabC5yGO3qu8Ug3uexm9tAi6yjHw/view?usp=sharing) which has everything already build:
+XWiki Peasant Guide
+===================
+Jar setup
+---------
+Using [Păluș's Archeive](https://drive.google.com/file/d/171qbJabC5yGO3qu8Ug3uexm9tAi6yjHw/view?usp=sharing) which has everything already built.
+
+
 Using [this guide](http://www.xwiki.org/xwiki/bin/view/Documentation/DevGuide/Tutorials/WritingComponents/):
+
+
 1. Open IntelliJ
 2. New Project -> Maven
 3. Add Archetype
@@ -21,7 +27,8 @@ Version=5.4.4
 14. Paste it in XWikiHome\webapps\xwiki\WEB-INF\lib
 15. Get a drink and pray for the gods that you succeded.
 
-##Scripting
+Scripting
+-----------
 1. Open XWiki using the .bat or the .sh
 2. Wait for the gods to start XWiki
 3. Login as admin. User:Admin Password:admin
@@ -32,13 +39,13 @@ Version=5.4.4
 8. Click on the dropdown on Edit -> Wiki
 9. Delete that stuff.
 10. Insert this new code of your own prefference:
-```
+```groovy
 {{groovy}}
 println services.hello.greet()
 println services.hello.dbGreet()
 {{/groovy}}
 ```
-```
+```velocity
 {{velocity}}
 $services.hello.greet()
 $services.hello.dbGreet()
