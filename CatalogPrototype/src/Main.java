@@ -36,6 +36,6 @@ public class Main {
         report.addRow(reportRow1);
         report.addRow(reportRow1);
         report.addRow(reportRow1);
-        report.generatePDF("report.pdf");
+        report.generatePDF("report2.pdf");
     }
 }
