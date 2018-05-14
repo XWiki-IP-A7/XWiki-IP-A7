@@ -1,14 +1,16 @@
 import Algorithm.DegreeDistributionAlgorithm;
+import Algorithm.DistributionAlgorithm;
 import Models.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        final int noOfStudents = 30;
-        final int noOfTeachers = 10;
-        final int noOfCommittees = 2;
+        final int noOfStudents = 247;
+        final int noOfTeachers = 41;
+        final int noOfCommittees = 6;
         final double teachersPerCommittee = 4;
 
         //Adding teachers
@@ -26,7 +28,7 @@ public class Main {
         //Adding teachers to committees
         try {
             for (int i = 0; i < noOfCommittees * teachersPerCommittee; i++) {
-                committees.get(i % noOfCommittees).addTeacher(teachers.get(i));
+                committees.get(i % noOfCommittees).addCommitteeTeacher(teachers.get(i));
             }
         } catch (IndexOutOfBoundsException exception) {
             System.out.println("Invalid input: number of committees multiplied by " +
@@ -36,18 +38,29 @@ public class Main {
         //Adding students along with their coordinator
         List<Student> students = new ArrayList<>();
 
-        int teacher = 0;
+        Random random = new Random();
+
+        int teacher_no;
         for (int i = 0; i < noOfStudents; i++) {
-            students.add(new Student(String.format("%d", i), "stud" + i).setCoordinator(teachers.get(teacher)));
-            teacher++;
-            if (teacher == noOfTeachers)
-                teacher = 0;
+            teacher_no = random.nextInt(noOfTeachers);
+            students.add(new Student(String.format("%d", i), "stud" + i).setCoordinator(teachers.get(teacher_no)));
         }
 
-        List<Repartition> repartitions = new DegreeDistributionAlgorithm().getRepatitions(students,teachers,committees);
+        //Adding constraints
+        List<Constraint> constraints = new ArrayList<>();
+        for (Teacher teacher : teachers) {
+            if (teacher.getCommittee() == null)
+                if (random.nextDouble() > 0.5) {
+                    int committee_no = random.nextInt(noOfCommittees);
+                    constraints.add(new Constraint(teacher, committees.get(committee_no)));
+                }
+        }
 
-        for (Repartition repartition:repartitions) {
-            System.out.println(repartition);
+        DistributionAlgorithm distributionAlgorithm = new DegreeDistributionAlgorithm();
+        distributionAlgorithm.partitionTeachers(teachers, committees, constraints);
+
+        for (Committee committee : committees) {
+            System.out.println(committee);
         }
     }
 }

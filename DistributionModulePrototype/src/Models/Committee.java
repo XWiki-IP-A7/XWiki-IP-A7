@@ -4,50 +4,85 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Committee {
-    List<Teacher> committee = new ArrayList<>();
-    private Teacher auxiliaryTeacher;
+    private List<Teacher> committee = new ArrayList<>();
+    private List<Teacher> auxiliaryTeachers;
+    private List<Teacher> constraintTeachers;
 
     public Committee(Teacher... teachers) {
+        committee = new ArrayList<>();
         for (Teacher teacher : teachers) {
-            committee.add(teacher);
+            if (teacher.getCommittee() == null) {
+                committee.add(teacher);
+                teacher.setCommittee(this);
+            }
+        }
+    }
+
+    public void addCommitteeTeacher(Teacher teacher) {
+        if (committee == null)
+            committee = new ArrayList<>();
+        addTeacher(committee, teacher);
+    }
+
+    public void addConstraintTeacher(Teacher teacher) {
+        if (constraintTeachers == null)
+            constraintTeachers = new ArrayList<>();
+        addTeacher(constraintTeachers, teacher);
+    }
+
+    public void addAuxiliaryTeacher(Teacher teacher) {
+        if (auxiliaryTeachers == null)
+            auxiliaryTeachers = new ArrayList<>();
+        addTeacher(auxiliaryTeachers, teacher);
+    }
+
+    private void addTeacher(List<Teacher> teachers, Teacher teacher) {
+        if (teacher.getCommittee() == null) {
+            teachers.add(teacher);
             teacher.setCommittee(this);
         }
     }
 
-    public void addTeacher(Teacher teacher) {
-        committee.add(teacher);
-        teacher.setCommittee(this);
-    }
-
-    public Teacher getAuxiliaryTeacher() {
-        return auxiliaryTeacher;
-    }
-
-    public void setAuxiliaryTeacher(Teacher auxiliaryTeacher) {
-        auxiliaryTeacher.setCommittee(this);
-        this.auxiliaryTeacher = auxiliaryTeacher;
-    }
-
     public int getNumberOfStudents() {
         int numberOfStudents = 0;
-        for (Teacher teacher:committee) {
-            numberOfStudents += teacher.getStudents().size();
-        }
-        if (auxiliaryTeacher != null)
-            numberOfStudents += auxiliaryTeacher.getStudents().size();
+        numberOfStudents += getNumberOfStudents(committee);
+        numberOfStudents += getNumberOfStudents(constraintTeachers);
+        numberOfStudents += getNumberOfStudents(auxiliaryTeachers);
         return numberOfStudents;
     }
 
-    @Override
+    private int getNumberOfStudents(List<Teacher> teachers) {
+        int noOfStudents = 0;
+        if (teachers != null)
+            for (Teacher teacher : teachers) {
+                if (teacher.getStudents() != null)
+                    noOfStudents += teacher.getStudents().size();
+            }
+        return noOfStudents;
+    }
+
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
-        for (Teacher teacher : committee) {
-            stringBuilder.append(teacher + " ");
-        }
-        if (auxiliaryTeacher != null)
-            stringBuilder.append("|" + auxiliaryTeacher + "| ");
-        stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+
+        if (committee != null)
+            for (Teacher teacher : committee) {
+                stringBuilder.append(teacher + " ");
+            }
+
+        if (constraintTeachers != null)
+            for (Teacher teacher : constraintTeachers) {
+                stringBuilder.append("*" + teacher + "* ");
+            }
+
+        if (auxiliaryTeachers != null)
+            for (Teacher teacher : auxiliaryTeachers) {
+                stringBuilder.append("|" + teacher + "| ");
+            }
+        if (stringBuilder.toString().endsWith(" "))
+            stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
         stringBuilder.append("]");
+
+        stringBuilder.append(" -> " + getNumberOfStudents());
         return stringBuilder.toString();
     }
 }
