@@ -1,4 +1,4 @@
-package model;
+package registration.model;
 
 public enum TeachingDegree {
     Prof,

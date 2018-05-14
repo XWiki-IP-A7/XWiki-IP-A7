@@ -9,5 +9,8 @@
         <module name="registration" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="registration" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

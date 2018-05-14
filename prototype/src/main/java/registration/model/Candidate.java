@@ -1,4 +1,4 @@
-package model;
+package registration.model;
 
 import java.util.List;
 
@@ -39,5 +39,14 @@ public class Candidate extends Student {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    @Override
+    public String toString() {
+        return "Candidate{" +
+                "coordinator=" + coordinator +
+                ", project=" + project +
+                ", courses=" + courses +
+                '}';
     }
 }

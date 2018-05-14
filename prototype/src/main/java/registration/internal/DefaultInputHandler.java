@@ -1,21 +1,19 @@
-package role;
+package registration.internal;
 
-import model.*;
-import org.apache.velocity.VelocityContext;
+import org.xwiki.component.annotation.Component;
+import registration.InputHandler;
+import registration.model.*;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormRetriever {
+@Component
+@Singleton
+public class DefaultInputHandler implements InputHandler {
 
-    private VelocityContext context;
-
-    private Registration registration;
-
-    public FormRetriever(Registration registration){
-        this.registration=registration;
-    }
-    public void execute() {
+    @Override
+    public Candidate execute() {
         String firstName = "John";
         String lastName = "Doe";
         String studentId = "nr_matricol";
@@ -26,8 +24,7 @@ public class FormRetriever {
             courses.add(new Course("model.Course " +i));
         }
         Candidate candidate = new Candidate(firstName, lastName, studentId, teacher, project, courses);
-        registration.addCandidate(candidate);
-        System.out.println("adding new candidate");
+        System.out.println("returning new candidate");
+        return candidate;
     }
-
 }
