@@ -1,38 +1,39 @@
-<?xml version='1.1' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Setup.WebHome" locale="">
   <web>BachelorsAndMastersManagement.Setup</web>
   <name>WebHome</name>
   <language/>
-  <defaultLanguage>en</defaultLanguage>
+  <defaultLanguage></defaultLanguage>
   <translation>0</translation>
-  <creator>XWiki.Admin</creator>
-  <creationDate>1526237207000</creationDate>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
   <parent>xwiki:BachelorsAndMastersManagement.WebHome</parent>
-  <author>XWiki.Admin</author>
-  <contentAuthor>XWiki.Admin</contentAuthor>
-  <date>1526238063000</date>
-  <contentUpdateDate>1526238051000</contentUpdateDate>
-  <version>6.1</version>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
   <title>Setup</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity}}&#xd;
-&#xd;
-#set ($showcomments = false)&#xd;
-#set ($showannotations = false)&#xd;
-#set ($showattachments = false)&#xd;
-#set ($showhistory = false)&#xd;
-#set ($showinformation = false)&#xd;
-&#xd;
-{{/velocity}}&#xd;
-&#xd;
-Welcome to the setup module.&#xd;
-To set the dates of the event, please click [[here>>BachelorsAndMastersManagement.Setup.Dates]].&#xd;
-To set the committees for the bachelor's degree, please click [[here>>BachelorsAndMastersManagement.Setup.Bachelor]].&#xd;
-To set the committees for the master's degree, please click [[here>>BachelorsAndMastersManagement.Setup.Masters]].&#xd;
-&#xd;
+  <content>{{velocity}}
+
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+
+{{/velocity}}
+
+Welcome to the setup module.
+To set the dates of the event, please click [[here&gt;&gt;BachelorsAndMastersManagement.Setup.Dates]].
+To set the committees for the bachelor's degree, please click [[here&gt;&gt;BachelorsAndMastersManagement.Setup.Bachelor]].
+To set the committees for the master's degree, please click [[here&gt;&gt;BachelorsAndMastersManagement.Setup.Masters]].
+
 </content>
   <object>
     <name>BachelorsAndMastersManagement.Setup.WebHome</name>
@@ -107,13 +108,13 @@ To set the committees for the master's degree, please click [[here>>BachelorsAnd
       <class>SetupModule.Code.SetupModuleClass</class>
     </property>
     <property>
-      <columns></columns>
+      <columns/>
     </property>
     <property>
-      <dataSpace></dataSpace>
+      <dataSpace/>
     </property>
     <property>
-      <description></description>
+      <description/>
     </property>
   </object>
   <object>
@@ -189,7 +190,7 @@ To set the committees for the master's degree, please click [[here>>BachelorsAnd
       </scope>
     </class>
     <property>
-      <content></content>
+      <content/>
     </property>
     <property>
       <extensionPointId>org.xwiki.platform.panels.Applications</extensionPointId>
