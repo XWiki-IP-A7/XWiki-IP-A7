@@ -115,7 +115,44 @@
       <dataSpace/>
     </property>
     <property>
-      <description>Click here to register for bachelors degree exam.</description>
+      <description>
+{{velocity}}
+
+
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+
+
+{{html clean="false" wiki="true"}}
+
+&lt;style type="text/css"&gt;
+#actionBox{
+    display: none;
+}
+
+#HEntries{
+    display: none;
+}
+
+.xwiki-livetable-container{
+    display: none;
+}
+&lt;/style&gt;
+
+        
+            &lt;span class="buttonwrapper" &gt; [[Înscriere licență&gt;&gt;.Bachelors.WebHome]] &lt;/span&gt;
+            &lt;span class="buttonwrapper" &gt; [[Înscriere master&gt;&gt;.Bachelors.WebHome]] &lt;/span&gt;
+           
+       
+
+
+{{/html}}
+
+
+{{/velocity}}</description>
     </property>
   </object>
   <object>
