@@ -1,0 +1,429 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Setup.SetupData" locale="">
+  <web>BachelorsAndMastersManagement.Setup</web>
+  <name>SetupData</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>XWiki.Admin</creator>
+  <creationDate>1526237207000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.Setup.WebHome</parent>
+  <author>XWiki.Admin</author>
+  <contentAuthor>XWiki.Admin</contentAuthor>
+  <date>1526497203000</date>
+  <contentUpdateDate>1526480941000</contentUpdateDate>
+  <version>875.1</version>
+  <title>SetupData</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>&#xd;
+=Print Me=&#xd;
+&#xd;
+&#xd;
+{{velocity}}&#xd;
+&#xd;
+#set ($showcomments = false)&#xd;
+#set ($showannotations = false)&#xd;
+#set ($showattachments = false)&#xd;
+#set ($showhistory = false)&#xd;
+#set ($showinformation = false)&#xd;
+&#xd;
+#set($doc = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData'))&#xd;
+#set($obj = $doc.getObject('BachelorsAndMastersManagement.Setup.SetupData'))&#xd;
+&#xd;
+##Enrollment Week Dates&#xd;
+#set($enrollWeekStart = $!request.get('enrollWeekStart').replace('XWiki.', " "))&#xd;
+#set($enrollWeekEnd = $!request.get('enrollWeekEnd').replace('XWiki.', " "))&#xd;
+#set($display = $enrollWeekStart + ' to ' + $enrollWeekEnd)&#xd;
+&#xd;
+##Evaluation Week Dates&#xd;
+#set($evaluationWeekStart = $!request.get('evalWeekStart').replace('XWiki.', " "))&#xd;
+#set($evaluationWeekEnd = $!request.get('evalWeekEnd').replace('XWiki.', " "))&#xd;
+#set($display = $evaluationWeekStart + ' to ' + $evaluationWeekEnd)&#xd;
+&#xd;
+##First Evaluation Date&#xd;
+#set($firstEval = $!request.get('firstEval').replace('XWiki.', " "))&#xd;
+&#xd;
+##Second Evaluation Date&#xd;
+#set($secondEval = $!request.get('secondEval').replace('XWiki.', " "))&#xd;
+&#xd;
+Enroll Week : $enrollWeekStart to $enrollWeekEnd&#xd;
+Evaluation Week : $evaluationWeekStart to $evaluationWeekEnd&#xd;
+First Day Of Evaluation : $firstEval&#xd;
+Second Day Of Evaluation : $secondEval&#xd;
+&#xd;
+&#xd;
+#set($enrollWeek = $obj.getProperty('firstBachelorCommision'))&#xd;
+First Bachelor Commision : $enrollWeek.value&#xd;
+#set($enrollWeek = $obj.getProperty('secondBachelorCommision'))&#xd;
+Second Bachelor Commision : $enrollWeek.value&#xd;
+#set($enrollWeek = $obj.getProperty('firstMasterCommision'))&#xd;
+First Master Commision : $enrollWeek.value&#xd;
+#set($enrollWeek = $obj.getProperty('secondMasterCommision'))&#xd;
+Second Master Commision : $enrollWeek.value&#xd;
+&#xd;
+&#xd;
+{{/velocity}}&#xd;
+&#xd;
+{{html}}&#xd;
+&lt;div id="result">&lt;/div>&#xd;
+{{/html}}&#xd;
+&#xd;
+</content>
+  <class>
+    <name>BachelorsAndMastersManagement.Setup.SetupData</name>
+    <customClass/>
+    <customMapping/>
+    <defaultViewSheet/>
+    <defaultEditSheet/>
+    <defaultWeb/>
+    <nameField/>
+    <validationScript/>
+    <enrollWeek>
+      <customDisplay/>
+      <dateFormat>dd/MM/yyyy</dateFormat>
+      <disabled>0</disabled>
+      <emptyIsToday>0</emptyIsToday>
+      <hint>The week for the student's enrollment</hint>
+      <name>enrollWeek</name>
+      <number>1</number>
+      <picker>1</picker>
+      <prettyName>Enroll Week</prettyName>
+      <size>20</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+    </enrollWeek>
+    <evaluationWeek>
+      <customDisplay/>
+      <dateFormat>dd/MM/yyyy</dateFormat>
+      <disabled>0</disabled>
+      <emptyIsToday>0</emptyIsToday>
+      <hint>The week in which the evaluation takes place</hint>
+      <name>evaluationWeek</name>
+      <number>2</number>
+      <picker>1</picker>
+      <prettyName>Evaluation Week</prettyName>
+      <size>20</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+    </evaluationWeek>
+    <firstBachelorCommision>
+      <cache>0</cache>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>checkbox</displayType>
+      <hint>The first commision of teachers that are evaluating the bachelors</hint>
+      <multiSelect>1</multiSelect>
+      <name>firstBachelorCommision</name>
+      <number>5</number>
+      <picker>1</picker>
+      <prettyName>First Bachelor Commision</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators/>
+      <size>20</size>
+      <sort>none</sort>
+      <unmodifiable>0</unmodifiable>
+      <usesList>0</usesList>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+    </firstBachelorCommision>
+    <firstDayOfEvaluation>
+      <customDisplay/>
+      <dateFormat>dd/MM/yyyy</dateFormat>
+      <disabled>0</disabled>
+      <emptyIsToday>0</emptyIsToday>
+      <hint>The first day in which the students are evaluated</hint>
+      <name>firstDayOfEvaluation</name>
+      <number>3</number>
+      <picker>1</picker>
+      <prettyName>First Day Of Evaluation</prettyName>
+      <size>20</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+    </firstDayOfEvaluation>
+    <firstMasterCommision>
+      <cache>0</cache>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>checkbox</displayType>
+      <hint>The first commision of teachers that are evaluating the masters</hint>
+      <multiSelect>1</multiSelect>
+      <name>firstMasterCommision</name>
+      <number>7</number>
+      <picker>1</picker>
+      <prettyName>First Master Commision</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators/>
+      <size>20</size>
+      <sort>none</sort>
+      <unmodifiable>0</unmodifiable>
+      <usesList>0</usesList>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+    </firstMasterCommision>
+    <secondBachelorCommision>
+      <cache>0</cache>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>checkbox</displayType>
+      <hint>The second commision of teachers that are evaluating the bachelors</hint>
+      <multiSelect>1</multiSelect>
+      <name>secondBachelorCommision</name>
+      <number>6</number>
+      <picker>1</picker>
+      <prettyName>Second Bachelor Commision</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators/>
+      <size>20</size>
+      <sort>none</sort>
+      <unmodifiable>0</unmodifiable>
+      <usesList>0</usesList>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+    </secondBachelorCommision>
+    <secondDayOfEvaluation>
+      <customDisplay/>
+      <dateFormat>dd/MM/yyyy</dateFormat>
+      <disabled>0</disabled>
+      <emptyIsToday>0</emptyIsToday>
+      <hint>The second day in which the students are evaluated</hint>
+      <name>secondDayOfEvaluation</name>
+      <number>4</number>
+      <picker>1</picker>
+      <prettyName>Second Day Of Evaluation</prettyName>
+      <size>20</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+    </secondDayOfEvaluation>
+    <secondMasterCommision>
+      <cache>0</cache>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>checkbox</displayType>
+      <hint>The second commision of teachers that are evaluating the masters</hint>
+      <multiSelect>1</multiSelect>
+      <name>secondMasterCommision</name>
+      <number>8</number>
+      <picker>1</picker>
+      <prettyName>Second Master Commision</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators/>
+      <size>20</size>
+      <sort>none</sort>
+      <unmodifiable>0</unmodifiable>
+      <usesList>0</usesList>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+    </secondMasterCommision>
+  </class>
+  <object>
+    <name>BachelorsAndMastersManagement.Setup.SetupData</name>
+    <number>0</number>
+    <className>BachelorsAndMastersManagement.Setup.SetupData</className>
+    <guid>0c327b16-638e-4a62-81eb-565d8e998be1</guid>
+    <class>
+      <name>BachelorsAndMastersManagement.Setup.SetupData</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <enrollWeek>
+        <customDisplay/>
+        <dateFormat>dd/MM/yyyy</dateFormat>
+        <disabled>0</disabled>
+        <emptyIsToday>0</emptyIsToday>
+        <hint>The week for the student's enrollment</hint>
+        <name>enrollWeek</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Enroll Week</prettyName>
+        <size>20</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+      </enrollWeek>
+      <evaluationWeek>
+        <customDisplay/>
+        <dateFormat>dd/MM/yyyy</dateFormat>
+        <disabled>0</disabled>
+        <emptyIsToday>0</emptyIsToday>
+        <hint>The week in which the evaluation takes place</hint>
+        <name>evaluationWeek</name>
+        <number>2</number>
+        <picker>1</picker>
+        <prettyName>Evaluation Week</prettyName>
+        <size>20</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+      </evaluationWeek>
+      <firstBachelorCommision>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>checkbox</displayType>
+        <hint>The first commision of teachers that are evaluating the bachelors</hint>
+        <multiSelect>1</multiSelect>
+        <name>firstBachelorCommision</name>
+        <number>5</number>
+        <picker>1</picker>
+        <prettyName>First Bachelor Commision</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>20</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>0</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </firstBachelorCommision>
+      <firstDayOfEvaluation>
+        <customDisplay/>
+        <dateFormat>dd/MM/yyyy</dateFormat>
+        <disabled>0</disabled>
+        <emptyIsToday>0</emptyIsToday>
+        <hint>The first day in which the students are evaluated</hint>
+        <name>firstDayOfEvaluation</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>First Day Of Evaluation</prettyName>
+        <size>20</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+      </firstDayOfEvaluation>
+      <firstMasterCommision>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>checkbox</displayType>
+        <hint>The first commision of teachers that are evaluating the masters</hint>
+        <multiSelect>1</multiSelect>
+        <name>firstMasterCommision</name>
+        <number>7</number>
+        <picker>1</picker>
+        <prettyName>First Master Commision</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>20</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>0</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </firstMasterCommision>
+      <secondBachelorCommision>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>checkbox</displayType>
+        <hint>The second commision of teachers that are evaluating the bachelors</hint>
+        <multiSelect>1</multiSelect>
+        <name>secondBachelorCommision</name>
+        <number>6</number>
+        <picker>1</picker>
+        <prettyName>Second Bachelor Commision</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>20</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>0</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </secondBachelorCommision>
+      <secondDayOfEvaluation>
+        <customDisplay/>
+        <dateFormat>dd/MM/yyyy</dateFormat>
+        <disabled>0</disabled>
+        <emptyIsToday>0</emptyIsToday>
+        <hint>The second day in which the students are evaluated</hint>
+        <name>secondDayOfEvaluation</name>
+        <number>4</number>
+        <picker>1</picker>
+        <prettyName>Second Day Of Evaluation</prettyName>
+        <size>20</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+      </secondDayOfEvaluation>
+      <secondMasterCommision>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>checkbox</displayType>
+        <hint>The second commision of teachers that are evaluating the masters</hint>
+        <multiSelect>1</multiSelect>
+        <name>secondMasterCommision</name>
+        <number>8</number>
+        <picker>1</picker>
+        <prettyName>Second Master Commision</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>20</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>0</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </secondMasterCommision>
+    </class>
+    <property>
+      <enrollWeek>1998-11-02 00:00:00.0</enrollWeek>
+    </property>
+    <property>
+      <evaluationWeek>2018-06-02 00:00:00.0</evaluationWeek>
+    </property>
+    <property>
+      <firstBachelorCommision> ProfesorCinspe  ProfesorDoi  ProfesorDouazeci  ProfesorDoispe</firstBachelorCommision>
+    </property>
+    <property>
+      <firstDayOfEvaluation>2018-05-23 00:00:00.0</firstDayOfEvaluation>
+    </property>
+    <property>
+      <firstMasterCommision>$member_head $member_sec $member_1 $member_2 $member_3</firstMasterCommision>
+    </property>
+    <property>
+      <secondBachelorCommision> </secondBachelorCommision>
+    </property>
+    <property>
+      <secondDayOfEvaluation>2018-05-12 00:00:00.0</secondDayOfEvaluation>
+    </property>
+    <property>
+      <secondMasterCommision></secondMasterCommision>
+    </property>
+  </object>
+</xwikidoc>

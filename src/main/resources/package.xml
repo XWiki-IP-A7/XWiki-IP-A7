@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package>
+  <infos>
+    <name>BachelorsAndMastersManagement.WebHome</name>
+    <description/>
+    <licence/>
+    <author/>
+    <version/>
+    <backupPack>false</backupPack>
+    <preserveVersion>false</preserveVersion>
+  </infos>
+  <files>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.WebPreferences</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Bachelors.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Code.RegistrationClass</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Code.RegistrationSheet</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Code.RegistrationTemplate</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Code.RegistrationTemplateProvider</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Code.RegistrationTranslations</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Code.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Register.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Setup.SetupData</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Setup.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Setup.WebPreferences</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Setup.Bachelor.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Setup.Dates.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Setup.Masters.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Setup.PythonRef.WebHome</file>
+  </files>
+</package>
