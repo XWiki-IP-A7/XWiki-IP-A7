@@ -10,9 +10,9 @@
   <parent>xwiki:BachelorsAndMastersManagement.Setup.WebHome</parent>
   <author>XWiki.Admin</author>
   <contentAuthor>XWiki.Admin</contentAuthor>
-  <date>1526250112000</date>
-  <contentUpdateDate>1526250112000</contentUpdateDate>
-  <version>7.1</version>
+  <date>1526499307000</date>
+  <contentUpdateDate>1526498928000</contentUpdateDate>
+  <version>12.1</version>
   <title>Masters</title>
   <comment/>
   <minorEdit>false</minorEdit>
@@ -56,20 +56,63 @@
 #set ($showinformation = false)&#xd;
 &#xd;
 #set($doc = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData'))&#xd;
-&#xd;
 #set($obj = $doc.getObject('BachelorsAndMastersManagement.Setup.SetupData'))&#xd;
 &#xd;
 #set($enrollWeek = $obj.getProperty('firstMasterCommision'))&#xd;
+#set($enrollWeekSecond = $obj.getProperty('secondMasterCommision'))&#xd;
 &#xd;
-#set($member_head = $request.get('member-head').replace('XWiki.' , " "))&#xd;
-#set($member_sec = $request.get('member-sec').replace('XWiki.' , " "))&#xd;
-#set($member_1 = $request.get('member1').replace('XWiki.' , " "))&#xd;
-#set($member_2 = $request.get('member2').replace('XWiki.' , " "))&#xd;
-#set($member_3 = $request.get('member3').replace('XWiki.' , " "))&#xd;
+#set($enrollWeekString = $enrollWeek.value.toString())&#xd;
+#set($enrollWeekSecondString = $enrollWeekSecond.value.toString())&#xd;
 &#xd;
-#set($actualMembers = $member_head + " " + $member_sec + " " + $member_1 + " " + $member_2 + " " + $member_3)&#xd;
+#set($contains = $enrollWeekString.contains('$member_head'))&#xd;
+#if($contains == true)&#xd;
+  $contains&#xd;
+  #set($enrollWeek = " ")&#xd;
+  #set($discard = $obj.set('firstMasterCommision',  " "))&#xd;
+#end&#xd;
 &#xd;
-#set($discard = $obj.set('firstMasterCommision',  $actualMembers))&#xd;
+$enrollWeekSecondString&#xd;
+#set($contains_second = $enrollWeekSecondString.contains('$member_head'))&#xd;
+#if($contains_second == true)&#xd;
+  $contains_second&#xd;
+  #set($enrollWeekSecondString = " ")&#xd;
+  #set($discard = $obj.set('secondMasterCommision',  " "))&#xd;
+#end&#xd;
+$doc.save()&#xd;
+&#xd;
+#set($commissionCounter = 0)&#xd;
+#set($firstCommisionList = [$enrollWeek])&#xd;
+#foreach($i in $firstCommisionList)&#xd;
+  #set($commissionCounter = $commissionCounter + 1)&#xd;
+#end&#xd;
+&#xd;
+&#xd;
+#if($commissionCounter >= 1)&#xd;
+  #set($enrollWeek = $obj.getProperty('secondMasterCommision'))&#xd;
+#else&#xd;
+  #set($enrollWeek = $obj.getProperty('firstMasterCommision'))&#xd;
+#end&#xd;
+&#xd;
+&#xd;
+#if($commissionCounter >= 1)&#xd;
+  #set($member_head = $!request.get('member-head').replace('XWiki.' , " "))&#xd;
+  #set($member_sec = $!request.get('member-sec').replace('XWiki.' , " "))&#xd;
+  #set($member_1 = $!request.get('member1').replace('XWiki.' , " "))&#xd;
+  #set($member_2 = $!request.get('member2').replace('XWiki.' , " "))&#xd;
+  #set($member_3 = $!request.get('member3').replace('XWiki.' , " "))&#xd;
+  #set($actualMembers = $member_head + " " + $member_sec + " " + $member_1 + " " + $member_2 + " " + $member_3)&#xd;
+  #set($discard = $obj.set('secondMasterCommision',  $actualMembers))&#xd;
+#else&#xd;
+  #set($member_head = $!request.get('member-head').replace('XWiki.' , " "))&#xd;
+  #set($member_sec = $!request.get('member-sec').replace('XWiki.' , " "))&#xd;
+  #set($member_1 = $!request.get('member1').replace('XWiki.' , " "))&#xd;
+  #set($member_2 = $!request.get('member2').replace('XWiki.' , " "))&#xd;
+  #set($member_3 = $!request.get('member3').replace('XWiki.' , " "))&#xd;
+  #set($actualMembers = $member_head + " " + $member_sec + " " + $member_1 + " " + $member_2 + " " + $member_3)&#xd;
+  #set($discard = $obj.set('firstMasterCommision',  $actualMembers))&#xd;
+#end&#xd;
+&#xd;
+&#xd;
 $doc.save()&#xd;
 &#xd;
 {{/velocity}}</content>

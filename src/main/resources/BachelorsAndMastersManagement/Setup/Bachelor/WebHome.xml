@@ -10,9 +10,9 @@
   <parent>xwiki:BachelorsAndMastersManagement.Setup.WebHome</parent>
   <author>XWiki.Admin</author>
   <contentAuthor>XWiki.Admin</contentAuthor>
-  <date>1526497203000</date>
-  <contentUpdateDate>1526497170000</contentUpdateDate>
-  <version>228.1</version>
+  <date>1526499156000</date>
+  <contentUpdateDate>1526498062000</contentUpdateDate>
+  <version>234.1</version>
   <title>Bachelor</title>
   <comment/>
   <minorEdit>false</minorEdit>
@@ -61,7 +61,6 @@ $enrollWeekString&#xd;
   #set($enrollWeek = " ")&#xd;
   #set($discard = $obj.set('firstBachelorCommision',  " "))&#xd;
 #end&#xd;
-$doc.save()&#xd;
 &#xd;
 $enrollWeekSecondString&#xd;
 #set($contains_second = $enrollWeekSecondString.contains('$member_head'))&#xd;
@@ -69,7 +68,6 @@ $enrollWeekSecondString&#xd;
   $contains_second&#xd;
   #set($enrollWeekSecondString = " ")&#xd;
   #set($discard = $obj.set('secondBachelorCommision',  " "))&#xd;
-  $doc.save()&#xd;
 #end&#xd;
 $doc.save()&#xd;
 &#xd;
@@ -87,7 +85,7 @@ $commissionCounter&#xd;
   #set($enrollWeek = $obj.getProperty('firstBachelorCommision'))&#xd;
 #end&#xd;
 &#xd;
-&#xd;
+Ceva = $commissionCounter&#xd;
 #if($commissionCounter >= 1)&#xd;
   #set($member_head = $!request.get('member-head').replace('XWiki.' , " "))&#xd;
   #set($member_sec = $!request.get('member-sec').replace('XWiki.' , " "))&#xd;

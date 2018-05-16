@@ -10,9 +10,9 @@
   <parent>xwiki:BachelorsAndMastersManagement.Setup.WebHome</parent>
   <author>XWiki.Admin</author>
   <contentAuthor>XWiki.Admin</contentAuthor>
-  <date>1526497203000</date>
+  <date>1526499308000</date>
   <contentUpdateDate>1526480941000</contentUpdateDate>
-  <version>875.1</version>
+  <version>943.1</version>
   <title>SetupData</title>
   <comment/>
   <minorEdit>false</minorEdit>
@@ -414,16 +414,16 @@ Second Master Commision : $enrollWeek.value&#xd;
       <firstDayOfEvaluation>2018-05-23 00:00:00.0</firstDayOfEvaluation>
     </property>
     <property>
-      <firstMasterCommision>$member_head $member_sec $member_1 $member_2 $member_3</firstMasterCommision>
+      <firstMasterCommision> ProfesorCinspe  ProfesorDouazeci  ProfesorNoua  ProfesorFive  ProfesorDouazeci</firstMasterCommision>
     </property>
     <property>
-      <secondBachelorCommision> </secondBachelorCommision>
+      <secondBachelorCommision>$member_head $member_sec $member_1 $member_2</secondBachelorCommision>
     </property>
     <property>
       <secondDayOfEvaluation>2018-05-12 00:00:00.0</secondDayOfEvaluation>
     </property>
     <property>
-      <secondMasterCommision></secondMasterCommision>
+      <secondMasterCommision>$member_head $member_sec $member_1 $member_2 $member_3</secondMasterCommision>
     </property>
   </object>
 </xwikidoc>
