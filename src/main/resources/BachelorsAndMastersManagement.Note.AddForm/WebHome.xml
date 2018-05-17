@@ -103,7 +103,7 @@ xcontext.put('propertyCustomDisplayer', new PropertyCustomDisplayer(xcontext))
   #end
 #end
 
-&lt;input type="submit" value="Adauga nota" /&gt;
+&lt;input type="submit" value="Adauga nota" class="button" /&gt;
 &lt;/form&gt;
 {{/html}}
 {{/velocity}}</content>

@@ -25,15 +25,20 @@
 #set($objectPage = "BachelorsAndMastersManagement.Note.Code.NotaObjects")
 #set($MyDoc = $xwiki.getDocument($objectPage))
 
+#set($probe = [])
 #set($note = {})
 #foreach($nota in $MyDoc.getObjects("BachelorsAndMastersManagement.Note.Code.NotaClass"))
   #if(!$note.containsKey($nota.student))
     #set($note[$nota.student] = [])
   #end
   #set($discard = $note[$nota.student].add($nota))
+  #if(!$probe.contains($nota.proba))
+    #set($discard = $probe.add($nota.proba))
+  #end
 #end
+#set($discard = $probe.sort())
 
-|=Student|=Proba 1|=Proba 2|=Observatii
+|=Student#foreach($proba in $probe)|=$proba#end|=Observatii
 #foreach($pair in $note.entrySet())
   #set($numNote = {})
   #set($sumNote = {})
@@ -47,21 +52,22 @@
   #end
   ##
   #set($medii = {})
-  #set($sumaMedii = 0)
+  #set($minMedie = 1000)
   #foreach($proba in $numNote.entrySet())
     #set($medie = $sumNote[$proba.key] * 100 / $proba.value)
+    #if($medie &lt; $minMedie)
+      #set($minMedie = $medie)
+    #end
     #set($medii[$proba.key] = $numbertool.format("#0,00", $medie))
-    #set($sumaMedii = $sumaMedii + $medie)
   #end
   ##
-  #set($sumaMedii = $sumaMedii / $medii.size())
-  #if($sumaMedii &gt;= 500 &amp;&amp; $medii.size() &gt;= 2)
+  #if($minMedie &gt;= 500 &amp;&amp; $medii.size() == $probe.size())
     #set($observatii = "promovat")
   #else
     #set($observatii = "nepromovat")
   #end
   ##
-  |$pair.key|$medii.getOrDefault("Proba 1", "-")|$medii.getOrDefault("Proba 2", "-")|$observatii
+  |$pair.key#foreach($proba in $probe)|$medii.getOrDefault($proba, "-")#end|$observatii
 #end
 {{/velocity}}
 </content>
