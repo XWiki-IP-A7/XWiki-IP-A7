@@ -36,9 +36,6 @@ def extract_page(xar, name):
 	# Remove carriage returns from text nodes
 	remove_cr(root)
 
-	# Clear default language
-	root.find("./defaultLanguage").text = ""
-
 	# Set author
 	root.find("./creator").text = PAGE_AUTHOR
 	root.find("./author").text = PAGE_AUTHOR
