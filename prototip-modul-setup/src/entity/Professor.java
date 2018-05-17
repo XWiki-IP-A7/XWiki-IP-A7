@@ -1,19 +1,33 @@
 package entity;
 
+import static entity.Degree.*;
+
 /**
  * @author Victor Manoliu on 05-May-18
  */
 public class Professor {
 
     private Degree degree;
-    private String surMame;
+    private String surName;
     private String name;
 
-    public Professor(Degree degree, String surMame, String name)
+    private final String REGEXP = "^[\\\\p{L} .'-]+$";
+
+    public Professor(Degree degree, String surName, String name)
     {
         this.degree = degree;
-        this.surMame = surMame;
+        this.surName = surName;
         this.name = name;
+    }
+
+    public boolean checkProfessor() {
+        if ((getDegree().equals(Colab) ? 1 : 0) + (getDegree().equals(Asist) ? 1 : 0) + (getDegree().equals(Lect) ? 1 : 0) + (getDegree().equals(Prof) ? 1 : 0) + (getDegree().equals(Conf) ? 1 : 0) == 0)
+            return false;
+        if (!getSurName().matches(REGEXP))
+            return false;
+        if (!getName().matches(REGEXP))
+            return false;
+        return true;
     }
 
     public String getName() {
@@ -24,8 +38,8 @@ public class Professor {
         return degree;
     }
 
-    public String getSurMame() {
-        return surMame;
+    public String getSurName() {
+        return surName;
     }
 
     public void setName(String name) {
@@ -36,7 +50,7 @@ public class Professor {
         this.degree = degree;
     }
 
-    public void setSurMame(String surMame) {
-        this.surMame = surMame;
+    public void setSurName(String surMame) {
+        this.surName = surMame;
     }
 }

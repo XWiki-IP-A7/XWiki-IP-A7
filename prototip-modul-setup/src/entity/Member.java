@@ -8,7 +8,8 @@ import entity.Professor;
  */
 public class Member extends Professor {
 
-    public Member(Degree degree, String surMame, String name) {
-        super(degree, surMame, name);
+    public Member(Degree degree, String surName, String name) {
+        super(degree, surName, name);
     }
+
 }

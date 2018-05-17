@@ -17,4 +17,5 @@ public interface Evaluation {
 
     void setEvaluationDay(Date firstDay, Date secondDay);
 
+    public boolean checkEvaluation();
 }

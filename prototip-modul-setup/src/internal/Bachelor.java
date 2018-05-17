@@ -1,8 +1,10 @@
 package internal;
 
+import entity.Degree;
 import role.Evaluation;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * @author Victor Manoliu on 05-May-18
@@ -20,7 +22,14 @@ public class Bachelor implements Evaluation {
     @Override
     public void setEvaluationDay(Date firstDay, Date secondDay) {
         this.firstDay = firstDay;
-        this.lastDay = lastDay;
+        this.lastDay = secondDay;
+    }
+
+    @Override
+    public boolean checkEvaluation() {
+        if (firstDay.compareTo(lastDay) <= 0)
+            return false;
+        return true;
     }
 
     public Date getFirstDay() {

@@ -23,6 +23,13 @@ public class Dissertation implements Evaluation {
         this.secondDay = secondDay;
     }
 
+    @Override
+    public boolean checkEvaluation() {
+        if (firstDay.compareTo(secondDay) <= 0)
+            return false;
+        return true;
+    }
+
     public Date getFirstDay() {
         return firstDay;
     }

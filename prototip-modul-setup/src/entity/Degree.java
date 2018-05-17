@@ -7,5 +7,6 @@ public enum Degree {
     Prof,
     Conf,
     Lect,
-    Assoc
+    Asist,
+    Colab
 }
