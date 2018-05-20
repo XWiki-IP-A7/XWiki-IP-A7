@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Committee {
-    private List<Teacher> committee = new ArrayList<>();
+    private List<Teacher> committee;
     private List<Teacher> auxiliaryTeachers;
     private List<Teacher> constraintTeachers;
 
@@ -85,4 +85,35 @@ public class Committee {
         stringBuilder.append(" -> " + getNumberOfStudents());
         return stringBuilder.toString();
     }
+
+    public void reset() {
+        resetSetOfTeachers(auxiliaryTeachers);
+        resetSetOfTeachers(constraintTeachers);
+        auxiliaryTeachers = null;
+        constraintTeachers = null;
+    }
+
+    private void resetSetOfTeachers(List<Teacher> teachers) {
+        if (teachers != null) {
+            for (Teacher teacher : teachers) {
+                if (teacher != null)
+                    teacher.setCommittee(null);
+            }
+        }
+    }
+
+    public Teacher getFullestTeacher() {
+        if (constraintTeachers == null) {
+            return null;
+        }
+        int maxStudents = Integer.MIN_VALUE;
+        Teacher fullestTeacher = null;
+        for (Teacher teacher:constraintTeachers) {
+            if (maxStudents < teacher.getStudents().size())
+                maxStudents = teacher.getStudents().size();
+                fullestTeacher = teacher;
+        }
+        return fullestTeacher;
+    }
+
 }

@@ -7,6 +7,20 @@ import java.util.List;
 import java.util.Random;
 
 public class Main {
+    private static Committee getFullestCommittee(List<Committee> committees) {
+        int maxStudents = Integer.MIN_VALUE;
+        Committee fullestCommittee = null;
+        if (committees != null)
+            for (Committee committee : committees) {
+            int noOfStudents = committee.getNumberOfStudents();
+                if (maxStudents < noOfStudents) {
+                    maxStudents = noOfStudents;
+                    fullestCommittee = committee;
+                }
+            }
+        return fullestCommittee;
+    }
+
     public static void main(String[] args) {
         final int noOfStudents = 247;
         final int noOfTeachers = 41;
@@ -61,6 +75,27 @@ public class Main {
 
         for (Committee committee : committees) {
             System.out.println(committee);
+        }
+
+        while (distributionAlgorithm.checkAnomalies(committees)) {
+            Committee fullestCommittee = getFullestCommittee(committees);
+            Teacher fullestTeacher = fullestCommittee.getFullestTeacher();
+            for (Constraint constraint:constraints) {
+                if (constraint.getTeacher() == fullestTeacher) {
+                    constraints.remove(constraint);
+                    break;
+                }
+            }
+
+            for (Committee committee : committees) {
+                committee.reset();
+            }
+
+            distributionAlgorithm.partitionTeachers(teachers, committees, constraints);
+
+            for (Committee committee : committees) {
+                System.out.println(committee);
+            }
         }
     }
 }
