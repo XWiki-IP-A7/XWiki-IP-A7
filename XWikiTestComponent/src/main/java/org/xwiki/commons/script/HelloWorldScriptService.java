@@ -19,6 +19,7 @@
  */
 package org.xwiki.commons.script;
 
+import org.xwiki.commons.Distribution.Models.Committee;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.script.service.ScriptService;
 
@@ -27,6 +28,7 @@ import org.xwiki.commons.HelloWorld;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.List;
 
 /**
  * Make the HelloWorld API available to scripting.
@@ -43,11 +45,7 @@ public class HelloWorldScriptService implements ScriptService
     @Named("database")
     private HelloWorld databaseWorld;
 
-    public String greet()
-    {
-        return this.helloWorld.sayHello();
-    }
-    public String dbGreet()
+    public List<Committee> dbGreet()
     {
         return this.databaseWorld.sayHello();
     }

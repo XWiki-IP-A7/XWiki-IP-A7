@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package>
+  <infos>
+    <name>BachelorsAndMastersManagement.Distribution.WebHome</name>
+    <description/>
+    <licence/>
+    <author/>
+    <version/>
+    <backupPack>false</backupPack>
+    <preserveVersion>false</preserveVersion>
+  </infos>
+  <files>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.CommitteeManagement Template Provider</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.CommitteeManagementClass</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.CommitteeManagementSheet</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.CommitteeManagementTemplate</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.Comisia1.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.Comisia1.WebPreferences</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.Comisia2.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.TestPage1.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.TestPage2.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.TestSpinner.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.TestSpinner1.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Distribution.ViewPageTest.WebHome</file>
+  </files>
+</package>

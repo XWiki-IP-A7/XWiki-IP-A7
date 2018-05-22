@@ -1,8 +1,9 @@
 package org.xwiki.commons.Distribution.Algorithm;
 
-import org.xwiki.commons.Distribution.Models.*;
+import org.xwiki.commons.Distribution.Models.Committee;
+import org.xwiki.commons.Distribution.Models.Constraint;
+import org.xwiki.commons.Distribution.Models.Teacher;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
@@ -30,18 +31,42 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
 
     private void setConstraints(List<Constraint> constraints) {
         if (constraints != null)
-        for (Constraint constraint:constraints) {
-            constraint.getCommittee().addConstraintTeacher(constraint.getTeacher());
-        }
+            for (Constraint constraint : constraints) {
+                constraint.getCommittee().addConstraintTeacher(constraint.getTeacher());
+            }
     }
 
     private int getNoOfStudents(List<Teacher> teachers) {
         int noOfStudents = 0;
         if (teachers != null)
-        for (Teacher teacher:teachers) {
-            if (teacher.getStudents() != null)
-                noOfStudents += teacher.getStudents().size();
-        }
+            for (Teacher teacher : teachers) {
+                if (teacher.getStudents() != null)
+                    noOfStudents += teacher.getStudents().size();
+            }
         return noOfStudents;
+    }
+
+    public boolean checkAnomalies(List<Committee> committees) {
+        int maxStudents = Integer.MIN_VALUE;
+        int minStudents = Integer.MAX_VALUE;
+        int totalStudents = 0;
+        int noOfStudents;
+        if (committees != null) {
+            for (Committee committee : committees) {
+                if (committee != null) {
+                    noOfStudents = committee.getNumberOfStudents();
+                    if (maxStudents < noOfStudents)
+                        maxStudents = noOfStudents;
+                    if (minStudents > noOfStudents)
+                        minStudents = noOfStudents;
+                    totalStudents += noOfStudents;
+                }
+            }
+        }
+        System.out.println("Total studs: " + totalStudents + "\nMax diff: " + (maxStudents - minStudents));
+        System.out.println("Percentage: " + (maxStudents - minStudents) * 100 / totalStudents + "%");
+        if ((maxStudents - minStudents) * 100 / totalStudents > 5)
+            return true;
+        else return false;
     }
 }

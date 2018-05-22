@@ -19,7 +19,10 @@
  */
 package org.xwiki.commons;
 
+import org.xwiki.commons.Distribution.Models.Committee;
 import org.xwiki.component.annotation.Role;
+
+import java.util.List;
 
 /**
  * Interface (aka Role) of the Component
@@ -32,6 +35,6 @@ public interface HelloWorld
      *
      * @return a greeting
      */
-    String sayHello();
+    List<Committee> sayHello();
 }
 
