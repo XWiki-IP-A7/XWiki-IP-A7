@@ -4,10 +4,11 @@
   <web>BachelorsAndMastersManagement.Note.Code.NotaObjects</web>
   <name>WebHome</name>
   <language/>
-  <defaultLanguage>en</defaultLanguage>
+  <defaultLanguage></defaultLanguage>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1356998400000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.Note.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1356998400000</date>

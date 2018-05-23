@@ -4,7 +4,7 @@
   <web>BachelorsAndMastersManagement.Note.Code</web>
   <name>ReportPDFSkin</name>
   <language/>
-  <defaultLanguage>en</defaultLanguage>
+  <defaultLanguage></defaultLanguage>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1356998400000</creationDate>
