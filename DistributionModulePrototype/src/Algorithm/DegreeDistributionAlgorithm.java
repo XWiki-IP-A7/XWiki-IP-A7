@@ -2,8 +2,7 @@ package Algorithm;
 
 import Models.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
     public void partitionTeachers(List<Teacher> teachers, List<Committee> committees, List<Constraint> constraints) {
@@ -63,8 +62,85 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
         }
         System.out.println("Total studs: " + totalStudents + "\nMax diff: " + (maxStudents - minStudents));
         System.out.println("Percentage: " + (maxStudents - minStudents) * 100 / totalStudents + "%");
-        if ((maxStudents - minStudents) * 100 / totalStudents > 5)
-            return true;
-        else return false;
+
+        return (maxStudents - minStudents) * 100 / totalStudents > 5;
+    }
+
+    public List<StudentRepartition> getRepartitions(List<GenericScheduler<Committee>> committeeRepartitions) {
+        List<GenericScheduler<Teacher>> teacherRepartitions = new ArrayList<>();
+        for (GenericScheduler<Committee> committeeRepartition : committeeRepartitions) {
+            teacherRepartitions.addAll(getTeacherRepartitions(committeeRepartition));
+        }
+
+        List<StudentRepartition>studentRepartitions = new ArrayList<>();
+        for (GenericScheduler<Teacher> teacherRepartition : teacherRepartitions) {
+            Iterator<Schedule> iterator = teacherRepartition.getSchedules().iterator();
+            Schedule schedule = iterator.next();
+            for (Student student:teacherRepartition.getEntity().getStudents()) {
+                while (true) {
+                    if (schedule.getTimeLeft() >= 20) {
+                        int start = schedule.getStartTime() + schedule.getAssignedTime();
+                        Schedule studentSchedule = new Schedule(schedule.getDay(), start, start + 20);
+                        schedule.addAssignedTime(20);
+                        studentRepartitions.add(new StudentRepartition(student, studentSchedule));
+                        break;
+                    }
+                    else if (iterator.hasNext())
+                        schedule = iterator.next();
+                }
+            }
+        }
+
+        Collections.sort(studentRepartitions, Comparator.comparing(e -> e.getSchedule()));
+        return studentRepartitions;
+    }
+
+    private List<GenericScheduler<Teacher>> getTeacherRepartitions(GenericScheduler<Committee> committeeRepartition) {
+        List<Teacher> teachers = committeeRepartition.getEntity().getAuxiliaryMembers();
+        boolean repartitionFound = false;
+        List<GenericScheduler<Teacher>> teacherRepartitions = new ArrayList<>();
+        int timeNeeded;
+
+        for (Teacher teacher : teachers) {
+            timeNeeded = teacher.getNumberOfStudents() * 20;
+            List<Schedule> schedules = new ArrayList<>();
+            for (Schedule schedule : committeeRepartition.getSchedules()) {
+                if (schedule.getTimeLeft() > timeNeeded) {
+                    int start = schedule.getStartTime() + schedule.getAssignedTime();
+                    Schedule memberSchedule = new Schedule(schedule.getDay(), start, start + timeNeeded);
+                    schedule.addAssignedTime(timeNeeded);
+                    schedules.add(memberSchedule);
+                    repartitionFound = true;
+                    teacherRepartitions.add(new GenericScheduler<>(teacher, schedules));
+                    break;
+                }
+            }
+        }
+
+        teachers = committeeRepartition.getEntity().getMembers();
+        for (Teacher teacher : teachers) {
+            timeNeeded = teacher.getNumberOfStudents() * 20;
+            List<Schedule> schedules = new ArrayList<>();
+            while (timeNeeded > 0) {
+                for (Schedule schedule : committeeRepartition.getSchedules()) {
+                    int availableTime = (schedule.getTimeLeft() / 20) * 20;
+                    if (timeNeeded < availableTime)
+                        availableTime = timeNeeded;
+                    timeNeeded -= availableTime;
+
+                    int start = schedule.getStartTime() + schedule.getAssignedTime();
+                    Schedule memberSchedule = new Schedule(schedule.getDay(), start, start + availableTime);
+                    schedule.addAssignedTime(availableTime);
+                    schedules.add(memberSchedule);
+                    repartitionFound = true;
+                    if (timeNeeded == 0) {
+                        break;
+                    }
+
+                }
+                teacherRepartitions.add(new GenericScheduler<>(teacher, schedules));
+            }
+        }
+        return teacherRepartitions;
     }
 }
