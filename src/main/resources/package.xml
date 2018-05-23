@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package>
+  <infos>
+    <name>BachelorsAndMastersManagement.Registration.WebHome</name>
+    <description/>
+    <licence/>
+    <author/>
+    <version/>
+    <backupPack>false</backupPack>
+    <preserveVersion>false</preserveVersion>
+  </infos>
+  <files>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.WebPreferences</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Bachelors.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Bachelors.WebPreferences</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.WebPreferences</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateSheet</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateTemplate</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateTemplateProvider</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateTranslations</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidate.Code.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidates.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidates.BachelorCandidates.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Candidates.MastersCandidates.WebHome</file>
+    <file defaultAction="0" language="">BachelorsAndMastersManagement.Registration.Masters.WebHome</file>
+  </files>
+</package>

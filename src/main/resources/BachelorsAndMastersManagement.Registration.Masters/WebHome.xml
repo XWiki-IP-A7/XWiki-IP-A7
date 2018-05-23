@@ -1,0 +1,187 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Registration.Masters.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Registration.Masters</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>XWiki.CristiHasna</creator>
+  <creationDate>1526935983000</creationDate>
+  <parent>BachelorsAndMastersManagement.Registration.WebHome</parent>
+  <author>XWiki.CristiHasna</author>
+  <contentAuthor>XWiki.CristiHasna</contentAuthor>
+  <date>1526983424000</date>
+  <contentUpdateDate>1526983424000</contentUpdateDate>
+  <version>3.1</version>
+  <title>Masters</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}&#xd;
+&#xd;
+## ----------variabile de erori&#xd;
+#set ($project_title_error = false)&#xd;
+#set ($project_ref_error = false)&#xd;
+#set ($coordinator_error = false)&#xd;
+#set ($courses_error = false)&#xd;
+## ----------numarul de cursuri ce trebuie alese&#xd;
+#set($maxCourses = 4)&#xd;
+#set($username = $xcontext.user)&#xd;
+## ----------oprim comentariile, anotarile, atasamentele si istoricul pentru pagina de inregistrare&#xd;
+#set ($showcomments = false)&#xd;
+#set ($showannotations = false)&#xd;
+#set ($showattachments = false)&#xd;
+#set ($showhistory = false)&#xd;
+#set ($showinformation = false)&#xd;
+## ----------obtinem fisierul corespunzator candidatului si obiectele din acesta&#xd;
+#set ($docName = 'BachelorsAndMastersManagement.Registration.Candidates.MastersCandidates.' + $username.replace('XWiki.', ''))&#xd;
+#set ($doc = $xwiki.getDocument($docName))&#xd;
+#set ($obj = $doc.getObject('BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass'))&#xd;
+## ----------documentul este nou, creem noi obiecte pentru datele candidatului&#xd;
+#if ($doc.isNew())&#xd;
+	#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass'))&#xd;
+#else&#xd;
+	#set ($project_title = $obj.getProperty('project_title').value)&#xd;
+	#set ($project_ref = $obj.getProperty('project_ref').value)&#xd;
+	#set ($coordinator = $obj.getProperty('coordinator').value)&#xd;
+	&#xd;
+#end&#xd;
+#if ($request.get('submit'))&#xd;
+	#set ($project_title = $request.get('project_title'))&#xd;
+	#if($project_title == '')&#xd;
+		#set ($project_title_error = true)&#xd;
+	#end&#xd;
+	#set ($project_ref = $request.get('project_reference'))&#xd;
+	#if ($project_ref == '')&#xd;
+		#set ($project_ref_error = true)&#xd;
+	#end&#xd;
+	#if ($request.get('coordinator') != '')&#xd;
+		#set ($coordinator = $request.get('coordinator'))&#xd;
+	#else&#xd;
+		#set ($coordinator = $request.get('coordinatorBackup'))&#xd;
+	#end&#xd;
+	#if ($coordinator == '')&#xd;
+		#set ($coordinator_error = true)&#xd;
+	#end&#xd;
+	#if ($project_title_error == false and $project_ref_error == false and $coordinator_error == false)&#xd;
+		#set ($discard = $obj.set('full_name', $xwiki.getUserName($username, false)))&#xd;
+		#set ($discard = $obj.set('project_title', $project_title))&#xd;
+		#set ($discard = $obj.set('project_ref', $project_ref))&#xd;
+		#set ($discard = $obj.set('coordinator', $coordinator))&#xd;
+		#set ($discard = $doc.save())&#xd;
+	#end&#xd;
+#end&#xd;
+&#xd;
+{{html clean="false"}}&#xd;
+&#xd;
+&lt;style type="text/css">&#xd;
+&#xd;
+	.noselect {&#xd;
+	  -webkit-touch-callout: none; /* iOS Safari */&#xd;
+	    -webkit-user-select: none; /* Safari */&#xd;
+	     -khtml-user-select: none; /* Konqueror HTML */&#xd;
+	       -moz-user-select: none; /* Firefox */&#xd;
+	        -ms-user-select: none; /* Internet Explorer/Edge */&#xd;
+	            user-select: none; /* Non-prefixed version, currently&#xd;
+	                                  supported by Chrome and Opera */&#xd;
+	}&#xd;
+&#xd;
+	.triggers-panel{&#xd;
+		cursor: pointer;&#xd;
+	}&#xd;
+	#candidate-registration input[type=text]{&#xd;
+		padding: 0 1em;&#xd;
+	}&#xd;
+	#candidate-registration input[type=text].no-padding-right{&#xd;
+		padding-right: 0;&#xd;
+	}&#xd;
+	#candidate-registration input.suggestUsers{&#xd;
+		padding-left: 2em;&#xd;
+	}&#xd;
+	#candidate-registration .indent-left{&#xd;
+		padding-left: 30px;&#xd;
+		border-left: 1px solid #cdcdcd;&#xd;
+	}&#xd;
+	#candidate-registration .row{&#xd;
+		margin: 10px 0;&#xd;
+	}&#xd;
+	#candidate-registration .row .row{&#xd;
+		margin: 0;&#xd;
+	}&#xd;
+	p.errors, span.errors{&#xd;
+		color: #ff0000;&#xd;
+	}&#xd;
+	ul.users ~ ul.accepted-suggestions{&#xd;
+		position: absolute;&#xd;
+	    background: #fff;&#xd;
+	    width: 100%;&#xd;
+	    margin-top: -38px;&#xd;
+	}&#xd;
+	#coordinator-container br{&#xd;
+		display: none;&#xd;
+	}&#xd;
+&lt;/style>&#xd;
+&#xd;
+&lt;h3>Salut, $xwiki.getUserName($xcontext.user, false)&lt;/h3>&#xd;
+&lt;form action="#" method="POST" id="candidate-registration">&#xd;
+	&lt;div class="row">&#xd;
+		&lt;div class="col  col-xs-12">&#xd;
+			&lt;label for="project_title">Titlul proiectului&lt;/label>&#xd;
+		&lt;/div>&#xd;
+		&lt;div class="col  col-xs-12">&#xd;
+			&lt;input type="text" name="project_title" value="$!project_title" />&#xd;
+&#xd;
+		&lt;/div>&#xd;
+        #if ($project_title_error)&#xd;
+	         &lt;div class="col  col-xs-12">&#xd;
+	            &lt;p class="errors" >Introduceți titlul proiectului.&lt;/p>&#xd;
+	        &lt;/div>&#xd;
+	    #end&#xd;
+	&lt;/div>&#xd;
+    &#xd;
+	&lt;div class="row">&#xd;
+		&lt;div class="col  col-xs-12">&#xd;
+			&lt;label for="project_reference">Sursa proiectului&lt;/label>&#xd;
+		&lt;/div>&#xd;
+		&lt;div class="col  col-xs-12">&#xd;
+			&lt;input type="text" name="project_reference"   value="$!project_ref"/>&#xd;
+		&lt;/div>&#xd;
+        #if($project_ref_error)&#xd;
+			&lt;div class="col  col-xs-12">&#xd;
+				&lt;p class="errors">Introduceți link către sursa și documentația proiectului.&lt;/p>&#xd;
+			&lt;/div>&#xd;
+	    #end&#xd;
+	&lt;/div>&#xd;
+	&lt;div class="row">&#xd;
+		&lt;div class="col  col-xs-12">&#xd;
+			&lt;label for="coordinator">Profesorul coordonator&lt;/label>&#xd;
+		&lt;/div>&#xd;
+		&lt;div id="coordinator-container" class="col col-xs-12">&#xd;
+			{{/html}}&#xd;
+			$doc.display('coordinator')&#xd;
+			{{html clean="false"}}&#xd;
+			&lt;input type="text" class="no-padding-right suggestUsers withTip" autocomplete="on" name="coordinator" />&#xd;
+			&lt;input type="hidden" name="coordinatorBackup" value="$coordinator">&#xd;
+		&lt;/div>&#xd;
+		#if ($coordinator_error)&#xd;
+			&lt;div class="col col-xs-12">&#xd;
+				&lt;p class="errors" >Selectați profesorul coordonator.&lt;/p>&#xd;
+			&lt;/div>&#xd;
+        #end&#xd;
+	&lt;/div>&#xd;
+	&lt;div class="row">&#xd;
+		&lt;div class="col col-xs-12">&#xd;
+			&lt;div class="buttonwrapper">&lt;input type="submit" class="button" name="submit" value="Inscriere" />&lt;/div>&#xd;
+		&lt;/div>&#xd;
+	&lt;/div>&#xd;
+&lt;/form>&#xd;
+&#xd;
+{{/html}}&#xd;
+&#xd;
+{{/velocity}}&#xd;
+&#xd;
+&#xd;
+ &#xd;
+</content>
+</xwikidoc>
