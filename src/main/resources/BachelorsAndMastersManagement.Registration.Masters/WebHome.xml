@@ -3,16 +3,16 @@
   <web>BachelorsAndMastersManagement.Registration.Masters</web>
   <name>WebHome</name>
   <language/>
-  <defaultLanguage>en</defaultLanguage>
+  <defaultLanguage></defaultLanguage>
   <translation>0</translation>
-  <creator>XWiki.CristiHasna</creator>
+  <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1526935983000</creationDate>
   <parent>BachelorsAndMastersManagement.Registration.WebHome</parent>
-  <author>XWiki.CristiHasna</author>
-  <contentAuthor>XWiki.CristiHasna</contentAuthor>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1526983424000</date>
   <contentUpdateDate>1526983424000</contentUpdateDate>
-  <version>3.1</version>
+  <version>1.1</version>
   <title>Masters</title>
   <comment/>
   <minorEdit>false</minorEdit>
