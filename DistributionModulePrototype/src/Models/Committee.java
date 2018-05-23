@@ -91,7 +91,7 @@ public class Committee {
         }
     }
 
-    public Teacher getFullestCommitteeTeacher() {
+    public Teacher getFullestConstraintTeacher() {
         return getFullestTeacher(constraintTeachers);
     }
 
@@ -137,12 +137,6 @@ public class Committee {
         return teachers;
     }
 
-    public boolean isCommitteeTeacher(Teacher teacher) {
-        if (committee != null)
-            return committee.contains(teacher);
-        return false;
-    }
-
     public List<Teacher> getMembers() {
         List<Teacher> teachers = null;
         if (committee != null) {
@@ -165,6 +159,12 @@ public class Committee {
 
         }
         return teachers;
+    }
+
+    public boolean hasConstraintMembers() {
+        if (constraintTeachers != null)
+            return true;
+        return false;
     }
 
     public String toString() {

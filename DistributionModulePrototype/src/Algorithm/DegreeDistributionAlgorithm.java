@@ -13,7 +13,7 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
             if (teacher.getCommittee() == null) {
                 int minDifference = avgStudentsPerCommittee;
                 for (Committee committee : committees) {
-                    int noOfStudentsInCommittee = committee.getNumberOfStudents();
+                    int noOfStudentsInCommittee = committee.getNumberOfStudents() + teacher.getNumberOfStudents();
                     if (minDifference > noOfStudentsInCommittee - avgStudentsPerCommittee) {
                         minDifference = noOfStudentsInCommittee - avgStudentsPerCommittee;
                         chosenCommittee = committee;

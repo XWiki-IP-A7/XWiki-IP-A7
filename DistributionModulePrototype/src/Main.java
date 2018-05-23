@@ -11,7 +11,7 @@ public class Main {
 
         while (distributionAlgorithm.checkAnomalies(committees)) {
             Committee fullestCommittee = getFullestCommittee(committees);
-            Teacher fullestTeacher = fullestCommittee.getFullestCommitteeTeacher();
+            Teacher fullestTeacher = fullestCommittee.getFullestConstraintTeacher();
             for (Constraint constraint : constraints) {
                 if (constraint.getTeacher() == fullestTeacher) {
                     constraints.remove(constraint);
@@ -37,7 +37,7 @@ public class Main {
         Random random = new Random();
         for (Committee committee : committees) {
             GenericScheduler<Committee> committeeRepartition = new GenericScheduler<>(committee, null);
-            System.out.println(committee + " " + committee.getNumberOfStudents() * examinationDuration);
+            System.out.println(committee + " " + committee.getNumberOfStudents());
             int minDuration = committee.getFullestTeacher().getNumberOfStudents() * examinationDuration / 60;
 
             while (committeeRepartition.getDuration() < committee.getNumberOfStudents() * 20) {
@@ -80,10 +80,12 @@ public class Main {
         Committee fullestCommittee = null;
         if (committees != null)
             for (Committee committee : committees) {
-                int noOfStudents = committee.getNumberOfStudents();
-                if (maxStudents < noOfStudents) {
-                    maxStudents = noOfStudents;
-                    fullestCommittee = committee;
+                if (committee.hasConstraintMembers()) {
+                    int noOfStudents = committee.getNumberOfStudents();
+                    if (maxStudents < noOfStudents) {
+                        maxStudents = noOfStudents;
+                        fullestCommittee = committee;
+                    }
                 }
             }
         return fullestCommittee;
@@ -126,7 +128,7 @@ public class Main {
             students.add(new Student(String.valueOf(i), "stud" + i).setCoordinator(teachers.get(teacher_no)));
         }
 
-        for (Teacher teacher:teachers) {
+        for (Teacher teacher : teachers) {
             if (teacher.getStudents() == null) {
                 students.get(random.nextInt(noOfStudents)).setCoordinator(teacher);
             }
