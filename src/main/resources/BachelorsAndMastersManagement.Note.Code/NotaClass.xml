@@ -45,7 +45,7 @@
       <prettyName>Nota</prettyName>
       <size>10</size>
       <unmodifiable>0</unmodifiable>
-      <validationMessage>Nota nu corespunde formatului.</validationMessage>
+      <validationMessage>Nota trebuie sa fie formata dintr-un singur numar, fara virgula, intre 4 si 10.</validationMessage>
       <validationRegExp>^(4|5|6|7|8|9|10)$</validationRegExp>
       <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
     </nota>

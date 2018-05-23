@@ -19,26 +19,64 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity}}
-#set($Integer = 0)
+  <content>{{include reference="BachelorsAndMastersManagement.Note.Code.NotaMacros"/}}
 
-#set($objectPage = "BachelorsAndMastersManagement.Note.Code.NotaObjects")
-#set($MyDoc = $xwiki.getDocument($objectPage))
+{{velocity}}
+
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+
+{{/velocity}}
+
+{{velocity}}
+#if($xcontext.context.action != "export")
+{{html}}
+&lt;a href="$doc.getURL("export", "format=pdf&amp;pdfcover=0&amp;pdftoc=0&amp;pdfheader=1&amp;pdffooter=0&amp;comments=0&amp;attachments=0&amp;skin=BachelorsAndMastersManagement.Note.Code.ReportPDFSkin")" class="button" target="_blank" style="width: 100%; height: 60px; line-height: 46px"&gt;Export this page as PDF&lt;/a&gt;
+{{/html}}
+#else
+{{html}}
+&lt;br/&gt;
+{{/html}}
+#end
+{{/velocity}}
+
+{{velocity}}
+\\
+\\
+#set($Integer = 0)
+#set($tipExamen = "licență")
+#set($numeDecan = "Conf. univ. dr. Adrian Iftene")
+#set($nrCrt = 1)
+
+
+
+(% class="titlu" style="text-transform: uppercase;text-align:center" %)(((== REZULTATE FINALE LA EXAMENUL DE $tipExamen==
+\\ 
+)))
+
 
 #set($probe = [])
 #set($note = {})
-#foreach($nota in $MyDoc.getObjects("BachelorsAndMastersManagement.Note.Code.NotaClass"))
-  #if(!$note.containsKey($nota.student))
-    #set($note[$nota.student] = [])
-  #end
-  #set($discard = $note[$nota.student].add($nota))
-  #if(!$probe.contains($nota.proba))
-    #set($discard = $probe.add($nota.proba))
+#foreach($user in $xwiki.rightsmanager.usersApi.allUsersNames)
+  #getNotaPage($user)
+  #foreach($nota in $notaPage.getObjects($notaClass))
+    #if(!$note.containsKey($nota.student))
+      #set($note[$nota.student] = [])
+    #end
+    #set($discard = $note[$nota.student].add($nota))
+    #if(!$probe.contains($nota.proba))
+      #set($discard = $probe.add($nota.proba))
+    #end
   #end
 #end
 #set($discard = $probe.sort())
-
-|=Student#foreach($proba in $probe)|=$proba#end|=Observatii
+(% class="myClass" style="border-collapse:collapse;background-color:white" %)(((
+(%style="font-size:12px;font-style: italic;border: 1px solid black;border-collapse: collapse"%)
+|=(%style="width:20px;text-align:center;border: 1px solid black;background-color:white"%)Nr. crt.|=(%style="width:190px;text-align:center;border: 1px solid black;vertical-align: middle;background-color:white"%)Numele și prenumele#foreach($proba in $probe)|=(%style="width:50px;text-align:center;border: 1px solid black;background-color:white"%)Media la $proba#end|=(%style="width:70px;text-align:center;border: 1px solid black;background-color:white"%)Media finală a ex de $tipExamen|=(%style="width:70px;text-align:center;border: 1px solid black;vertical-align: middle;background-color:white"%)Observatii
+(%style="font-size:12px;font-style: normal;border: 1px solid black;border-collapse: collapse"%)
 #foreach($pair in $note.entrySet())
   #set($numNote = {})
   #set($sumNote = {})
@@ -53,22 +91,38 @@
   ##
   #set($medii = {})
   #set($minMedie = 1000)
+  #set($sumMedii = 0)
   #foreach($proba in $numNote.entrySet())
     #set($medie = $sumNote[$proba.key] * 100 / $proba.value)
     #if($medie &lt; $minMedie)
       #set($minMedie = $medie)
     #end
+    #set($sumMedii = $sumMedii + $medie)
     #set($medii[$proba.key] = $numbertool.format("#0,00", $medie))
   #end
   ##
   #if($minMedie &gt;= 500 &amp;&amp; $medii.size() == $probe.size())
     #set($observatii = "promovat")
+    #set($sumMedii = $sumMedii / $medii.size())
+    #set($medieFin = $numbertool.format("#0,00", $sumMedii))
   #else
     #set($observatii = "nepromovat")
+    #set($medieFin = "-")
   #end
   ##
-  |$pair.key#foreach($proba in $probe)|$medii.getOrDefault($proba, "-")#end|$observatii
+  |(%style="width:20px;text-align:center;border-bottom:1px;border: 1px solid black"%)$nrCrt|(%style="width:190px;text-align:left;border: 1px solid black;text-transform: uppercase"%)$pair.key#foreach($proba in $probe)|(%style="width:50px;text-align:center;border: 1px solid black"%)$medii.getOrDefault($proba, "-")#end|(%style="width:70px;text-align:center;border: 1px solid black"%)$medieFin|(%style="width:70px;text-align:center;border: 1px solid black"%)$observatii
+  #set($nrCrt = $nrCrt + 1)
 #end
-{{/velocity}}
-</content>
+)))
+
+Afișat $datetool.get('dd.MM.yyyy'), ora $datetool.get('H')
+//
+(% class="myClass" style="font-weight: bold;font-size:12px;text-align:center" %)(((
+//
+==== DECAN,====
+
+==== $numeDecan====
+
+)))
+{{/velocity}}</content>
 </xwikidoc>
