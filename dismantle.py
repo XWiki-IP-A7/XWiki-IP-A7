@@ -70,7 +70,7 @@ def extract_page(xar, name):
 	resource = root.find("./web").text + "/" + root.find("./name").text + ".xml"
 	path = REPO_PATH + "/src/main/resources/" + resource
 	mkdir_p(os.path.dirname(path))
-	with io.open(path, "w", newline="\r\n") as f:
+	with io.open(path, "w", newline="\r\n", encoding="utf-8") as f:
 		print("Exporting " + resource + "...")
 		f.write(XML_HEADER)
 		f.write(etree.tostring(root, pretty_print=True, encoding="utf-8").decode("utf-8"))
