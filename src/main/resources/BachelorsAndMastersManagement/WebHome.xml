@@ -8,7 +8,7 @@
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1356998400000</creationDate>
-  <parent>xwiki:BachelorsAndMastersManagement.Setup.WebHome</parent>
+  <parent>xwiki:BachelorsAndMastersManagement.SetupTemp.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1356998400000</date>
@@ -19,5 +19,21 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content/>
+  <content>{{velocity}}
+
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+
+{{/velocity}}
+
+
+= Welcome to the setup Bachelors And Masters Management. =
+
+To get to the setup module, please click [[here&gt;&gt;BachelorsAndMastersManagement.Setup]].
+To get to the registration module, please click [[here&gt;&gt;doc:.Registration.WebHome]].
+To get to the distribution module, please click [[here&gt;&gt;BachelorsAndMastersManagement.Distribution]].
+To get to the catalog module, please click [[here&gt;&gt;BachelorsAndMastersManagement.Note]].</content>
 </xwikidoc>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Setup.BachelorsSelector.BachelorForm" locale="">
+  <web>BachelorsAndMastersManagement.Setup.BachelorsSelector</web>
+  <name>BachelorForm</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.Setup.BachelorsSelector.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>BachelorForm</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>
+
+{{velocity}}
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+
+
+#set($doc = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData'))
+#set($handler = $doc.getObject('BachelorsAndMastersManagement.Setup.BachelorsAndMastersHandler'))
+#set($commisionToUpdate = $handler.getProperty('currentBachelorsCommittee').value)
+
+
+  #set($member_head = $!request.get('member-head').replace('XWiki.' , " "))
+  #set($member_sec = $!request.get('member-sec').replace('XWiki.' , " "))
+  #set($member_1 = $!request.get('member1').replace('XWiki.' , " "))
+  #set($member_2 = $!request.get('member2').replace('XWiki.' , " "))
+  
+  #if ($commisionToUpdate == -1)
+  #if ($member_head)
+  #set($obj = $doc.newObject('BachelorsAndMastersManagement.Setup.BachelorsCommittee'))
+  #end
+  #set($head = '')
+  #set($secretary = '')
+  #set($member1 = '')
+  #set($member2 = '')
+#else
+  #set($obj = $doc.getObjects('BachelorsAndMastersManagement.Setup.BachelorsCommittee')[$commisionToUpdate])
+  #set($head = $obj.getProperty('head').value)
+  #set($secretary = $obj.getProperty('secretary').value)
+  #set($member1 = $obj.getProperty('member1').value)
+  #set($member2 = $obj.getProperty('member2').value)
+#end
+  #set($discard = $obj.set('head',  $member_head))
+  #set($discard = $obj.set('secretary',  $member_sec))
+  #set($discard = $obj.set('member1',  $member_1))
+  #set($discard = $obj.set('member2',  $member_2))
+  
+  #if ($member_head and $member_sec and $member_1 and $member_2)
+  #set($discard = $doc.save())
+  #end
+
+{{html wiki=true}}
+&lt;form action=""&gt;
+&lt;label for="headOfCommittee"&gt;Head of committee:&lt;/label&gt;
+&lt;input id="headOfCommittee" type="text" name="member-head" class="suggestUsers withTip" value="$head"&gt;
+&lt;br/&gt;
+&lt;label for="secretaryOfCommittee"&gt;Secretary of committee:&lt;/label&gt;
+&lt;input id="secretaryOfCommittee" type="text" name="member-sec" class="suggestUsers withTip" value="$secretary"&gt;
+&lt;br/&gt;
+&lt;label for="firstMemberOfCommittee"&gt;First member of committee:&lt;/label&gt;
+&lt;input id="firstMemberOfCommittee" type="text" name="member1" class="suggestUsers withTip" value="$member1"&gt;
+&lt;br/&gt;
+&lt;label for="secondMemberOfCommittee"&gt;Second member of committee:&lt;/label&gt;
+&lt;input id="secondMemberOfCommittee" type="text" name="member2" class="suggestUsers withTip" value="$member2"&gt;
+&lt;br/&gt;
+
+&lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Submit members of committee" class="button"/&gt;&lt;/span&gt;
+&lt;/form&gt;
+
+{{/html}}
+
+{{/velocity}}</content>
+  <class>
+    <name>BachelorsAndMastersManagement.Setup.BachelorsSelector.BachelorForm</name>
+    <customClass/>
+    <customMapping/>
+    <defaultViewSheet/>
+    <defaultEditSheet/>
+    <defaultWeb/>
+    <nameField/>
+    <validationScript/>
+    <firstDay>
+      <customDisplay/>
+      <dateFormat>dd/MM/yyyy HH:mm:ss</dateFormat>
+      <disabled>0</disabled>
+      <emptyIsToday>1</emptyIsToday>
+      <hint/>
+      <name>firstDay</name>
+      <number>1</number>
+      <picker>1</picker>
+      <prettyName>firstDay</prettyName>
+      <size>20</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+    </firstDay>
+    <secondDay>
+      <customDisplay/>
+      <dateFormat>dd/MM/yyyy HH:mm:ss</dateFormat>
+      <disabled>0</disabled>
+      <emptyIsToday>1</emptyIsToday>
+      <hint/>
+      <name>secondDay</name>
+      <number>2</number>
+      <picker>1</picker>
+      <prettyName>secondDay</prettyName>
+      <size>20</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
+    </secondDay>
+  </class>
+  <object>
+    <name>BachelorsAndMastersManagement.Setup.BachelorsSelector.BachelorForm</name>
+    <number>0</number>
+    <className>SetupModule.Bachelor.WebHome</className>
+    <guid>43882e9b-9115-4431-a644-d9e8c8444415</guid>
+    <class>
+      <name>SetupModule.Bachelor.WebHome</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+    </class>
+  </object>
+</xwikidoc>

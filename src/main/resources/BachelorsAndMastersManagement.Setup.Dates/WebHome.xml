@@ -8,7 +8,7 @@
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1356998400000</creationDate>
-  <parent>xwiki:BachelorsAndMastersManagement.Setup.WebHome</parent>
+  <parent>xwiki:BachelorsAndMastersManagement.SetupTemp.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1356998400000</date>
@@ -18,48 +18,65 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <content>
-{{velocity}}
-
+  <hidden>true</hidden>
+  <content>{{velocity}}
 #set($showcomments = false)
 #set($showannotations = false)
 #set($showattachments = false)
 #set($showhistory = false)
 #set($showinformation = false)
-  
-  
+
 #set($dataDoc = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData'))
 #set($obj = $dataDoc.getObject('BachelorsAndMastersManagement.Setup.SetupData'))
+#set($enrollmentPeriodStart = $obj.getProperty('enrollPeriodStart'))
 
-#set($enrollmentWeekStart = $obj.getProperty('enrollWeek'))
-  #set($enrollmentWeekStartHTMLYear = 1900+$enrollmentWeekStart.value.getYear())
-  #set($enrollmentWeekStartHTMLMonth = $enrollmentWeekStart.value.getMonth()+1)
-  #set($enrollmentWeekStartHTMLDay = $enrollmentWeekStart.value.date+1)
-  #if( $enrollmentWeekStartHTMLMonth&lt;10 )
-    #set($enrollmentWeekStartHTMLMonth = '0'+$enrollmentWeekStartHTMLMonth)
+  #set($enrollmentPeriodStartHTMLYear = 1900+$enrollmentPeriodStart.value.getYear())
+  #set($enrollmentPeriodStartHTMLMonth = $enrollmentPeriodStart.value.getMonth()+1)
+  #set($enrollmentPeriodStartHTMLDay = $enrollmentPeriodStart.value.date)
+  #if( $enrollmentPeriodStartHTMLMonth&lt;10 )
+    #set($enrollmentPeriodStartHTMLMonth = '0'+$enrollmentPeriodStartHTMLMonth)
   #end
-  #if( $enrollmentWeekStartHTMLDay&lt;10 )
-    #set($enrollmentWeekStartHTMLDay = '0'+$enrollmentWeekStartHTMLDay)
+  #if( $enrollmentPeriodStartHTMLDay&lt;10 )
+    #set($enrollmentPeriodStartHTMLDay = '0'+$enrollmentPeriodStartHTMLDay)
   #end
-  #set($enrollmentWeekStart = $enrollmentWeekStartHTMLYear+'-'+$enrollmentWeekStartHTMLMonth+'-'+$enrollmentWeekStartHTMLDay)
-  
-#set($evaluationWeekStart = $obj.getProperty('evaluationWeek'))
-  #set($evaluationWeekStartHTMLYear = 1900+$evaluationWeekStart.value.getYear())
-  #set($evaluationWeekStartHTMLMonth = $evaluationWeekStart.value.getMonth()+1)
-  #set($evaluationWeekStartHTMLDay = $evaluationWeekStart.value.date+1)
-  #if( $evaluationWeekStartHTMLMonth&lt;10 )
-    #set($evaluationWeekStartHTMLMonth = '0'+$evaluationWeekStartHTMLMonth)
+  #set($enrollmentPeriodStart = $enrollmentPeriodStartHTMLYear+'-'+$enrollmentPeriodStartHTMLMonth+'-'+$enrollmentPeriodStartHTMLDay)
+#set($enrollmentPeriodEnd = $obj.getProperty('enrollPeriodEnd'))
+  #set($enrollmentPeriodEndHTMLYear = 1900+$enrollmentPeriodEnd.value.getYear())
+  #set($enrollmentPeriodEndHTMLMonth = $enrollmentPeriodEnd.value.getMonth()+1)
+  #set($enrollmentPeriodEndHTMLDay = $enrollmentPeriodEnd.value.date)
+  #if( $enrollmentPeriodEndHTMLMonth&lt;10 )
+    #set($enrollmentPeriodEndHTMLMonth = '0'+$enrollmentPeriodEndHTMLMonth)
   #end
-  #if( $evaluationWeekStartHTMLDay&lt;10 )
-    #set($evaluationWeekStartHTMLDay = '0'+$evaluationWeekStartHTMLDay)
+  #if( $enrollmentPeriodEndHTMLDay&lt;10 )
+    #set($enrollmentPeriodEndHTMLDay = '0'+$enrollmentPeriodEndHTMLDay)
   #end
-  #set($evaluationWeekStart = $evaluationWeekStartHTMLYear+'-'+$evaluationWeekStartHTMLMonth+'-'+$evaluationWeekStartHTMLDay)
-  
+  #set($enrollmentPeriodEnd = $enrollmentPeriodEndHTMLYear+'-'+$enrollmentPeriodEndHTMLMonth+'-'+$enrollmentPeriodEndHTMLDay)
+#set($evaluationPeriodStart = $obj.getProperty('evaluationPeriodStart'))
+  #set($evaluationPeriodStartHTMLYear = 1900+$evaluationPeriodStart.value.getYear())
+  #set($evaluationPeriodStartHTMLMonth = $evaluationPeriodStart.value.getMonth()+1)
+  #set($evaluationPeriodStartHTMLDay = $evaluationPeriodStart.value.date)
+  #if( $evaluationPeriodStartHTMLMonth&lt;10 )
+    #set($evaluationPeriodStartHTMLMonth = '0'+$evaluationPeriodStartHTMLMonth)
+  #end
+  #if( $evaluationPeriodStartHTMLDay&lt;10 )
+    #set($evaluationPeriodStartHTMLDay = '0'+$evaluationPeriodStartHTMLDay)
+  #end
+  #set($evaluationPeriodStart = $evaluationPeriodStartHTMLYear+'-'+$evaluationPeriodStartHTMLMonth+'-'+$evaluationPeriodStartHTMLDay)
+#set($evaluationPeriodEnd = $obj.getProperty('evaluationPeriodEnd'))
+  #set($evaluationPeriodEndHTMLYear = 1900+$evaluationPeriodEnd.value.getYear())
+  #set($evaluationPeriodEndHTMLMonth = $evaluationPeriodEnd.value.getMonth()+1)
+  #set($evaluationPeriodEndHTMLDay = $evaluationPeriodEnd.value.date)
+  #if( $evaluationPeriodEndHTMLMonth&lt;10 )
+    #set($evaluationPeriodEndHTMLMonth = '0'+$evaluationPeriodEndHTMLMonth)
+  #end
+  #if( $evaluationPeriodEndHTMLDay&lt;10 )
+    #set($evaluationPeriodEndHTMLDay = '0'+$evaluationPeriodEndHTMLDay)
+  #end
+  #set($evaluationPeriodEnd = $evaluationPeriodEndHTMLYear+'-'+$evaluationPeriodEndHTMLMonth+'-'+$evaluationPeriodEndHTMLDay)
 #set($firstDayOfEvaluation = $obj.getProperty('firstDayOfEvaluation'))
   #set($firstDayOfEvaluationHTMLYear = 1900+$firstDayOfEvaluation.value.getYear())
   #set($firstDayOfEvaluationHTMLMonth = $firstDayOfEvaluation.value.getMonth()+1)
-  #set($firstDayOfEvaluationHTMLDay = $firstDayOfEvaluation.value.date+1)
+  #set($firstDayOfEvaluationHTMLDay = $firstDayOfEvaluation.value.date)
   #if( $firstDayOfEvaluationHTMLMonth&lt;10 )
     #set($firstDayOfEvaluationHTMLMonth = '0'+$firstDayOfEvaluationHTMLMonth)
   #end
@@ -67,11 +84,11 @@
     #set($firstDayOfEvaluationHTMLDay = '0'+$firstDayOfEvaluationHTMLDay)
   #end
   #set($firstDayOfEvaluation = $firstDayOfEvaluationHTMLYear+'-'+$firstDayOfEvaluationHTMLMonth+'-'+$firstDayOfEvaluationHTMLDay)
-  
 #set($secondDayOfEvaluation = $obj.getProperty('secondDayOfEvaluation'))
   #set($secondDayOfEvaluationHTMLYear = 1900+$secondDayOfEvaluation.value.getYear())
   #set($secondDayOfEvaluationHTMLMonth = $secondDayOfEvaluation.value.getMonth()+1)
-  #set($secondDayOfEvaluationHTMLDay = $secondDayOfEvaluation.value.date+1)
+  $secondDayOfEvaluation.value.getMonth()
+  #set($secondDayOfEvaluationHTMLDay = $secondDayOfEvaluation.value.date)
   #if( $secondDayOfEvaluationHTMLMonth&lt;10 )
     #set($secondDayOfEvaluationHTMLMonth = '0'+$secondDayOfEvaluationHTMLMonth)
   #end
@@ -79,35 +96,50 @@
     #set($secondDayOfEvaluationHTMLDay = '0'+$secondDayOfEvaluationHTMLDay)
   #end
   #set($secondDayOfEvaluation = $secondDayOfEvaluationHTMLYear+'-'+$secondDayOfEvaluationHTMLMonth+'-'+$secondDayOfEvaluationHTMLDay)
-
-#set($discard = $obj.set('enrollWeek', "02/11/1998"))
-#set($discard = $dataDoc.save('ChangedSumtin'))
   
+##?enrollPeriodStart=2018-01-01&amp;enrollPeriodEnd=2018-01-02&amp;evaluationPeriodStart=2018-01-03&amp;evaluationPeriodEnd=2018-01-04&amp;firstDayOfEvaluation=2018-01-05&amp;secondDayOfEvaluation=2018-01-06&amp;getDay=Submit
 
+#set($enrollPeriodStartRequest = $!request.get('day1'))
+#set($discard = $obj.set('enrollPeriodStart', $enrollPeriodStartRequest))
 
+#set($enrollPeriodEndRequest = $!request.get('day2'))
+#set($discard = $obj.set('enrollPeriodEnd', $enrollPeriodEndRequest))
 
+#set($evalPeriodStartRequest = $!request.get('day3'))
+#set($discard = $obj.set('evaluationPeriodStart', $evalPeriodStartRequest))
+
+#set($evalPeriodEndRequest = $!request.get('day4'))
+#set($discard = $obj.set('evaluationPeriodEnd', $evalPeriodEndRequest))
+
+#set($firstDayOfEvalR = $!request.get('day5'))
+#set($discard = $obj.set('firstDayOfEvaluation', $firstDayOfEvalR))
+
+#set($secondDayOfEvalR = $!request.get('day6'))
+#set($discard = $obj.set('secondDayOfEvaluation', $secondDayOfEvalR))
+
+#if($enrollPeriodStartRequest and $enrollPeriodEndRequest and $evalPeriodStartRequest and $evalPeriodEndRequest and $firstDayOfEvalR and $secondDayOfEvalR)
+  Saved
+  #set($discard = $dataDoc.save('saved data'))
+#end
 
 {{html wiki=true}}
 
-&lt;form action="../SetupData"&gt;
-  
-  &lt;label for="enrollmentWeekStart"&gt;Enrollment week start:&lt;/label&gt;
-  &lt;input id="enrollmentWeekStart" name="enrollWeekStart" class="datetime" type="date" value="$enrollmentWeekStart"&gt;
-  &lt;input id="enrollmentWeekEnd" name="enrollWeekEnd" class="datetime" type="date" class="hidden"&gt;
+&lt;form action=""&gt;
+  &lt;label for="enrollPeriodStart"&gt;Enrollment first day:&lt;/label&gt;
+  &lt;input id="enrollPeriodStart" name="day1" class="datetime" type="date" value="$enrollmentPeriodStart"&gt;
+  &lt;label for="enrollPeriodEnd"&gt;and last day:&lt;/label&gt;
+  &lt;input id="enrollPeriodEnd" name="day2" class="datetime" type="date" value="$enrollmentPeriodEnd"&gt;
   &lt;br/&gt;
-  
-  &lt;label for="evaluationWeekStart"&gt;Evaluation week start:&lt;/label&gt;
-  &lt;input id="evaluationWeekStart" name="evalWeekStart" value="$evaluationWeekStart" class="datetime" type="date"&gt;
-  &lt;input id="evaluationWeekEnd" name="evalWeekEnd" class="datetime" type="date" class="hidden"&gt;
+  &lt;label for="evaluationPeriodStart"&gt;Evaluation period first day:&lt;/label&gt;
+  &lt;input id="evaluationPeriodStart" name="day3" class="datetime" type="date" value="$evaluationPeriodStart"&gt;
+  &lt;label for="evaluationPeriodEnd"&gt;and last day:&lt;/label&gt;
+  &lt;input id="evaluationPeriodEnd" name="day4" class="datetime" type="date" value="$evaluationPeriodEnd"&gt;
   &lt;br/&gt;
-  
-  
-  &lt;label for="firstDayOfEvaluation"&gt;Days of evaluation:&lt;/label&gt;
-  &lt;input id="firstDayOfEvaluation" name="firstEval" value="$firstDayOfEvaluation"  class="datetime" type="date"&gt;
-  &lt;label for="secondDayOfEvaluation"&gt; and &lt;/label&gt;
-  &lt;input id="secondDayOfEvaluation" name="secondEval" value="$secondDayOfEvaluation"  class="datetime" type="date"&gt;
+  &lt;label for="firstDayOfEvaluation"&gt;Evaluation first day:&lt;/label&gt;
+  &lt;input id="firstDayOfEvaluation" name="day5" class="datetime" type="date" value="$firstDayOfEvaluation"&gt;
+  &lt;label for="secondDayOfEvaluation"&gt;and second day:&lt;/label&gt;
+  &lt;input id="secondDayOfEvaluation" name="day6" class="datetime" type="date" value="$secondDayOfEvaluation"&gt;
   &lt;br/&gt;
-  
   &lt;span class="buttonwrapper"&gt;&lt;input type="submit" id="getDay" name="getDay" value="Submit" class="button"/&gt;&lt;/span&gt;
 &lt;/form&gt;
 
@@ -115,156 +147,4 @@
 
   
 {{/velocity}}</content>
-  <object>
-    <name>BachelorsAndMastersManagement.Setup.Dates.WebHome</name>
-    <number>0</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>d15f9260-bcfb-41dc-8138-6f91428982a8</guid>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <contenttype>PureText</contenttype>
-        <disabled>0</disabled>
-        <editor>PureText</editor>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators>|, </separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage|onDemand|always</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <property>
-      <cache>long</cache>
-    </property>
-    <property>
-      <code>require(['jquery'], function($) {
-  $(document).ready(function(){
-    $("#getDay").click(function(){
-
-       var weekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-       var d = new Date(document.getElementById('enrollmentWeekStart').value);
-       var day = d.getDay();
-     
-       if (day == 0){
-          var result = 7;
-       }else{
-          var result = 7 - day;
-       }
-      
-      var finalDate = d.getDate() + result;
-      if (finalDate &lt; 10){
-        finalDate = '0' + finalDate;
-      }
-      
-      var month = d.getMonth() + 1;
-      if (month &lt; 10) {
-        month = '0' + month;
-      }
-      
-      var final = d.getFullYear() + '-' + month + '-' + finalDate;
-       document.getElementById('enrollmentWeekEnd').value = final;
-
-      console.log(final);
-
-      
-      
-       var d2 = new Date(document.getElementById('evaluationWeekStart').value);
-
-       var day2 = d2.getDay();
-
-       if (day2 == 0){
-           var result2 = 7;
-       } else {
-       var result2 = 7 - day2;
-       }
-
-       var finalDate2 = d2.getDate() + result2;
-      if(finalDate2 &lt; 10) {
-         finalDate2 = '0' + finalDate2;
-       }
-      
-      var month2 = d2.getMonth() + 1;
-      if (month2 &lt; 10){
-        month2 = '0' + month2;
-      }
-       
-       var final2 = d2.getFullYear() + '-' + month2 + '-' + finalDate2;
-
-      console.log(final2);
-       document.getElementById('evaluationWeekEnd').value = final2;
-
-     });
-   });
- });</code>
-    </property>
-    <property>
-      <name>getWeekDay</name>
-    </property>
-    <property>
-      <parse>1</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
-    </property>
-  </object>
 </xwikidoc>

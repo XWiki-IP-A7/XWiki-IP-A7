@@ -57,10 +57,10 @@ def extract_page(xar, name):
 	resource = root.find("./web").text + "/" + root.find("./name").text + ".xml"
 	path = REPO_PATH + "/src/main/resources/" + resource
 	os.makedirs(os.path.dirname(path), exist_ok=True)
-	with open(path, "w", newline="\r\n") as f:
+	with open(path, "wb") as f:
 		print("Exporting " + resource + "...")
-		f.write(XML_HEADER)
-		f.write(etree.tostring(root, pretty_print=True, encoding="utf-8").decode("utf-8"))
+		f.write(XML_HEADER.encode())
+		f.write(etree.tostring(root, pretty_print=True, encoding="utf-8"))
 
 def main():
 	assert(os.path.isdir(REPO_PATH + "/.git"))
