@@ -10,8 +10,5 @@
         <module name="XWikiTestComponent" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="xwiki-commons-component-archetype" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

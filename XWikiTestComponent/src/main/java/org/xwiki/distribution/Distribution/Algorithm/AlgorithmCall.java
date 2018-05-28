@@ -1,11 +1,9 @@
 package org.xwiki.distribution.Distribution.Algorithm;
 
-import org.xwiki.distribution.Distribution.Models.Committee;
-import org.xwiki.distribution.Distribution.Models.Constraint;
-import org.xwiki.distribution.Distribution.Models.Student;
-import org.xwiki.distribution.Distribution.Models.Teacher;
+import org.xwiki.distribution.Distribution.Models.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -124,6 +122,44 @@ public class AlgorithmCall {
         }
 
         return committees;
+    }
+
+    public static void repartitionStudents(List<Committee> committees) {
+        final int examinationDuration = 20;
+        final int startHour = 8;
+        final int endHour = 20;
+        final int days = 7;
+        List<GenericScheduler<Committee>> committeeRepartitions = new ArrayList<>();
+        Random random = new Random();
+        for (Committee committee : committees) {
+            GenericScheduler<Committee> committeeRepartition = new GenericScheduler<>(committee, null);
+            System.out.println(committee + " " + committee.getNumberOfStudents());
+            int minDuration = committee.getFullestTeacher().getNumberOfStudents() * examinationDuration / 60;
+
+            while (committeeRepartition.getDuration() < committee.getNumberOfStudents() * 20) {
+                int day;
+                do {
+                    day = random.nextInt(days);
+                } while (committeeRepartition.isBusy(day));
+                int startsAt = random.nextInt(endHour - minDuration - startHour) + startHour;
+                Integer endsAt = random.nextInt(endHour - startHour) + startHour;
+                if (endsAt < startsAt + minDuration)
+                    endsAt = endHour;
+                Schedule schedule = new Schedule(day, startsAt * 60, endsAt * 60);
+                committeeRepartition.addSchedule(schedule);
+            }
+            Collections.sort(committeeRepartition.getSchedules());
+            committeeRepartitions.add(committeeRepartition);
+        }
+        DegreeDistributionAlgorithm degreeDistributionAlgorithm = new DegreeDistributionAlgorithm();
+        List<StudentRepartition> studentRepartitions = degreeDistributionAlgorithm.getRepartitions(committeeRepartitions);
+
+        for (StudentRepartition studentReaprtition : studentRepartitions) {
+            Committee committee = studentReaprtition.getStudent().getCoordinator().getCommittee();
+            System.out.println("Student: " + studentReaprtition.getStudent().getName() +
+                    "   Programat: " + studentReaprtition.getSchedule() +
+                    "   Comisia: " + committee.toString(studentReaprtition.getStudent()));
+        }
     }
 
 

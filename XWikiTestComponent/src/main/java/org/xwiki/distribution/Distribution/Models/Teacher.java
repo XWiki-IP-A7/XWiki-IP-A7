@@ -39,6 +39,11 @@ public class Teacher {
             students = new ArrayList<>();
         students.add(student);
     }
+    public int getNumberOfStudents() {
+        if (students != null)
+            return students.size();
+        else return 0;
+    }
 
     @Override
     public String toString() {
