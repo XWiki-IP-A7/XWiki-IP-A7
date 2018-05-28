@@ -22,11 +22,11 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.xwiki.commons</groupId>
-  <artifactId>xwiki-commons-component-archetype</artifactId>
-  <version>5.4.4</version>
-  <name>XWiki Macro - Hello World Component</name>
-  <description>XWiki Macro - Hello World Component</description>
+  <groupId>org.xwiki.contrib</groupId>
+  <artifactId>distribution-bachelorsandmastersmanagement</artifactId>
+  <version>0.1</version>
+  <name>Distribution Module</name>
+  <description>Bachelors and Masters Management - Distribution Component</description>
   <properties>
     <commons.version>5.4.4</commons.version>
   </properties>
@@ -37,8 +37,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>9</source>
-          <target>9</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>

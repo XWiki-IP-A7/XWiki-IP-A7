@@ -1,7 +1,7 @@
-package org.xwiki.commons.internal;
+package org.xwiki.distribution.internal;
 
-import org.xwiki.commons.HelloWorld;
-import org.xwiki.commons.Socializer;
+import org.xwiki.distribution.HelloWorld;
+import org.xwiki.distribution.Socializer;
 import org.xwiki.component.annotation.Component;
 
 import javax.inject.Inject;

@@ -17,24 +17,34 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.commons.internal;
+package org.xwiki.distribution.script;
 
-import org.xwiki.commons.HelloWorld;
+import org.xwiki.distribution.HelloWorld;
+import org.xwiki.distribution.Distribution.Algorithm.AlgorithmCall;
 import org.xwiki.component.annotation.Component;
+import org.xwiki.script.service.ScriptService;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 /**
- * Implementation of a <tt>HelloWorld</tt> component.
+ * Make the HelloWorld API available to scripting.
  */
 @Component
+@Named("hello")
 @Singleton
-public class DefaultHelloWorld implements HelloWorld
+public class HelloWorldScriptService implements ScriptService
 {
-    @Override
-    public String sayHello()
+    @Inject
+    private HelloWorld helloWorld;
+
+    @Inject
+    @Named("database")
+    private HelloWorld databaseWorld;
+
+    public AlgorithmCall run()
     {
-        return "Hello";
+        return this.databaseWorld.sayHello();
     }
 }
-

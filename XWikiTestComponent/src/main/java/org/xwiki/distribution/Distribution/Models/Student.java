@@ -1,4 +1,4 @@
-package org.xwiki.commons.Distribution.Models;
+package org.xwiki.distribution.Distribution.Models;
 
 public class Student {
     private String nr_matricol;

@@ -1,8 +1,8 @@
-package org.xwiki.commons.Distribution.Algorithm;
+package org.xwiki.distribution.Distribution.Algorithm;
 
-import org.xwiki.commons.Distribution.Models.Committee;
-import org.xwiki.commons.Distribution.Models.Constraint;
-import org.xwiki.commons.Distribution.Models.Teacher;
+import org.xwiki.distribution.Distribution.Models.Committee;
+import org.xwiki.distribution.Distribution.Models.Constraint;
+import org.xwiki.distribution.Distribution.Models.Teacher;
 
 import java.util.List;
 

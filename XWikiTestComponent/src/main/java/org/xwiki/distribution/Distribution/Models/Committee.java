@@ -1,4 +1,4 @@
-package org.xwiki.commons.Distribution.Models;
+package org.xwiki.distribution.Distribution.Models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,16 @@ public class Committee {
     private List<Teacher> committee = new ArrayList<>();
     private List<Teacher> auxiliaryTeachers;
     private List<Teacher> constraintTeachers;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public Committee(String id) {
+        this.id = id;
+        committee = new ArrayList<>();
+    }
 
     public Committee(Teacher... teachers) {
         committee = new ArrayList<>();
@@ -83,16 +93,16 @@ public class Committee {
 
     public List<Teacher> getAuxiliaryTeachers() {
         if (auxiliaryTeachers != null)
-        return auxiliaryTeachers;
+            return auxiliaryTeachers;
         else
             return new ArrayList<>();
     }
 
     public List<Teacher> getConstraintTeachers() {
-        if(constraintTeachers!=null)
-        return constraintTeachers;
+        if (constraintTeachers != null)
+            return constraintTeachers;
         else
-            return  new ArrayList<>();
+            return new ArrayList<>();
     }
 
     public String toString() {

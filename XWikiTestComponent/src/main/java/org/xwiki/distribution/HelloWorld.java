@@ -17,26 +17,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.commons;
+package org.xwiki.distribution;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.xwiki.commons.internal.DefaultHelloWorld;
-import org.xwiki.commons.HelloWorld;
-import org.xwiki.test.jmock.AbstractMockingComponentTestCase;
-import org.xwiki.test.jmock.annotation.MockingRequirement;
+import org.xwiki.distribution.Distribution.Algorithm.AlgorithmCall;
+import org.xwiki.component.annotation.Role;
 
 /**
- * Tests for the {@link HelloWorld} component.
+ * Interface (aka Role) of the Component
  */
-@MockingRequirement(DefaultHelloWorld.class)
-public class HelloWorldTest extends AbstractMockingComponentTestCase<HelloWorld>
+@Role
+public interface HelloWorld
 {
-    @Test
-    public void testSayHello() throws Exception
-    {
-        //Assert.assertEquals("Hello", getMockedComponent().sayHello());
-        Assert.assertTrue(true);
-    }
+    /**
+     * Says hello by returning a greeting to the caller.
+     *
+     * @return a greeting
+     */
+    AlgorithmCall sayHello();
 }
+

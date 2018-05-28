@@ -1,4 +1,4 @@
-package org.xwiki.commons.Distribution.Models;
+package org.xwiki.distribution.Distribution.Models;
 
 import java.util.ArrayList;
 import java.util.List;

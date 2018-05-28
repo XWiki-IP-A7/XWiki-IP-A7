@@ -1,4 +1,4 @@
-package org.xwiki.commons;
+package org.xwiki.distribution;
 
 import org.xwiki.component.annotation.Role;
 
