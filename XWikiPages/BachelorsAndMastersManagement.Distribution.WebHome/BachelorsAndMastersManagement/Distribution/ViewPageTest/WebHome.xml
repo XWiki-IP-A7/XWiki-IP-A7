@@ -1,0 +1,101 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Distribution.ViewPageTest.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Distribution.ViewPageTest</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>XWiki.Admin</creator>
+  <creationDate>1526976033000</creationDate>
+  <parent>Main.WebHome</parent>
+  <author>XWiki.Admin</author>
+  <contentAuthor>XWiki.Admin</contentAuthor>
+  <date>1526990636000</date>
+  <contentUpdateDate>1526990636000</contentUpdateDate>
+  <version>58.1</version>
+  <title>ViewPageTest</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}&#xd;
+{{html}}&#xd;
+&lt;style type="text/css">&#xd;
+   #div1 {&#xd;
+   width: 350px;&#xd;
+   height: 70px;&#xd;
+   padding: 10px;&#xd;
+   border: 4px solid #aaaaaa;&#xd;
+   }&#xd;
+&lt;/style>&#xd;
+#set($comisii = $services.hello.dbGreet())&#xd;
+#set ($number = 0)&#xd;
+#set ($dragid =  0)&#xd;
+#foreach($comisie in $comisii)&#xd;
+#set ($number = $number + 1)&#xd;
+&lt;div id=c$number style="border: thin solid black" ondrop="drop(event)" ondragover="allowDrop(event)">&#xd;
+   &lt;b>Comisia $number&lt;/b>&#xd;
+&#xd;
+   #foreach($teacher in $comisie.getCommitteeTeachers() )&#xd;
+   &lt;div> $teacher &lt;/div>&#xd;
+   #end&#xd;
+&#xd;
+   #foreach($teacher in $comisie.getConstraintTeachers() )&#xd;
+   #set ($dragid = $dragid + 1)&#xd;
+   &lt;div style="border: thin solid red" id=t$dragid draggable="true" ondragstart="drag(event)" >&#xd;
+      $teacher &#xd;
+   &lt;/div>&#xd;
+   #end&#xd;
+&#xd;
+   #foreach($teacher in $comisie.getAuxiliaryTeachers() )&#xd;
+   #set ($dragid = $dragid + 1)&#xd;
+   &lt;div style="border: thin solid green" id=t$dragid draggable="true" ondragstart="drag(event)" >&#xd;
+      $teacher&#xd;
+   &lt;/div>&#xd;
+&#xd;
+   #end&#xd;
+&#xd;
+&lt;/div>&#xd;
+&lt;br>&#xd;
+#end&#xd;
+&#xd;
+&lt;form>&#xd;
+   &lt;p align="center">&#xd;
+      &lt;input type="submit" value="Salvare" class="button">&#xd;
+   &lt;/p>&#xd;
+&lt;/form>&#xd;
+&#xd;
+&lt;script type="text/javascript">&#xd;
+   function allowDrop(ev) {&#xd;
+       ev.preventDefault();&#xd;
+   }&#xd;
+   &#xd;
+   function drag(ev) {&#xd;
+       ev.dataTransfer.setData("text", ev.target.id);&#xd;
+   }&#xd;
+&#xd;
+&#xd;
+   &#xd;
+   function drop(ev) {&#xd;
+       ev.preventDefault();&#xd;
+&#xd;
+&#xd;
+       var data = ev.dataTransfer.getData("text");&#xd;
+       ev.target.appendChild(document.getElementById(data));&#xd;
+       var comisie='';&#xd;
+       if(ev.target.id == '' || ev.target.id.includes('t'))&#xd;
+       comisie=ev.target.parentElement.id;&#xd;
+       else &#xd;
+       comisie=ev.target.id;&#xd;
+       var da = {&#xd;
+'profesor':document.getElementById(data).textContent,&#xd;
+'comisie':comisie&#xd;
+};&#xd;
+&#xd;
+console.log(da);&#xd;
+   }&#xd;
+&lt;/script>&#xd;
+{{/html}}&#xd;
+{{/velocity}}&#xd;
+</content>
+</xwikidoc>

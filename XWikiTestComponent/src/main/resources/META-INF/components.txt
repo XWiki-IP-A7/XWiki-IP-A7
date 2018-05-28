@@ -1,0 +1,3 @@
+org.xwiki.distribution.internal.DefaultHelloWorld
+org.xwiki.distribution.internal.DatabaseHelloWorld
+org.xwiki.distribution.script.HelloWorldScriptService
