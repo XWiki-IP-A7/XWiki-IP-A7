@@ -84,7 +84,7 @@ public class Committee
 
     public String toString()
     {
-        StringBuilder stringBuilder = new StringBuilder("\n\n[");
+        StringBuilder stringBuilder = new StringBuilder("\n[");
 
         if (committee != null)
             for (Teacher teacher : committee)
@@ -110,6 +110,8 @@ public class Committee
         stringBuilder.append(" -> " + getNumberOfStudents() + " de studenti:\n");
 
         getAllStudents().forEach(e -> stringBuilder.append(e.getName() + ", "));
+
+        stringBuilder.append("\n");
 
         return stringBuilder.toString();
     }

@@ -26,6 +26,12 @@ public class GenericScheduler<T> {
         schedules.add(schedule);
     }
 
+    public void addSchedules(List<Schedule> schedules) {
+        if (this.schedules == null)
+            this.schedules = new ArrayList<>(schedules);
+        else this.schedules.addAll(schedules);
+    }
+
     public boolean isBusy(int day) {
         if (schedules != null)
             for (Schedule schedule : schedules) {

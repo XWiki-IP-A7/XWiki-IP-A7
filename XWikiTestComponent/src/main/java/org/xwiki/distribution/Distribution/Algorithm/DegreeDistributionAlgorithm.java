@@ -62,18 +62,18 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
             }
         }
         System.out.println("Total studs: " + totalStudents + "\nMax diff: " + (maxStudents - minStudents));
-        System.out.println("Percentage: " + (maxStudents - minStudents) * 100 / totalStudents + "%");
 
-        return (maxStudents - minStudents) * 100 / totalStudents > 5;
+        return (maxStudents - minStudents) > 15;
     }
 
 
-    public List<StudentRepartition> getRepartitions(List<GenericScheduler<Committee>> committeeRepartitions) {
+    public List<StudentRepartition> getRepartitions(List<GenericScheduler<Committee>> committeeRepartitions, List<GenericScheduler<Committee>> committeesBreaks) {
+        scheduleBreaks(committeeRepartitions, committeesBreaks);
         List<GenericScheduler<Teacher>> teacherRepartitions = new ArrayList<>();
         for (GenericScheduler<Committee> committeeRepartition : committeeRepartitions) {
+            Collections.sort(committeeRepartition.getSchedules(), Schedule::compareTo);
             teacherRepartitions.addAll(getTeacherRepartitions(committeeRepartition));
         }
-
         List<StudentRepartition>studentRepartitions = new ArrayList<>();
         for (GenericScheduler<Teacher> teacherRepartition : teacherRepartitions) {
             Iterator<Schedule> iterator = teacherRepartition.getSchedules().iterator();
@@ -92,18 +92,49 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
                 }
             }
         }
-
         Collections.sort(studentRepartitions, Comparator.comparing(e -> e.getSchedule()));
         return studentRepartitions;
     }
 
+    private void scheduleBreaks(List<GenericScheduler<Committee>> committeeRepartitions, List<GenericScheduler<Committee>> committeesBreaks) {
+        if (committeesBreaks == null) return;
+        if (committeeRepartitions != null) {
+            for (GenericScheduler<Committee> committeeRepartition:committeeRepartitions) {
+                List<Schedule> newSchedules = new ArrayList<>();
+                for (GenericScheduler<Committee> committeeBreak:committeesBreaks) {
+                    if (committeeRepartition.getEntity() == committeeBreak.getEntity()) {
+                        for (Schedule scheduledBreak:committeeBreak.getSchedules()) {
+                            if (committeeRepartition.getSchedules() != null) {
+                                Iterator<Schedule> scheduleIterator = committeeRepartition.getSchedules().iterator();
+                                while (scheduleIterator.hasNext()) {
+                                    Schedule schedule = scheduleIterator.next();
+                                    if (schedule.contains(scheduledBreak)) {
+                                        Schedule schedule1 = new Schedule(schedule.getDay(),schedule.getStartTime(),scheduledBreak.getStartTime());
+                                        Schedule schedule2 = new Schedule(schedule.getDay(),scheduledBreak.getEndTime(),schedule.getEndTime());
+                                        newSchedules.add(schedule1);
+                                        newSchedules.add(schedule2);
+                                        scheduleIterator.remove();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                committeeRepartition.addSchedules(newSchedules);
+            }
+        }
+    }
+
     private List<GenericScheduler<Teacher>> getTeacherRepartitions(GenericScheduler<Committee> committeeRepartition) {
         List<Teacher> teachers = committeeRepartition.getEntity().getAuxiliaryMembers();
-        boolean repartitionFound = false;
+        List<Teacher> auxiliaryList = new ArrayList<>();
+        boolean repartitionFound;
         List<GenericScheduler<Teacher>> teacherRepartitions = new ArrayList<>();
         int timeNeeded;
 
         for (Teacher teacher : teachers) {
+            repartitionFound = false;
             timeNeeded = teacher.getNumberOfStudents() * 20;
             List<Schedule> schedules = new ArrayList<>();
             for (Schedule schedule : committeeRepartition.getSchedules()) {
@@ -117,9 +148,13 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
                     break;
                 }
             }
+            if (!repartitionFound) {
+                auxiliaryList.add(teacher);
+            }
         }
-
-        teachers = committeeRepartition.getEntity().getMembers();
+        teachers.clear();
+        teachers.addAll(auxiliaryList);
+        teachers.addAll(committeeRepartition.getEntity().getMembers());
         for (Teacher teacher : teachers) {
             timeNeeded = teacher.getNumberOfStudents() * 20;
             List<Schedule> schedules = new ArrayList<>();
@@ -134,7 +169,6 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
                     Schedule memberSchedule = new Schedule(schedule.getDay(), start, start + availableTime);
                     schedule.addAssignedTime(availableTime);
                     schedules.add(memberSchedule);
-                    repartitionFound = true;
                     if (timeNeeded == 0) {
                         break;
                     }

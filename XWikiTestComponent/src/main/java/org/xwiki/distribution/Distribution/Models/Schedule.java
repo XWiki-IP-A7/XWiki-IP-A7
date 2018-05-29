@@ -43,6 +43,22 @@ public class Schedule implements Comparable {
         return getDuration() - assignedTime;
     }
 
+    public boolean intersects(Schedule schedule) {
+        if (this.day != schedule.day)
+            return false;
+        if (this.endTime <= schedule.startTime)
+            return false;
+        return true;
+    }
+
+    public boolean contains(Schedule schedule) {
+        if (!this.intersects(schedule))
+            return false;
+        if (this.endTime < schedule.endTime)
+            return false;
+        return true;
+    }
+
     @Override
     public int compareTo(Object o) {
         Schedule schedule = (Schedule) o;

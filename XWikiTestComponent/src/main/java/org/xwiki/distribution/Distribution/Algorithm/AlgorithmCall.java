@@ -152,7 +152,7 @@ public class AlgorithmCall {
             committeeRepartitions.add(committeeRepartition);
         }
         DegreeDistributionAlgorithm degreeDistributionAlgorithm = new DegreeDistributionAlgorithm();
-        List<StudentRepartition> studentRepartitions = degreeDistributionAlgorithm.getRepartitions(committeeRepartitions);
+        List<StudentRepartition> studentRepartitions = degreeDistributionAlgorithm.getRepartitions(committeeRepartitions, null);
 
         for (StudentRepartition studentReaprtition : studentRepartitions) {
             Committee committee = studentReaprtition.getStudent().getCoordinator().getCommittee();
