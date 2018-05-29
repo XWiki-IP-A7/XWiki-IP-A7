@@ -41,11 +41,16 @@
 ## ----------documentul este nou, creem noi obiecte pentru datele candidatului&#xd;
 #if ($doc.isNew())&#xd;
 	#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass'))&#xd;
+    ## --------- drepturi de vizualizare si editare a datelor de catre candidatul curent, profi si admini&#xd;
+	#set ($rightsObj = $doc.newObject('XWiki.XWikiRights'))&#xd;
+	#set ($discard = $rightsObj.set('users', $username))&#xd;
+	#set ($discard = $rightsObj.set('groups', 'XWiki.Profs'))&#xd;
+	#set ($discard = $rightsObj.set('levels', 'view,edit,delete'))&#xd;
+	#set ($discard = $rightsObj.set('allow', 1))&#xd;
 #else&#xd;
 	#set ($project_title = $obj.getProperty('project_title').value)&#xd;
 	#set ($project_ref = $obj.getProperty('project_ref').value)&#xd;
 	#set ($coordinator = $obj.getProperty('coordinator').value)&#xd;
-	&#xd;
 #end&#xd;
 #if ($request.get('submit'))&#xd;
 	#set ($project_title = $request.get('project_title'))&#xd;

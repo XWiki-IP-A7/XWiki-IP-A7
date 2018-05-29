@@ -1,6 +1,6 @@
 <?xml version='1.1' encoding='UTF-8'?>
 <xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Registration.Bachelors.WebHome" locale="">
-  <web>BachelorsAndMastersManagement.Registration.Bachelors</web>
+ <web>BachelorsAndMastersManagement.Registration.Bachelors</web>
   <name>WebHome</name>
   <language/>
   <defaultLanguage></defaultLanguage>
@@ -27,7 +27,7 @@
 #set ($courses_error = false)&#xd;
 ## ----------numarul de cursuri ce trebuie alese&#xd;
 #set($maxCoursesDoc = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData'))&#xd;
-#set($maxCoursesObj = $maxCoursesDoc.getObject('BachelorsAndMastersManagement.Setup.CoursesCount.WebHome'))&#xd;
+#set($maxCoursesObj = $maxCoursesDoc.getObject('BachelorsAndMastersManagement.Setup.Courses.WebHome'))&#xd;
 #set($maxCourses = $maxCoursesObj.getProperty('count').value)&#xd;
 #if (!$maxCourses)&#xd;
 	#set ($maxCourses = 4)&#xd;
@@ -53,6 +53,12 @@
 	#foreach ($i in [1..$maxCourses])&#xd;
 		#set ($discard = $courses.add($doc.newObject('AppWithinMinutes.String')))&#xd;
 	#end&#xd;
+	## --------- drepturi de vizualizare si editare a datelor de catre candidatul curent, profi si admini&#xd;
+	#set ($rightsObj = $doc.newObject('XWiki.XWikiRights'))&#xd;
+	#set ($discard = $rightsObj.set('users', $username))&#xd;
+	#set ($discard = $rightsObj.set('groups', 'XWiki.Profs'))&#xd;
+	#set ($discard = $rightsObj.set('levels', 'view,edit,delete'))&#xd;
+	#set ($discard = $rightsObj.set('allow', 1))&#xd;
 #else&#xd;
 	#set ($project_title = $obj.getProperty('project_title').value)&#xd;
 	#set ($project_ref = $obj.getProperty('project_ref').value)&#xd;
@@ -275,7 +281,7 @@
 			&lt;label class="noselect">Cursuri &lt;span id="courses-status">&lt;/span>&lt;/label>&#xd;
 			#if ($courses_error)&#xd;
 				&lt;div class="col col-xs-12">&#xd;
-					&lt;p class="errors"&gt;Selectați $maxCourses cursuri din lista de mai jos&lt;/p>&#xd;
+					&lt;p class="errors">Selectați $maxCourses cursuri din lista de mai jos&lt;/p>&#xd;
 				&lt;/div>&#xd;
 			#end&#xd;
 		&lt;/div>&#xd;
@@ -313,7 +319,9 @@
 &lt;script type="text/javascript">&#xd;
 &#xd;
 	function trimCourseNames(){&#xd;
-		for (let label of document.getElementsByClassName('truncate-name')){&#xd;
+		let labels = document.getElementsByClassName('truncate-name');&#xd;
+		for (let x = 0; x &lt; labels.length; x++){&#xd;
+			let label = labels[x];&#xd;
 			let content = label.getAttribute('title');&#xd;
 			let len = label.parentNode.offsetWidth/10;&#xd;
 			if(content.length>len)&#xd;
@@ -329,7 +337,9 @@
 &#xd;
 	function updateSelectedCourses(){&#xd;
 		let counter = 0;&#xd;
-		for(let course of document.getElementsByClassName('course-check')){&#xd;
+		let courses = document.getElementsByClassName('course-check');&#xd;
+		for(let x = 0; x &lt; courses.length; x++){&#xd;
+			let course = courses[x];&#xd;
 			if (course.getAttribute('checked'))&#xd;
 				counter++;&#xd;
 		}&#xd;
@@ -344,9 +354,11 @@
 		else&#xd;
 			output.classList.remove('errors');&#xd;
 	}&#xd;
-	updateSelectedCoursesOutput(updateSelectedCourses())&#xd;
+	updateSelectedCoursesOutput(updateSelectedCourses());&#xd;
 	let coursesPanel = document.getElementById('courses-panel');&#xd;
-	for (let label of document.getElementsByClassName('truncate-name')){&#xd;
+	let labels = document.getElementsByClassName('truncate-name');&#xd;
+	for (let x = 0; x &lt; labels.length; x++){&#xd;
+		let label = labels[x];&#xd;
 		let content = label.innerHTML;&#xd;
 		label.setAttribute('title', content);&#xd;
 		label.addEventListener('click', function(){&#xd;
@@ -368,7 +380,9 @@
 	trimCourseNames();&#xd;
 	window.addEventListener('resize', trimCourseNames);&#xd;
 &#xd;
-	for(let trigger of document.getElementsByClassName('triggers-panel')){&#xd;
+	let triggers = document.getElementsByClassName('triggers-panel');&#xd;
+	for(let x = 0; x &lt; triggers.length; x++){&#xd;
+		let trigger = triggers[x];&#xd;
 		trigger.addEventListener('click', function(){&#xd;
 			showHideCourses();&#xd;
 		});&#xd;
