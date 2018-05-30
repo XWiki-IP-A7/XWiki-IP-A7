@@ -7,9 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="distribution-bachelorsandmastersmanagement" />
-        <module name="xwiki-commons-component-archetype" />
-        <module name="XWikiTestComponent" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="distribution-bachelorsandmastersmanagement" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

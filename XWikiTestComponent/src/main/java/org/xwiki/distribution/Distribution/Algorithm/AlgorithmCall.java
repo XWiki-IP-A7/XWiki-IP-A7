@@ -10,6 +10,7 @@ import java.util.Random;
 public class AlgorithmCall {
     List<Teacher> teachers = new ArrayList<>();
     List<Committee> committees = new ArrayList<>();
+    List<Student> students = new ArrayList<>();
     List<Constraint> constraints = new ArrayList<>();
     int noOfStudents = 247;
     int noOfTeachers = 41;
@@ -17,7 +18,7 @@ public class AlgorithmCall {
     int teachersPerCommittee = 4;
 
     public String sayHello() {
-        return "ma-ta";
+        return "General Kenobi!";
     }
 
     private static Committee getFullestCommittee(List<Committee> committees) {
@@ -99,13 +100,28 @@ public class AlgorithmCall {
         }
     }
 
+    public List<Student> getStudents (String teacherName)
+    {
+     Teacher teacher = findTeacher(teacherName);
+     return teacher.getStudents();
+    }
+
+    public void addStudent(String studentName, String teacherName)
+    {
+        Teacher teacher = findTeacher(teacherName);
+        Student student = new Student(studentName);
+        student.setCoordinator(teacher);
+        students.add(student);
+    }
+
     public List<Committee> run() {
         DistributionAlgorithm distributionAlgorithm = new DegreeDistributionAlgorithm();
         distributionAlgorithm.partitionTeachers(teachers, committees, constraints);
-
-        while (distributionAlgorithm.checkAnomalies(committees)) {
+        int noOfResets = 0;
+        while (distributionAlgorithm.checkAnomalies(committees) && noOfResets < 10) {
+            noOfResets++;
             Committee fullestCommittee = getFullestCommittee(committees);
-            Teacher fullestTeacher = fullestCommittee.getFullestTeacher();
+            Teacher fullestTeacher = fullestCommittee.getFullestConstraintTeacher();
             for (Constraint constraint : constraints) {
                 if (constraint.getTeacher() == fullestTeacher) {
                     constraints.remove(constraint);
@@ -120,7 +136,6 @@ public class AlgorithmCall {
             distributionAlgorithm.partitionTeachers(teachers, committees, constraints);
 
         }
-
         return committees;
     }
 
