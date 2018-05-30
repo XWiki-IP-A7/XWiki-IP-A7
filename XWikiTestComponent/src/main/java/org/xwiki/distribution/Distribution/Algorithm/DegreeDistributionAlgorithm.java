@@ -179,4 +179,36 @@ public class DegreeDistributionAlgorithm implements DistributionAlgorithm {
         }
         return teacherRepartitions;
     }
+
+    public List<StudentRepartition> switchRepartitions(List<StudentRepartition> studentRepartitions, String studentName, int newPosition) {
+        StudentRepartition givenStudentRepartition = null;
+        if (studentRepartitions == null)
+            return null;
+        for (StudentRepartition studentRepartition:studentRepartitions) {
+            if (studentRepartition.getStudent().getName().equals(studentName)) {
+                givenStudentRepartition = studentRepartition;
+                break;
+            }
+        }
+        if (givenStudentRepartition != null) {
+            studentRepartitions.remove(givenStudentRepartition);
+            studentRepartitions.add(newPosition, givenStudentRepartition);
+        }
+        Iterator<StudentRepartition> iterator = studentRepartitions.iterator();
+        int counter = 1;
+        while (iterator.hasNext() && counter != newPosition) {
+            iterator.next();
+            newPosition++;
+        }
+        StudentRepartition repartition1 = studentRepartitions.get(newPosition);
+        Schedule givenStudentSchedule = repartition1.getSchedule();
+        StudentRepartition repartition2 = null;
+        while (iterator.hasNext()) {
+            repartition2 = iterator.next();
+            repartition1.setSchedule(repartition2.getSchedule());
+        }
+        if (repartition2 != null)
+            repartition2.setSchedule(givenStudentSchedule);
+        return studentRepartitions;
+    }
 }
