@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Distribution.BachelorsDistributionPage.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Distribution.BachelorsDistributionPage</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>Main.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>BachelorsDistributionPage</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+{{html}}
+#set($algoritm = $services.hello.run())
+#set($discard = $algoritm.setNoOfStudents(240))
+#set($discard = $algoritm.setTeachersPerCommittee(4))
+
+
+#set($i = 0)
+#set($docName='XWiki.Profesori')
+#set ($doc = $xwiki.getDocument($docName))
+#foreach ($obj in $doc.getObjects('XWiki.XWikiGroups'))
+ #if ($obj.getProperty('member').value != '')
+ #set($discard = $algoritm.addTeacher($i,$obj.getProperty('member').value))
+ #set($i = $i+1)
+   #set($start1 = 0)
+   #set($end1 = 7)
+   #set($range1 = [$start1..$end1])
+   #foreach($j in $range1)
+   #set($stud = 'Student ')
+   #set($prof = '-prof')
+   #set($discard = $algoritm.addStudent("$stud$j$prof$i",$obj.getProperty('member').value))
+   #end
+ #end   
+#end
+
+
+#set($discard = $algoritm.setNoOfTeachers($i))
+
+#set ($i = 0)
+
+#set($hql = "select distinct doc.name from XWikiDocument as doc where doc.space='BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees' and doc.name &lt;&gt; 'WebPreferences' and doc.name &lt;&gt; 'WebHome'")
+#set($results = $xwiki.search($hql))
+#set($count = 0)
+#set ($char = 'c')
+#foreach($result in $results)
+      #set($count = $count + 1)
+      #set($docName='BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees.'+$result)
+      #set ($doc = $xwiki.getDocument($docName))
+      #set($class = $xwiki.getClass("BachelorsAndMastersManagement.Setup.BachelorsCommittee"))
+      #set($obj=$doc.getObject("BachelorsAndMastersManagement.Setup.BachelorsCommittee"))
+     #set($discard = $algoritm.addCommittee("$char$count",$obj.getProperty('head').value,$obj.getProperty('secretary').value, $obj.getProperty('member1').value, $obj.getProperty('member2').value))
+#end
+#set($discard = $algoritm.setNoOfCommittees($count))
+
+
+
+
+
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.BachelorsConstraints')
+#set ($doc = $xwiki.getDocument($docName))
+## loop over all objects
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.ConstraintsClass"))
+  #set($discard = $algoritm.addConstraint($obj.getProperty('profesor').value, $obj.getProperty('comisie').value))
+#end
+#set($discard = $doc.save())
+
+
+#set($comisii = $algoritm.run())
+
+#set ($number = 0)
+#foreach($comisie in $comisii)
+#set ($number = $number + 1)
+#set ($docName = 'BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees.Committee-Nr ' +$number+'.Repartition')
+#set ($doc = $xwiki.getDocument($docName))
+#set ($obj = $doc.getObject('BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass'))
+#if (!$doc.isNew())
+#set($class = $xwiki.getClass("AppWithinMinutes.Users"))
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.Users"))
+        #set($discard = $doc.removeObject($obj))
+      #end
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.String"))
+        #set($discard = $doc.removeObject($obj))
+      #end
+#else
+#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass'))
+#end
+
+#set($i=0)
+
+#set ($teacherList = [])
+
+#foreach($teacher in $comisie.getCommitteeTeachers() )
+#set ($studentList = [])
+#set ($studentCount = 0)
+#set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
+#set ($discard = $teacherList[$i].set('user', $teacher.getName()))
+#foreach($student in $teacher.getStudents())
+#set ($discard = $studentList.add($doc.newObject('AppWithinMinutes.String')))
+#set ($discard = $studentList[$studentCount].set('shortText', $student.getName()))
+#set ($studentCount = $studentCount + 1)
+#end
+#set($i=$i+1)
+#end
+
+#foreach($teacher in $comisie.getConstraintTeachers() )
+#set ($studentList = [])
+#set ($studentCount = 0)
+#set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
+#set ($discard = $teacherList[$i].set('user', $teacher.getName()))
+#foreach($student in $teacher.getStudents())
+#set ($discard = $studentList.add($doc.newObject('AppWithinMinutes.String')))
+#set ($discard = $studentList[$studentCount].set('shortText', $student.getName()))
+#set ($studentCount = $studentCount + 1)
+#end
+#set($i=$i+1)
+#end
+#foreach($teacher in $comisie.getAuxiliaryTeachers() )
+#set ($studentList = [])
+#set ($studentCount = 0)
+#set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
+#set ($discard = $teacherList[$i].set('user', $teacher.getName()))
+#foreach($student in $teacher.getStudents())
+#set ($discard = $studentList.add($doc.newObject('AppWithinMinutes.String')))
+#set ($discard = $studentList[$studentCount].set('shortText', $student.getName()))
+#set ($studentCount = $studentCount + 1)
+#end
+#set($i=$i+1)
+#end
+#set ($discard = $doc.save())
+#end
+
+#set ($dragid = 0)
+#set ($number = 0)
+&lt;form action="#" method="POST" &gt;
+&lt;div style="display: grid;
+   grid-template-columns: 47% 47% ;
+  grid-gap: 50px;
+  padding: 10px;"&gt;
+   #foreach($comisie in $comisii)
+   #set ($number = $number + 1)
+   &lt;div  id=c$number style="border: thin solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondrop="drop(event)" ondragover="allowDrop(event)"&gt;
+      ##div-ul comisiei
+      &lt;div style="margin-top: 10px; border-bottom: thin solid black; " &gt;&lt;b&gt;Comisia $number&lt;/b&gt;&lt;/div&gt;
+      #foreach($teacher in $comisie.getCommitteeTeachers() )
+      &lt;div style="padding-left: 10px; margin-top: 2px"&gt;  $xwiki.getUserName($teacher.getName()) &lt;/div&gt;
+      #end
+      #foreach($teacher in $comisie.getConstraintTeachers() )
+      #set ($dragid = $dragid + 1)
+      ##div-ul unui prof care poate fi mutat
+      &lt;div style="border: thin solid red; border-radius: 20px; padding-left: 10px;margin-bottom: 2px; margin-top: 2px;" id=t$dragid " &gt;
+         $xwiki.getUserName($teacher.getName())
+      &lt;/div&gt;
+      #end
+      #foreach($teacher in $comisie.getAuxiliaryTeachers() )
+      #set ($dragid = $dragid + 1)
+      &lt;div style="border: thin solid green; padding-left: 10px; border-radius: 20px; margin-bottom: 2px; margin-top: 2px;" id=t$dragid draggable="true" ondragstart="drag(event)" &gt;
+      &lt;input type="hidden" id=it$dragid name=$teacher.getName() value=''&gt;
+          $xwiki.getUserName($teacher.getName())
+      &lt;/div&gt;
+      #end
+   &lt;/div&gt;
+   #end
+
+&lt;/div&gt;
+
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.BachelorsConstraints')
+#set ($doc = $xwiki.getDocument($docName))
+
+
+#foreach($comisie in $comisii)
+#foreach($teacher in $comisie.getAuxiliaryTeachers() )
+#if ($request.get('submit'))
+#set($comisie=$request.get($teacher.getName()))
+#if($comisie != '')
+#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.ConstraintsClass'))
+#set ($discard = $obj.set('profesor', $teacher.getName()))
+#set ($discard = $obj.set('comisie', $comisie))
+#end
+#end
+#set ($discard = $doc.save())
+#end
+#end
+
+
+#if ($request.get('reset'))
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.BachelorsConstraints')
+#set ($doc = $xwiki.getDocument($docName))
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.ConstraintsClass"))
+  #set($discard = $doc.removeObject($obj))
+#end
+#end
+
+#set($discard = $doc.save())
+
+   &lt;p align="center"&gt;
+      &lt;input name="submit" type="submit" value="Salvare" class="button" &gt;
+   &lt;/p&gt;
+   &lt;p align="center"&gt;
+      &lt;input name="reset" type="submit" value="Reset" class="button"&gt;
+   &lt;/p&gt;
+&lt;/form&gt;
+
+&lt;script type="text/javascript"&gt;
+   function allowDrop(ev) {
+       ev.preventDefault();
+   }
+
+   function drag(ev) {
+       ev.dataTransfer.setData("text", ev.target.id);
+   }
+   
+window.addEventListener('DOMContentLoaded', plsWork, false);
+
+   function plsWork()
+{
+if(localStorage.getItem("refresh") !== "yes"){
+window.location.reload();
+localStorage.setItem("refresh","yes");
+}
+else
+localStorage.removeItem("refresh");
+}
+
+   function drop(ev) {
+       ev.preventDefault();
+       var data = ev.dataTransfer.getData("text");
+       
+       var comisie='';
+       if(ev.target.id == '' || ev.target.id.includes('t'))
+       {comisie=ev.target.parentElement.id;
+       ev.target.parentElement.appendChild(document.getElementById(data));}
+       else 
+       {comisie=ev.target.id;
+ev.target.appendChild(document.getElementById(data));
+}
+
+   document.getElementById('i'+data).value = comisie;
+   }
+&lt;/script&gt;
+{{/html}}
+{{/velocity}}</content>
+</xwikidoc>

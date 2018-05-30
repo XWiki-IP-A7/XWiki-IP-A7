@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Distribution.ViewPageTest.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Distribution.ViewPageTest</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>Main.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>ViewPageTest</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+{{html}}
+#set($algoritm = $services.hello.run())
+#set($discard = $algoritm.setNoOfStudents(247))
+#set($discard = $algoritm.setNoOfCommittees(6))
+#set($discard = $algoritm.setNoOfTeachers(41))
+#set($discard = $algoritm.setTeachersPerCommittee(4))
+
+#set($start = 0)
+#set($end = 41)
+#set($range = [$start..$end])
+#set($prof='prof')
+#foreach($i in $range)
+   #set($discard = $algoritm.addTeacher($i,"$prof$i"))
+#end
+
+
+#set($discard = $algoritm.addCommittee('c1','prof1','prof2','prof3','prof4'))
+#set($discard = $algoritm.addCommittee('c2','prof5','prof6','prof7','prof8'))
+#set($discard = $algoritm.addCommittee('c3','prof9','prof10','prof11','prof12'))
+#set($discard = $algoritm.addCommittee('c4','prof13','prof14','prof15','prof16'))
+#set($discard = $algoritm.addCommittee('c5','prof17','prof18','prof19','prof20'))
+#set($discard = $algoritm.addCommittee('c6','prof21','prof22','prof23','prof24'))
+#set($discard = $algoritm.setStudents())
+
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.Constraints')
+#set ($doc = $xwiki.getDocument($docName))
+## loop over all objects
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.ConstraintsClass"))
+  #set($discard = $algoritm.addConstraint($obj.getProperty('profesor').value, $obj.getProperty('comisie').value))
+#end
+#set($discard = $doc.save())
+
+
+#set($comisii = $algoritm.run())
+
+
+#set ($dragid =  0)
+#set($i = 0)
+#foreach($comisie in $comisii)
+#set($i = $i+1)
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.CommitteeManagement.Comisia' + $i)
+#set ($doc = $xwiki.getDocument($docName))
+#set ($obj = $doc.getObject('BachelorsAndMastersManagement.Distribution.CommitteeManagementClass'))
+#if ($doc.isNew())
+#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.CommitteeManagementClass'))
+#set($discard = $obj.set('id',$i))
+#set($discard = $obj.set('NumberOfDays',2))
+#set($discard = $obj.set('StartHour','8:00'))
+#set($discard = $obj.set('EndHour','20:00'))
+#set ($discard = $doc.save())
+#end
+#end
+#set ($number = 0)
+#foreach($comisie in $comisii)
+#set ($number = $number + 1)
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.BachelorsCommittees.Comisia' + $number)
+#set ($doc = $xwiki.getDocument($docName))
+
+#if (!$doc.isNew())
+#set($class = $xwiki.getClass("AppWithinMinutes.String"))
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.String"))
+        #set($discard = $doc.removeObject($obj))
+      #end
+#end
+
+#set($i=0)
+#set ($others = []) 
+#foreach($teacher in $comisie.getCommitteeTeachers() )
+#set ($discard = $others.add($doc.newObject('AppWithinMinutes.String')))
+#set ($discard = $others[$i].set('shortText', $teacher.getName()))
+#set($i=$i+1)
+#end
+#foreach($teacher in $comisie.getConstraintTeachers() )
+#set ($discard = $others.add($doc.newObject('AppWithinMinutes.String')))
+#set ($discard = $others[$i].set('shortText', $teacher.getName()))
+#set($i=$i+1)
+#end
+#foreach($teacher in $comisie.getAuxiliaryTeachers() )
+#set ($discard = $others.add($doc.newObject('AppWithinMinutes.String')))
+#set ($discard = $others[$i].set('shortText', $teacher.getName()))
+#set($i=$i+1)
+#end
+#set ($discard = $doc.save())
+#end
+
+
+#set ($number = 0)
+&lt;form action="#" method="POST" &gt;
+&lt;div style="display: grid;
+   grid-template-columns: 47% 47% ;
+  grid-gap: 50px;
+  padding: 10px;"&gt;
+   #foreach($comisie in $comisii)
+   #set ($number = $number + 1)
+   &lt;div  id=c$number style="border: thin solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondrop="drop(event)" ondragover="allowDrop(event)"&gt;
+      ##div-ul comisiei
+      &lt;div style="margin-top: 10px; border-bottom: thin solid black; " &gt;&lt;b&gt;Comisia $number&lt;/b&gt;&lt;/div&gt;
+      #foreach($teacher in $comisie.getCommitteeTeachers() )
+      &lt;div style="padding-left: 10px; margin-top: 2px"&gt; $teacher &lt;/div&gt;
+      #end
+      #foreach($teacher in $comisie.getConstraintTeachers() )
+      #set ($dragid = $dragid + 1)
+      ##div-ul unui prof care poate fi mutat
+      &lt;div style="border: thin solid red; border-radius: 20px; padding-left: 10px;margin-bottom: 2px; margin-top: 2px;" id=t$dragid " &gt;
+         $teacher 
+      &lt;/div&gt;
+      #end
+      #foreach($teacher in $comisie.getAuxiliaryTeachers() )
+      #set ($dragid = $dragid + 1)
+      &lt;div style="border: thin solid green; padding-left: 10px; border-radius: 20px; margin-bottom: 2px; margin-top: 2px;" id=t$dragid draggable="true" ondragstart="drag(event)" &gt;
+      &lt;input type="hidden" id=it$dragid name=$teacher.getName() value=''&gt;
+         $teacher
+      &lt;/div&gt;
+      #end
+   &lt;/div&gt;
+   #end
+
+&lt;/div&gt;
+
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.Constraints')
+#set ($doc = $xwiki.getDocument($docName))
+
+
+#foreach($comisie in $comisii)
+#foreach($teacher in $comisie.getAuxiliaryTeachers() )
+#if ($request.get('submit'))
+#set($comisie=$request.get($teacher.getName()))
+#if($comisie != '')
+#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.ConstraintsClass'))
+#set ($discard = $obj.set('profesor', $teacher.getName()))
+#set ($discard = $obj.set('comisie', $comisie))
+#end
+#end
+#set ($discard = $doc.save())
+#end
+#end
+
+
+#if ($request.get('reset'))
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.Constraints')
+#set ($doc = $xwiki.getDocument($docName))
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.ConstraintsClass"))
+  #set($discard = $doc.removeObject($obj))
+#end
+#end
+
+#set($discard = $doc.save())
+
+   &lt;p align="center"&gt;
+      &lt;input name="submit" type="submit" value="Salvare" class="button" &gt;
+   &lt;/p&gt;
+   &lt;p align="center"&gt;
+      &lt;input name="reset" type="submit" value="Reset" class="button"&gt;
+   &lt;/p&gt;
+&lt;/form&gt;
+
+&lt;script type="text/javascript"&gt;
+   function allowDrop(ev) {
+       ev.preventDefault();
+   }
+
+   function drag(ev) {
+       ev.dataTransfer.setData("text", ev.target.id);
+   }
+   
+window.addEventListener('DOMContentLoaded', plsWork, false);
+
+   function plsWork()
+{
+if(localStorage.getItem("refresh") !== "yes"){
+window.location.reload();
+localStorage.setItem("refresh","yes");
+}
+else
+localStorage.removeItem("refresh");
+}
+
+   function drop(ev) {
+       ev.preventDefault();
+       var data = ev.dataTransfer.getData("text");
+       
+       var comisie='';
+       if(ev.target.id == '' || ev.target.id.includes('t'))
+       {comisie=ev.target.parentElement.id;
+       ev.target.parentElement.appendChild(document.getElementById(data));}
+       else 
+       {comisie=ev.target.id;
+ev.target.appendChild(document.getElementById(data));
+}
+
+   document.getElementById('i'+data).value = comisie;
+   }
+&lt;/script&gt;
+{{/html}}
+{{/velocity}}
+</content>
+</xwikidoc>
