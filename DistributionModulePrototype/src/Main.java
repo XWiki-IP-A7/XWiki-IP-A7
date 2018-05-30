@@ -26,7 +26,7 @@ public class Main {
         final int noOfTeachers = 41;
         final int noOfCommittees = 6;
         final double teachersPerCommittee = 4;
-
+// merge git
         //Adding teachers
         List<Teacher> teachers = new ArrayList<>();
         for (int i = 0; i < noOfTeachers; i++) {
