@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Note.Raport" locale="">
-  <web>BachelorsAndMastersManagement.Note</web>
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Note.Code.Raport" locale="">
+  <web>BachelorsAndMastersManagement.Note.Code</web>
   <name>Raport</name>
   <language/>
   <defaultLanguage></defaultLanguage>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1356998400000</creationDate>
-  <parent>Main.WebHome</parent>
+  <parent>xwiki:BachelorsAndMastersManagement.Note.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1356998400000</date>
@@ -18,7 +18,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{include reference="BachelorsAndMastersManagement.Note.Code.NotaMacros"/}}
 
 {{velocity}}
@@ -46,41 +46,56 @@
 {{velocity}}
 \\
 \\
+
+#if($doc.fullName.contains(".Masters."))
+  #set($tipExamen = "master")
+#else
+  #set($tipExamen = "licenta")
+#end
+
+#getNotaCommittee($tipExamen)
+
 #set($Integer = 0)
-#set($tipExamen = "licență")
-#set($numeDecan = "Conf. univ. dr. Adrian Iftene")
 #set($nrCrt = 1)
 
-
-
 (% class="titlu" style="text-transform: uppercase;text-align:center" %)(((== REZULTATE FINALE LA EXAMENUL DE $tipExamen==
-\\ 
+\\
 )))
 
+#set($studenti = [])
+#set($note = {})
+#getNotaStudents($tipExamen)
+#foreach($student in $notaStudents)
+  #set($discard = $studenti.add($student))
+  #set($note[$student] = [])
+#end
 
 #set($probe = [])
-#set($note = {})
-#foreach($user in $xwiki.rightsmanager.usersApi.allUsersNames)
+#foreach($user in $studenti)
   #getNotaPage($user)
   #foreach($nota in $notaPage.getObjects($notaClass))
-    #if(!$note.containsKey($nota.student))
-      #set($note[$nota.student] = [])
-    #end
-    #set($discard = $note[$nota.student].add($nota))
+    #set($student = $nota.getProperty("student").value)
+    #set($discard = $note[$student].add($nota))
     #if(!$probe.contains($nota.proba))
       #set($discard = $probe.add($nota.proba))
     #end
   #end
 #end
-#set($discard = $probe.sort())
+#if($probe.size() == 0)
+  #set($discard = $probe.add("probe"))
+#end
+
+#set($proba = $sorttool.sort($probe))
+#set($studenti = $sorttool.sort($studenti))
 (% class="myClass" style="border-collapse:collapse;background-color:white" %)(((
 (%style="font-size:12px;font-style: italic;border: 1px solid black;border-collapse: collapse"%)
-|=(%style="width:20px;text-align:center;border: 1px solid black;background-color:white"%)Nr. crt.|=(%style="width:190px;text-align:center;border: 1px solid black;vertical-align: middle;background-color:white"%)Numele și prenumele#foreach($proba in $probe)|=(%style="width:50px;text-align:center;border: 1px solid black;background-color:white"%)Media la $proba#end|=(%style="width:70px;text-align:center;border: 1px solid black;background-color:white"%)Media finală a ex de $tipExamen|=(%style="width:70px;text-align:center;border: 1px solid black;vertical-align: middle;background-color:white"%)Observatii
+|=(%style="width:20px;text-align:center;border: 1px solid black;background-color:white"%)Nr. crt.|=(%style="width:190px;text-align:center;border: 1px solid black;vertical-align: middle;background-color:white"%)Numele și prenumele\\Titlul proiectului#foreach($proba in $probe)|=(%style="width:50px;text-align:center;border: 1px solid black;background-color:white"%)Media la $proba#end|=(%style="width:70px;text-align:center;border: 1px solid black;background-color:white"%)Media finală a ex de $tipExamen|=(%style="width:70px;text-align:center;border: 1px solid black;vertical-align: middle;background-color:white"%)Observatii
 (%style="font-size:12px;font-style: normal;border: 1px solid black;border-collapse: collapse"%)
-#foreach($pair in $note.entrySet())
+#foreach($student in $studenti)
+  #set($vals = $note[$student])
   #set($numNote = {})
   #set($sumNote = {})
-  #foreach($nota in $pair.value)
+  #foreach($nota in $vals)
     #if(!$numNote.containsKey($nota.proba))
       #set($numNote[$nota.proba] = 0)
       #set($sumNote[$nota.proba] = 0)
@@ -110,19 +125,33 @@
     #set($medieFin = "-")
   #end
   ##
-  |(%style="width:20px;text-align:center;border-bottom:1px;border: 1px solid black"%)$nrCrt|(%style="width:190px;text-align:left;border: 1px solid black;text-transform: uppercase"%)$pair.key#foreach($proba in $probe)|(%style="width:50px;text-align:center;border: 1px solid black"%)$medii.getOrDefault($proba, "-")#end|(%style="width:70px;text-align:center;border: 1px solid black"%)$medieFin|(%style="width:70px;text-align:center;border: 1px solid black"%)$observatii
+  |(%style="width:20px;text-align:center;border-bottom:1px;border: 1px solid black"%)$nrCrt|(%style="width:190px;text-align:left;border: 1px solid black;text-transform: uppercase"%) $xwiki.getUserName($student, false)\\ $notaStudentProjects[$student]#foreach($proba in $probe)|(%style="width:50px;text-align:center;border: 1px solid black"%)$medii.getOrDefault($proba, "-")#end|(%style="width:70px;text-align:center;border: 1px solid black"%)$medieFin|(%style="width:70px;text-align:center;border: 1px solid black"%)$observatii
   #set($nrCrt = $nrCrt + 1)
 #end
 )))
 
-Afișat $datetool.get('dd.MM.yyyy'), ora $datetool.get('H')
-//
-(% class="myClass" style="font-weight: bold;font-size:12px;text-align:center" %)(((
-//
-==== DECAN,====
+## Afișat $datetool.get('dd.MM.yyyy'), ora $datetool.get('H')
+\\
 
-==== $numeDecan====
+|(% class="myClass" style="font-weight: bold;font-size:12px;text-align:center" %)(((
+#foreach($entry in $notaCommittee)
+#if($entry[3] &lt;= 2)
+==== $stringtool.upperCase($entry[0]), ====
+==== $entry[1] ====
+\\
+\\
+#end
+#end
 
+)))|(% class="myClass" style="font-weight: bold;font-size:12px;text-align:center" %)(((
+#foreach($entry in $notaCommittee)
+#if($entry[3] &gt; 2)
+==== $stringtool.upperCase($entry[0]), ====
+==== $entry[1] ====
+\\
+\\
+#end
+#end
 )))
 {{/velocity}}</content>
 </xwikidoc>

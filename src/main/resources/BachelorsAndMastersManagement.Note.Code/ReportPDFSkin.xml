@@ -244,17 +244,52 @@
       <logo/>
     </property>
     <property>
-      <name/>
+      <name>Skin PDF Raport</name>
     </property>
     <property>
       <outputSyntax>html/5.0</outputSyntax>
     </property>
     <property>
-      <pdfheader.vm>
-#set($tipExamen = "LICENȚĂ")
-#set($sesiune = "Iulie 2018")
+      <pdfheader.vm>##Get SetupData object
+#set($dataDoc = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData'))
+#set($obj = $dataDoc.getObject('BachelorsAndMastersManagement.Setup.SetupData'))
+#set($evaluationPeriodStart = $obj.getProperty('evaluationPeriodStart'))
+#set($evaluationPeriodStartHTMLYear = 1900+$evaluationPeriodStart.value.getYear())
+#set($evaluationPeriodStartHTMLMonth = $evaluationPeriodStart.value.getMonth()+1)
+#set($luna ="")
+#if($evaluationPeriodStartHTMLMonth == 1)
+  #set($luna = "Ianuarie")
+#elseif($evaluationPeriodStartHTMLMonth == 2)
+  #set($luna= "Februarie")
+#elseif($evaluationPeriodStartHTMLMonth == 3)
+  #set($luna= "Martie")
+#elseif($evaluationPeriodStartHTMLMonth == 4)
+  #set($luna= "Aprilie")
+#elseif($evaluationPeriodStartHTMLMonth == 5)
+  #set($luna= "Mai")
+#elseif($evaluationPeriodStartHTMLMonth == 6)
+  #set($luna= "Iunie")
+#elseif($evaluationPeriodStartHTMLMonth == 7)
+  #set($luna= "Iulie")
+#elseif($evaluationPeriodStartHTMLMonth == 8)
+  #set($luna= "August")
+#elseif($evaluationPeriodStartHTMLMonth == 9)
+  #set($luna= "Septembrie")
+#elseif($evaluationPeriodStartHTMLMonth == 10)
+  #set($luna= "Octombrie")
+#elseif($evaluationPeriodStartHTMLMonth == 11)
+  #set($luna= "Noiembrie")
+#elseif($evaluationPeriodStartHTMLMonth == 12)
+  #set($luna= "Decembrie")
+#end
 
-&lt;html&gt;
+#if($doc.fullName.contains(".Masters."))
+  #set($tipExamen = "MASTER")
+#else
+  #set($tipExamen = "LICENTA")
+#end
+#set($sesiune = "$luna $evaluationPeriodStartHTMLYear")
+
 &lt;style&gt;
 th,td,tr {
   background-color:white;
@@ -278,8 +313,7 @@ th,td,tr {
     &lt;td class="coll3" style="text-align:right; width: 210px; font-size: 10px;"&gt; Sesiunea $sesiune &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-
-&lt;/html&gt;</pdfheader.vm>
+</pdfheader.vm>
     </property>
     <property>
       <style.css/>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Note.TabelNotare" locale="">
-  <web>BachelorsAndMastersManagement.Note</web>
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Note.Code.TabelNotare" locale="">
+  <web>BachelorsAndMastersManagement.Note.Code</web>
   <name>TabelNotare</name>
   <language/>
   <defaultLanguage></defaultLanguage>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1356998400000</creationDate>
-  <parent>xwiki:BachelorsAndMastersManagement.Note.WebHome</parent>
+  <parent>xwiki:BachelorsAndMastersManagement.Note.Code.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1356998400000</date>
@@ -18,7 +18,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{include reference="BachelorsAndMastersManagement.Note.Code.NotaMacros"/}}
 
 {{velocity}}
@@ -76,6 +76,14 @@ xcontext.put('propertyCustomDisplayer', new PropertyCustomDisplayer(xcontext))
 {{/groovy}}
 
 {{velocity}}
+#if($doc.fullName.contains(".Masters."))
+  #set($tipExamen = "master")
+#else
+  #set($tipExamen = "licenta")
+#end
+
+#getNotaCommittee($tipExamen)
+
 {{html clean="false" wiki="true"}}
 
 #if("$!request.nota_go" == "yes")
@@ -114,8 +122,9 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 (% class="sortable doOddEven" id="tableid" %)
 (% class="sortHeader" %)|=Nume|=Prenume#foreach($proba in $probe)|=Notă $proba#end
 
+#getNotaStudents()
 #set($obj = $doc.newObject($className))
-#foreach($user in $xwiki.rightsmanager.usersApi.allUsersNames)
+#foreach($user in $notaStudents)
   #set($fields = {})
   #set($userObj = $xwiki.getDocument($user).getObject("XWiki.XWikiUsers"))
   #foreach($proba in $probe)
@@ -175,12 +184,14 @@ for (var i = 0; i &lt; inputs.length; i++) {
 }
 
 var promptBeforeLeave = true;
-form.onsubmit = function() {
+form.addEventListener("submit", function() {
   promptBeforeLeave = false;
-};
-window.onbeforeunload = function() {
+});
+window.onbeforeunload = function(e) {
+  console.log("Triggered beforeunload");
   if (promptBeforeLeave &amp;&amp; countEditedFields() &gt; 0) {
-    return "Sigur doriti sa parasiti pagina? Aveti modificari nesalvate.";
+    e.returnValue = "Sigur doriti sa parasiti pagina? Aveti modificari nesalvate.";
+    return e.returnValue;
   }
 };
 &lt;/script&gt;

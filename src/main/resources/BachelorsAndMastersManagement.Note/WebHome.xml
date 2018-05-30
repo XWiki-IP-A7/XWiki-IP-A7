@@ -30,9 +30,21 @@
 {{/velocity}}
 
 {{velocity}}
+(% style="text-align: center" %)
+== Licenta ==
 {{html}}
-&lt;a href="$xwiki.getURL("TabelNotare")" class="button" style="width: 48%"&gt;Adaugare note&lt;/a&gt;
-&lt;a href="$xwiki.getURL("Raport")" class="button" style="width: 48%; float: right"&gt;Generare raport&lt;/a&gt;
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Bachelors.TabelNotare")" class="button" style="width: 48%"&gt;Adaugare note&lt;/a&gt;
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Bachelors.Raport")" class="button" style="width: 48%; float: right"&gt;Generare raport&lt;/a&gt;
+{{/html}}
+
+\\
+\\
+
+(% style="text-align: center" %)
+== Master ==
+{{html}}
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Masters.TabelNotare")" class="button" style="width: 48%"&gt;Adaugare note&lt;/a&gt;
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Masters.Raport")" class="button" style="width: 48%; float: right"&gt;Generare raport&lt;/a&gt;
 {{/html}}
 {{/velocity}}
 </content>
