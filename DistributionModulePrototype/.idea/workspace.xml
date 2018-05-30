@@ -15,31 +15,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="94" column="12" selection-start-line="94" selection-start-column="12" selection-end-line="94" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constraint.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Models/Constraint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-              <folding>
-                <element signature="e#305#306#0" expanded="true" />
-                <element signature="e#344#345#0" expanded="true" />
-                <element signature="e#376#377#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Committee.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Models/Committee.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="105" column="41" selection-start-line="105" selection-start-column="41" selection-end-line="105" selection-end-column="41" />
+            <state relative-caret-position="252">
+              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -50,8 +27,8 @@
       <file leaf-file-name="Teacher.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Models/Teacher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+            <state relative-caret-position="226">
+              <caret line="39" column="22" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -59,13 +36,70 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Committee.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Models/Committee.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="163">
+              <caret line="165" column="24" selection-start-line="165" selection-start-column="24" selection-end-line="165" selection-end-column="24" />
+              <folding>
+                <element signature="e#3785#3786#0" expanded="true" />
+                <element signature="e#3845#3846#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Schedule.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Models/Schedule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1260">
+              <caret line="78" column="24" selection-start-line="78" selection-start-column="24" selection-end-line="78" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GenericScheduler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Models/GenericScheduler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Secretary.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Models/Secretary.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Student.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Models/Student.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DegreeDistributionAlgorithm.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Algorithm/DegreeDistributionAlgorithm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="8" column="111" lean-forward="true" selection-start-line="8" selection-start-column="111" selection-end-line="8" selection-end-column="111" />
+            <state relative-caret-position="20">
+              <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DistributionModulePrototype.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DistributionModulePrototype.iml">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -86,6 +120,12 @@
       <find>coordonation</find>
       <find>coordination</find>
       <find>new Pair&lt;&gt;</find>
+      <find>CommitteeRepartition</find>
+      <find>TeacherRepartition</find>
+      <find>getFulles</find>
+      <find>getFullestTe</find>
+      <find>getFullest</find>
+      <find>getFullestC</find>
     </findStrings>
     <replaceStrings>
       <replace>Committee</replace>
@@ -93,6 +133,8 @@
       <replace>coordination</replace>
       <replace>coordinations</replace>
       <replace>new Coordination</replace>
+      <replace>TeacherRepartition</replace>
+      <replace>StudentRepartition</replace>
     </replaceStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -102,13 +144,19 @@
         <option value="$PROJECT_DIR$/src/Models/Comitee.java" />
         <option value="$PROJECT_DIR$/src/Models/Coordination.java" />
         <option value="$PROJECT_DIR$/src/Models/Student.java" />
-        <option value="$PROJECT_DIR$/src/Models/Teacher.java" />
         <option value="$PROJECT_DIR$/src/Constraints/HardConstraint.java" />
         <option value="$PROJECT_DIR$/src/Constraints/SoftConstraint.java" />
-        <option value="$PROJECT_DIR$/src/Models/Repartition.java" />
         <option value="$PROJECT_DIR$/src/Constraints/Constraint.java" />
         <option value="$PROJECT_DIR$/src/Models/Constraint.java" />
+        <option value="$PROJECT_DIR$/src/Models/Repartition.java" />
+        <option value="$PROJECT_DIR$/src/Models/Teacher.java" />
+        <option value="$PROJECT_DIR$/src/Models/CommitteeRepartition.java" />
+        <option value="$PROJECT_DIR$/src/Models/Schedule.java" />
+        <option value="$PROJECT_DIR$/src/Models/TeacherRepartition.java" />
+        <option value="$PROJECT_DIR$/src/Models/GenericRepartition.java" />
         <option value="$PROJECT_DIR$/src/Algorithm/DistributionAlgorithm.java" />
+        <option value="$PROJECT_DIR$/src/Models/GenericScheduler.java" />
+        <option value="$PROJECT_DIR$/src/Models/StudentRepartition.java" />
         <option value="$PROJECT_DIR$/src/Algorithm/DegreeDistributionAlgorithm.java" />
         <option value="$PROJECT_DIR$/src/Models/Committee.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
@@ -140,7 +188,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -171,6 +218,7 @@
       </pane>
       <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -266,12 +314,16 @@
       <workItem from="1525941094055" duration="3344000" />
       <workItem from="1526055903351" duration="48000" />
       <workItem from="1526301726248" duration="6534000" />
-      <workItem from="1526820480660" duration="6849000" />
+      <workItem from="1526820480660" duration="7782000" />
+      <workItem from="1526919435687" duration="7549000" />
+      <workItem from="1526928336995" duration="4753000" />
+      <workItem from="1526979898737" duration="5509000" />
+      <workItem from="1527078749312" duration="16381000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33948000" />
+    <option name="totallyTimeSpent" value="69073000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -291,7 +343,7 @@
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20067114" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21140939" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -319,45 +371,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="42" column="24" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Secretary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Committee.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="47" column="68" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Repartition.java" />
-    <entry file="file://$PROJECT_DIR$/src/Algorithm/DistributionAlgorithm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Student.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Algorithm/DegreeDistributionAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
@@ -384,12 +397,13 @@
         <state relative-caret-position="880">
           <caret line="47" column="68" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3785#3786#0" expanded="true" />
+            <element signature="e#3845#3846#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Repartition.java" />
+    <entry file="file://$PROJECT_DIR$/src/Models/StudentRepartition.java" />
     <entry file="file://$PROJECT_DIR$/src/Algorithm/DistributionAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -416,12 +430,13 @@
         <state relative-caret-position="460">
           <caret line="26" column="40" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3785#3786#0" expanded="true" />
+            <element signature="e#3845#3846#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Repartition.java" />
+    <entry file="file://$PROJECT_DIR$/src/Models/StudentRepartition.java" />
     <entry file="file://$PROJECT_DIR$/src/Models/Teacher.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -451,12 +466,13 @@
         <state relative-caret-position="391">
           <caret line="26" column="40" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3785#3786#0" expanded="true" />
+            <element signature="e#3845#3846#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Repartition.java" />
+    <entry file="file://$PROJECT_DIR$/src/Models/StudentRepartition.java" />
     <entry file="file://$PROJECT_DIR$/src/Main.java" />
     <entry file="file://$PROJECT_DIR$/src/Algorithm/DegreeDistributionAlgorithm.java" />
     <entry file="file://$PROJECT_DIR$/src/Models/Teacher.java">
@@ -488,12 +504,13 @@
         <state relative-caret-position="200">
           <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3785#3786#0" expanded="true" />
+            <element signature="e#3845#3846#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Repartition.java" />
+    <entry file="file://$PROJECT_DIR$/src/Models/StudentRepartition.java" />
     <entry file="file://$PROJECT_DIR$/src/Algorithm/DistributionAlgorithm.java" />
     <entry file="file://$PROJECT_DIR$/src/Models/Coordination.java" />
     <entry file="file://$PROJECT_DIR$/src/Main.java" />
@@ -521,11 +538,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Repartition.java" />
+    <entry file="file://$PROJECT_DIR$/src/Models/StudentRepartition.java" />
     <entry file="file://$PROJECT_DIR$/src/Models/Comitee.java" />
     <entry file="file://$PROJECT_DIR$/src/Main.java" />
     <entry file="file://$PROJECT_DIR$/src/Models/Comitee.java" />
     <entry file="file://$PROJECT_DIR$/src/Models/Coordination.java" />
+    <entry file="file://$PROJECT_DIR$/src/Constraints/SoftConstraint.java" />
+    <entry file="file://$PROJECT_DIR$/src/Constraints/HardConstraint.java" />
+    <entry file="file://$PROJECT_DIR$/src/Constraints/Constraint.java" />
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/lang/Integer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="58" column="19" selection-start-line="58" selection-start-column="19" selection-end-line="58" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Models/CommitteeRepartition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="33" column="21" lean-forward="true" selection-end-line="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Algorithm/DistributionAlgorithm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Models/TeacherRepartition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="83">
+          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#353#354#0" expanded="true" />
+            <element signature="e#383#384#0" expanded="true" />
+            <element signature="e#427#428#0" expanded="true" />
+            <element signature="e#459#460#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Models/Secretary.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -533,13 +594,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Repartition.java" />
-    <entry file="file://$PROJECT_DIR$/src/Constraints/SoftConstraint.java" />
-    <entry file="file://$PROJECT_DIR$/src/Constraints/HardConstraint.java" />
-    <entry file="file://$PROJECT_DIR$/src/Constraints/Constraint.java" />
+    <entry file="file://$PROJECT_DIR$/src/Models/Teacher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="39" column="22" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Models/Student.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
+        <state relative-caret-position="420">
           <caret line="25" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
@@ -556,44 +623,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Algorithm/DistributionAlgorithm.java">
+    <entry file="file://$PROJECT_DIR$/src/Models/Schedule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="1260">
+          <caret line="78" column="24" selection-start-line="78" selection-start-column="24" selection-end-line="78" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/Teacher.java">
+    <entry file="file://$PROJECT_DIR$/src/Models/GenericScheduler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+        <state relative-caret-position="100">
+          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Models/StudentRepartition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#337#338#0" expanded="true" />
+            <element signature="e#367#368#0" expanded="true" />
+            <element signature="e#404#405#0" expanded="true" />
+            <element signature="e#435#436#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DistributionModulePrototype.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Algorithm/DegreeDistributionAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="8" column="111" lean-forward="true" selection-start-line="8" selection-start-column="111" selection-end-line="8" selection-end-column="111" />
+        <state relative-caret-position="20">
+          <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Models/Committee.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="105" column="41" selection-start-line="105" selection-start-column="41" selection-end-line="105" selection-end-column="41" />
+        <state relative-caret-position="163">
+          <caret line="165" column="24" selection-start-line="165" selection-start-column="24" selection-end-line="165" selection-end-column="24" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3785#3786#0" expanded="true" />
+            <element signature="e#3845#3846#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="94" column="12" selection-start-line="94" selection-start-column="12" selection-end-line="94" selection-end-column="12" />
+        <state relative-caret-position="252">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

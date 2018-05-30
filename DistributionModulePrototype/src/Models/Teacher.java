@@ -34,6 +34,12 @@ public class Teacher {
         return students;
     }
 
+    public int getNumberOfStudents() {
+        if (students != null)
+            return students.size();
+        else return 0;
+    }
+
     public void addStudent(Student student) {
         if (students == null)
             students = new ArrayList<>();
