@@ -8,9 +8,9 @@ public class Committee
     private List<Teacher> committee = new ArrayList<>();
     private List<Teacher> auxiliaryTeachers;
     private List<Teacher> constraintTeachers;
-    private String id;
+    private int id;
 
-    public Committee(String id)
+    public Committee(int id)
     {
         this.id = id;
         committee = new ArrayList<>();
@@ -29,7 +29,7 @@ public class Committee
         }
     }
 
-    public String getId()
+    public int getId()
     {
         return id;
     }
@@ -66,6 +66,13 @@ public class Committee
         return teacherList;
     }
 
+    public  int getCommitteeCount()
+    {
+        if(committee ==  null)
+            return 0;
+        else
+            return committee.size();
+    }
     public List<Teacher> getAuxiliaryTeachers()
     {
         if (auxiliaryTeachers != null)

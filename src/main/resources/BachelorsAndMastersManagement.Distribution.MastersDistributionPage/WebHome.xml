@@ -22,25 +22,48 @@
   <content>{{velocity}}
 {{html}}
 #set($algoritm = $services.hello.run())
-#set($discard = $algoritm.setNoOfStudents(120))
-#set($discard = $algoritm.setNoOfCommittees(3))
-#set($discard = $algoritm.setNoOfTeachers(25))
-#set($discard = $algoritm.setTeachersPerCommittee(5))
+#set($discard = $algoritm.setNoOfStudents(240))
+#set($discard = $algoritm.setTeachersPerCommittee(4))
 
-#set($start = 0)
-#set($end = 25)
-#set($range = [$start..$end])
-#set($prof='prof')
-#foreach($i in $range)
-   #set($discard = $algoritm.addTeacher($i,"$prof$i"))
+
+#set($i = 0)
+#set($docName='XWiki.Profs')
+#set ($doc = $xwiki.getDocument($docName))
+#foreach ($obj in $doc.getObjects('XWiki.XWikiGroups'))
+ #if ($obj.getProperty('member').value != '')
+ #set($discard = $algoritm.addTeacher($i,$obj.getProperty('member').value))
+ #set($i = $i+1)
+   #set($start1 = 0)
+   #set($end1 = 5)
+   #set($range1 = [$start1..$end1])
+   #foreach($j in $range1)
+   #set($stud = 'Student ')
+   #set($studNum = $i*$j)
+   #set($discard = $algoritm.addStudent("$stud$studNum",$obj.getProperty('member').value))
+   #end
+ #end
 #end
 
 
-#set($discard = $algoritm.addCommittee('c1','prof1','prof2','prof3','prof4','prof13'))
-#set($discard = $algoritm.addCommittee('c2','prof5','prof6','prof7','prof8','prof14'))
-#set($discard = $algoritm.addCommittee('c3','prof9','prof10','prof11','prof12','prof15'))
+#set($discard = $algoritm.setNoOfTeachers($i))
 
-#set($discard = $algoritm.setStudents())
+#set ($i = 0)
+
+#set($docName='BachelorsAndMastersManagement.Setup.SetupData')
+#set ($doc = $xwiki.getDocument($docName))
+#set($count = 0)
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Setup.MastersCommittee"))
+      #set($count = $count + 1)
+      #set($discard = $algoritm.addCommittee($obj.getProperty('id').value,$obj.getProperty('head').value,$obj.getProperty('secretary').value, $obj.getProperty('member1').value, $obj.getProperty('member2').value, $obj.getProperty('member3').value))
+#end
+
+
+
+#set($discard = $algoritm.setNoOfCommittees($count))
+
+
+
+
 
 #set ($docName = 'BachelorsAndMastersManagement.Distribution.MastersConstraints')
 #set ($doc = $xwiki.getDocument($docName))
@@ -53,45 +76,75 @@
 
 #set($comisii = $algoritm.run())
 
-
-#set ($dragid =  0)
-
 #set ($number = 0)
 #foreach($comisie in $comisii)
 #set ($number = $number + 1)
-#set ($docName = 'BachelorsAndMastersManagement.Setup.Committees.MastersCommittees.Committee-Nr ' + $number)
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.Committees.MastersCommittees.Committee-Nr ' +$number)
 #set ($doc = $xwiki.getDocument($docName))
-#set ($obj = $doc.getObject('BachelorsAndMastersManagement.Setuo.MastersCommittee'))
+#set ($obj = $doc.getObject('BachelorsAndMastersManagement.Distribution.MastersCommitteeRepartitionClass'))
 #if (!$doc.isNew())
-#set($class = $xwiki.getClass("AppWithinMinutes.String"))
+#set($class = $xwiki.getClass("AppWithinMinutes.Users"))
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.Users"))
+        #set($discard = $doc.removeObject($obj))
+      #end
       #foreach($obj in $doc.getObjects("AppWithinMinutes.String"))
         #set($discard = $doc.removeObject($obj))
       #end
+      #foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.StudentTeacherClass"))
+        #set($discard = $doc.removeObject($obj))
+      #end
 #else
-#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass'))
+#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.MastersCommitteeRepartitionClass'))
 #end
 
 #set($i=0)
-#set ($others = []) 
+
+#set ($teacherList = [])
+
 #foreach($teacher in $comisie.getCommitteeTeachers() )
-#set ($discard = $others.add($doc.newObject('AppWithinMinutes.String')))
-#set ($discard = $others[$i].set('shortText', $teacher.getName()))
+#set ($studentList = [])
+#set ($studentCount = 0)
+#set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
+#set ($discard = $teacherList[$i].set('user', $teacher.getName()))
+#foreach($student in $teacher.getStudents())
+#set ($discard = $studentList.add($doc.newObject('BachelorsAndMastersManagement.Distribution.StudentTeacherClass')))
+#set ($discard = $studentList[$studentCount].set('student', $student.getName()))
+#set ($discard = $studentList[$studentCount].set('teacher', $teacher.getName()))
+#set ($studentCount = $studentCount + 1)
+#end
 #set($i=$i+1)
 #end
+
 #foreach($teacher in $comisie.getConstraintTeachers() )
-#set ($discard = $others.add($doc.newObject('AppWithinMinutes.String')))
-#set ($discard = $others[$i].set('shortText', $teacher.getName()))
+#set ($studentList = [])
+#set ($studentCount = 0)
+#set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
+#set ($discard = $teacherList[$i].set('user', $teacher.getName()))
+#foreach($student in $teacher.getStudents())
+#set ($discard = $studentList.add($doc.newObject('BachelorsAndMastersManagement.Distribution.StudentTeacherClass')))
+#set ($discard = $studentList[$studentCount].set('student', $student.getName()))
+#set ($discard = $studentList[$studentCount].set('teacher', $teacher.getName()))
+#set ($studentCount = $studentCount + 1)
+#end
 #set($i=$i+1)
 #end
 #foreach($teacher in $comisie.getAuxiliaryTeachers() )
-#set ($discard = $others.add($doc.newObject('AppWithinMinutes.String')))
-#set ($discard = $others[$i].set('shortText', $teacher.getName()))
+#set ($studentList = [])
+#set ($studentCount = 0)
+#set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
+#set ($discard = $teacherList[$i].set('user', $teacher.getName()))
+#foreach($student in $teacher.getStudents())
+#set ($discard = $studentList.add($doc.newObject('BachelorsAndMastersManagement.Distribution.StudentTeacherClass')))
+#set ($discard = $studentList[$studentCount].set('student', $student.getName()))
+#set ($discard = $studentList[$studentCount].set('teacher', $teacher.getName()))
+#set ($studentCount = $studentCount + 1)
+#end
 #set($i=$i+1)
 #end
 #set ($discard = $doc.save())
 #end
 
-
+#set ($dragid = 0)
 #set ($number = 0)
 &lt;form action="#" method="POST" &gt;
 &lt;div style="display: grid;
@@ -100,24 +153,24 @@
   padding: 10px;"&gt;
    #foreach($comisie in $comisii)
    #set ($number = $number + 1)
-   &lt;div  id=c$number style="border: thin solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondrop="drop(event)" ondragover="allowDrop(event)"&gt;
+   &lt;div  id=$comisie.getId() style="border: thin solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondrop="drop(event)" ondragover="allowDrop(event)"&gt;
       ##div-ul comisiei
-      &lt;div style="margin-top: 10px; border-bottom: thin solid black; " &gt;&lt;b&gt;Comisia $number&lt;/b&gt;&lt;/div&gt;
+      &lt;div style="margin-top: 10px; border-bottom: thin solid black; " &gt;&lt;b&gt; Comisia $comisie.getId()&lt;/b&gt;&lt;/div&gt;
       #foreach($teacher in $comisie.getCommitteeTeachers() )
-      &lt;div style="padding-left: 10px; margin-top: 2px"&gt; $teacher &lt;/div&gt;
+      &lt;div style="padding-left: 10px; margin-top: 2px"&gt;  $xwiki.getUserName($teacher.getName()) &lt;/div&gt;
       #end
       #foreach($teacher in $comisie.getConstraintTeachers() )
       #set ($dragid = $dragid + 1)
       ##div-ul unui prof care poate fi mutat
       &lt;div style="border: thin solid red; border-radius: 20px; padding-left: 10px;margin-bottom: 2px; margin-top: 2px;" id=t$dragid " &gt;
-         $teacher 
+         $xwiki.getUserName($teacher.getName())
       &lt;/div&gt;
       #end
       #foreach($teacher in $comisie.getAuxiliaryTeachers() )
       #set ($dragid = $dragid + 1)
       &lt;div style="border: thin solid green; padding-left: 10px; border-radius: 20px; margin-bottom: 2px; margin-top: 2px;" id=t$dragid draggable="true" ondragstart="drag(event)" &gt;
       &lt;input type="hidden" id=it$dragid name=$teacher.getName() value=''&gt;
-         $teacher
+          $xwiki.getUserName($teacher.getName())
       &lt;/div&gt;
       #end
    &lt;/div&gt;
@@ -200,6 +253,5 @@ ev.target.appendChild(document.getElementById(data));
    }
 &lt;/script&gt;
 {{/html}}
-{{/velocity}}
-</content>
+{{/velocity}}</content>
 </xwikidoc>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Distribution.MastersCommitteeRepartitionSheet" locale="">
+  <web>BachelorsAndMastersManagement.Distribution</web>
+  <name>MastersCommitteeRepartitionSheet</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>BachelorsAndMastersManagement.Distribution.MastersCommitteeRepartitionClass</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>#if($doc.name == 'MastersCommitteeRepartitionSheet')MastersCommitteeRepartition Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+{{html}}
+
+
+#set($algoritm = $services.hello.run())
+#set($i = 0)
+
+      #set($class = $xwiki.getClass("AppWithinMinutes.Users"))
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.Users"))
+       #set($discard = $algoritm.addTeacher($i,$obj.getProperty('user').value))
+     #set($i = $i+1)
+   #set($discard = $algoritm.addToCommittee($obj.getProperty('user').value))
+#end
+
+
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.StudentTeacherClass"))
+   #set($discard = $algoritm.addStudent($obj.getProperty('student').value,$obj.getProperty('teacher').value))
+#end
+
+#set($repartizari = $algoritm.repartitionStudents())
+
+#set ($documentName = 'BachelorsAndMastersManagement.Distribution.TimeConstraints.MastersConstraints'+$doc.getName())
+#set ($document = $xwiki.getDocument($documentName))
+#foreach($obj in $document.getObjects("BachelorsAndMastersManagement.Distribution.TimeConstraintClass"))
+  #set($repartizari = $algoritm.switchRepartitions($repartizari,$obj.getProperty('student').value,$obj.getProperty('position').value))
+#end
+
+#set($dragid = 0)
+
+
+
+&lt;form action="#" method="POST" &gt;
+&lt;div style="display: grid;
+   grid-template-columns: 70% 30% ;
+  grid-gap: 0px;
+  padding: 0px;"&gt;
+   &lt;table style="border: 1px solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondragover="allowDrop(event)"&gt;
+       &lt;tr&gt;
+    &lt;th&gt;Student&lt;/th&gt;
+    &lt;th&gt;Profesor&lt;/th&gt;
+    &lt;th&gt;Proiect&lt;/th&gt;
+    &lt;/tr&gt;
+      #foreach($student in $repartizari)
+      #set ($dragid = $dragid + 1)
+      &lt;tr style=" padding-left: 10px;margin-bottom: 2px; margin-top: 2px;" id=$dragid draggable="true" ondragstart="drag(event)" ondrop="drop(event)"&gt;
+      &lt;td&gt;
+      &lt;input type="hidden" id=i$dragid name=$student.getStudent().getName().replace(' ','') value=''&gt;
+         $student.getStudent().getName()
+         &lt;/td&gt;
+         &lt;td&gt;$xwiki.getUserName($student.getStudent().getCoordinator().getName())&lt;/td&gt;
+         &lt;td&gt;
+         Proiect de cercetare 
+         &lt;/td&gt;
+      &lt;/tr&gt;
+      #end
+&lt;/table&gt;
+
+&lt;table style="border: 1px solid black;"&gt;
+&lt;tr&gt;
+&lt;th&gt; Programare &lt;/th&gt;
+&lt;/tr&gt;
+#foreach($student in $repartizari)
+&lt;tr &gt;
+&lt;td&gt;
+Ziua $student.getSchedule().getDay(), $student.getSchedule().toString()
+&lt;/td&gt;
+&lt;/tr&gt;
+#end
+&lt;/table&gt;
+   &lt;/div&gt;
+
+
+#set ($documentName = 'BachelorsAndMastersManagement.Distribution.TimeConstraints.MastersConstraints.'+$doc.getName())
+#set ($document = $xwiki.getDocument($documentName))
+#foreach($student in $repartizari)
+#if ($request.get('submit'))
+#set($nume = $student.getStudent().getName().replace(' ','') )
+#set($pozitie=$request.get($nume))
+#if($pozitie != '')
+#set ($obj = $document.newObject('BachelorsAndMastersManagement.Distribution.TimeConstraintClass'))
+#set ($discard = $obj.set('student', $student.getStudent().getName()))
+#set ($discard = $obj.set('position', $pozitie))
+#end
+#end
+#set ($discard = $document.save())
+#end
+
+
+#if ($request.get('reset'))
+#set ($documentName = 'BachelorsAndMastersManagement.Distribution.TimeConstraints.MastersConstraints.'+$doc.getName())
+#set ($document = $xwiki.getDocument($documentName))
+#foreach($obj in $document.getObjects("BachelorsAndMastersManagement.Distribution.TimeConstraintClass"))
+  #set($discard = $document.removeObject($obj))
+#end
+#set($discard =$document.save())
+#end
+
+
+  &lt;p align="center"&gt;
+      &lt;input name="submit" type="submit" value="Salvare" class="button" &gt;
+   &lt;/p&gt;
+   &lt;p align="center"&gt;
+      &lt;input name="reset" type="submit" value="Reset" class="button"&gt;
+   &lt;/p&gt;
+
+&lt;/form&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+   function allowDrop(ev) {
+       ev.preventDefault();
+   }
+
+   function drag(ev) {
+       ev.dataTransfer.setData("text", ev.target.id);
+
+   }
+   
+//window.addEventListener('DOMContentLoaded', plsWork, false);
+// ^ autorefresher
+
+   function plsWork()
+{
+if(localStorage.getItem("refresh") !== "yes"){
+window.location.reload();
+localStorage.setItem("refresh","yes");
+}
+else
+localStorage.removeItem("refresh");
+}
+
+   function drop(ev) {
+       ev.preventDefault();
+       var data = ev.dataTransfer.getData("text");
+       ev.target.parentElement.parentElement.insertBefore(document.getElementById(data),ev.target.parentElement.nextSibling);
+       document.getElementById('i'+data).value = ev.target.parentElement.id;
+       // inserts after the target
+       }
+&lt;/script&gt;
+
+
+
+{{/html}}
+{{/velocity}}
+
+
+ </content>
+</xwikidoc>

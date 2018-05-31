@@ -92,6 +92,6 @@ public class Schedule implements Comparable {
 
     @Override
     public String toString() {
-        return toDay(day) + ": " + toHour(startTime) + " --> " + toHour(endTime);
+        return toDay(day) + ": " + toHour(startTime) + " - " + toHour(endTime);
     }
 }

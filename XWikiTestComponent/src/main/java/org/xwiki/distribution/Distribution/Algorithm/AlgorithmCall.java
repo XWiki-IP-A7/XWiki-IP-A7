@@ -2,10 +2,7 @@ package org.xwiki.distribution.Distribution.Algorithm;
 
 import org.xwiki.distribution.Distribution.Models.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class AlgorithmCall {
     List<Teacher> teachers = new ArrayList<>();
@@ -16,6 +13,7 @@ public class AlgorithmCall {
     int noOfTeachers = 41;
     int noOfCommittees = 6;
     int teachersPerCommittee = 4;
+    Committee committee = new Committee();
 
     public String sayHello() {
         return "General Kenobi!";
@@ -70,20 +68,36 @@ public class AlgorithmCall {
         return null;
     }
 
-    public void addCommittee(String id, String... args) {
-        committees.add(new Committee(id));
-        for (int i = 0; i < teachersPerCommittee; i++)
-            committees.get(committees.size() - 1).addCommitteeTeacher(teachers.get(findTeacherIndex(args[i])));
+    public Committee getCommitteeById(int id) {
+        for (Committee committee : committees)
+            if(committee.getId() == id)
+                return committee;
+        return new Committee();
+
     }
 
-    private int findCommitteeIndex(String id)
+    public void addCommittee(int id, String... args) {
+        committees.add(new Committee(id));
+        for (int i = 0; i < teachersPerCommittee; i++)
+            getCommitteeById(id).addCommitteeTeacher(teachers.get(findTeacherIndex(args[i])));
+    }
+
+    public  void addToCommittee(String name)
+    {
+        if(committee.getCommitteeCount()<4)
+        committee.addCommitteeTeacher(teachers.get(findTeacherIndex(name)));
+        else
+            committee.addAuxiliaryTeacher(teachers.get(findTeacherIndex(name)));
+    }
+
+    private int findCommitteeIndex(int id)
     {
         for(int i=0; i< noOfCommittees;i++)
-            if(committees.get(i).getId().equals(id))
+            if(committees.get(i).getId()==id)
                 return i;
         return -1;
     }
-    public void addConstraint(String teacherName, String committee)
+    public void addConstraint(String teacherName, int committee)
     {
         Teacher teacher = findTeacher(teacherName);
         constraints.add(new Constraint(teacher, committees.get(findCommitteeIndex(committee))));
@@ -139,19 +153,27 @@ public class AlgorithmCall {
         return committees;
     }
 
-    public static void repartitionStudents(List<Committee> committees) {
+
+
+    public List<StudentRepartition> repartitionStudents() {
+        List<StudentRepartition> studentRepartitions = new ArrayList<>();
+       try{
+        committees.add(committee);
         final int examinationDuration = 20;
         final int startHour = 8;
+        System.out.println("Intru in repartizare");
         final int endHour = 20;
         final int days = 7;
         List<GenericScheduler<Committee>> committeeRepartitions = new ArrayList<>();
+        List<GenericScheduler<Committee>> committeeBreaks = new ArrayList<>();
         Random random = new Random();
         for (Committee committee : committees) {
             GenericScheduler<Committee> committeeRepartition = new GenericScheduler<>(committee, null);
-            System.out.println(committee + " " + committee.getNumberOfStudents());
+            GenericScheduler<Committee> committeeBreak = new GenericScheduler<>(committee, null);
+            System.out.println(committee);
             int minDuration = committee.getFullestTeacher().getNumberOfStudents() * examinationDuration / 60;
-
-            while (committeeRepartition.getDuration() < committee.getNumberOfStudents() * 20) {
+            int noOfBreaks = 1;
+            while (committeeRepartition.getDuration() < committee.getNumberOfStudents() * 20 + 60 * noOfBreaks) {
                 int day;
                 do {
                     day = random.nextInt(days);
@@ -161,21 +183,62 @@ public class AlgorithmCall {
                 if (endsAt < startsAt + minDuration)
                     endsAt = endHour;
                 Schedule schedule = new Schedule(day, startsAt * 60, endsAt * 60);
+                Schedule generatedBreak = generateBreak(schedule);
+                committeeBreak.addSchedule(generatedBreak);
+                noOfBreaks++;
                 committeeRepartition.addSchedule(schedule);
             }
             Collections.sort(committeeRepartition.getSchedules());
+            committeeBreaks.add(committeeBreak);
             committeeRepartitions.add(committeeRepartition);
         }
         DegreeDistributionAlgorithm degreeDistributionAlgorithm = new DegreeDistributionAlgorithm();
-        List<StudentRepartition> studentRepartitions = degreeDistributionAlgorithm.getRepartitions(committeeRepartitions, null);
+        studentRepartitions = degreeDistributionAlgorithm.getRepartitions(committeeRepartitions, committeeBreaks);
 
-        for (StudentRepartition studentReaprtition : studentRepartitions) {
-            Committee committee = studentReaprtition.getStudent().getCoordinator().getCommittee();
-            System.out.println("Student: " + studentReaprtition.getStudent().getName() +
-                    "   Programat: " + studentReaprtition.getSchedule() +
-                    "   Comisia: " + committee.toString(studentReaprtition.getStudent()));
-        }
+        return studentRepartitions;
+    }
+    catch (Exception e)
+    {
+        System.out.println(e.getStackTrace());
+    }
+    finally {
+           return studentRepartitions;
+       }
     }
 
+    public List<StudentRepartition> switchRepartitions(List<StudentRepartition> studentRepartitions, String studentName, int newPosition) {
+        StudentRepartition givenStudentRepartition = null;
+        if (studentRepartitions == null) {
+            return null;
+        }
+        for (StudentRepartition studentRepartition : studentRepartitions) {
+            if (studentRepartition.getStudent().getName().equals(studentName)) {
+                givenStudentRepartition = studentRepartition;
+                break;
+            }
+        }
+        Schedule givenStudentSchedule = givenStudentRepartition.getSchedule();
+        if (givenStudentRepartition != null) {
+            studentRepartitions.remove(givenStudentRepartition);
+            studentRepartitions.add(newPosition - 1, givenStudentRepartition);
+        }
+        Iterator<StudentRepartition> iterator = studentRepartitions.iterator();
+        while (iterator.hasNext() && iterator.next() != givenStudentRepartition) {
+        }
+        StudentRepartition repartition1 = studentRepartitions.get(newPosition - 1);
+        StudentRepartition repartition2 = null;
+        while (iterator.hasNext()) {
+            repartition2 = iterator.next();
+            repartition1.setSchedule(repartition2.getSchedule());
+            repartition1 = repartition2;
+        }
+        if (repartition2 != null)
+            repartition2.setSchedule(givenStudentSchedule);
+        return studentRepartitions;
+    }
 
+    private static Schedule generateBreak(Schedule schedule) {
+        int start = (schedule.getStartTime() + schedule.getEndTime()) / 2;
+        return new Schedule(schedule.getDay(), start, start + 60);
+    }
 }

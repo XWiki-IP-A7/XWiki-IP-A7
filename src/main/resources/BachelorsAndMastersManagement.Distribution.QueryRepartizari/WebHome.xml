@@ -20,20 +20,32 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>{{velocity}}
-#set($hql = "select distinct doc.name from XWikiDocument as doc where doc.space='BachelorsAndMastersManagement.Distribution.BachelorsCommittees' and doc.name &lt;&gt; 'WebPreferences' and doc.name &lt;&gt; 'WebHome'")
-#set($results = $xwiki.search($hql))
-#foreach($result in $results)
-     $result
-      #set($docName='BachelorsAndMastersManagement.Distribution.BachelorsCommittees.'+$result)
+#set($algoritm = $services.hello.run())
+#set($i = 0)
+#set($docName='BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees.Committee-Nr 1.Repartition')
       #set ($doc = $xwiki.getDocument($docName))
-      #set($class = $xwiki.getClass("AppWithinMinutes.String"))
-      #foreach($obj in $doc.getObjects("AppWithinMinutes.String"))
-        #set($discard = $doc.use($obj))
-      #foreach($prop in $class.properties) ## go through all properties
-       $doc.display($prop.getName())
-      #end
+      #set($class = $xwiki.getClass("AppWithinMinutes.Users"))
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.Users"))
+       #set($discard = $algoritm.addTeacher($i,$obj.getProperty('user').value))
+ #set($i = $i+1)
+   #set($start1 = 0)
+   #set($end1 = 7)
+   #set($range1 = [$start1..$end1])
+   #foreach($j in $range1)
+   #set($stud = 'Student ')
+   #set($prof = '-prof')
+   #set($discard = $algoritm.addStudent("$stud$j$prof$i",$obj.getProperty('user').value))
+   #end
+   #set($discard = $algoritm.addToCommittee($obj.getProperty('user').value))
 #end
+
+#set($repartizari = $algoritm.repartitionStudents())
+
+#foreach ($student in $repartizari)
+$student.getStudent().getName()  Ziua $student.getSchedule().getDay(), $student.getSchedule().toString()
+
 #end
+
 {{/velocity}}</content>
   <object>
     <name>BachelorsAndMastersManagement.Distribution.QueryRepartizari.WebHome</name>
@@ -54,7 +66,6 @@
         <customDisplay/>
         <disabled>0</disabled>
         <displayType>select</displayType>
-        <hint/>
         <multiSelect>0</multiSelect>
         <name>user</name>
         <number>1</number>

@@ -27,21 +27,21 @@
 
 
 #set($i = 0)
-#set($docName='XWiki.Profesori')
+#set($docName='XWiki.Profs')
 #set ($doc = $xwiki.getDocument($docName))
 #foreach ($obj in $doc.getObjects('XWiki.XWikiGroups'))
  #if ($obj.getProperty('member').value != '')
  #set($discard = $algoritm.addTeacher($i,$obj.getProperty('member').value))
  #set($i = $i+1)
-   #set($start1 = 0)
-   #set($end1 = 7)
+   #set($start1 = 1)
+   #set($end1 = 5)
    #set($range1 = [$start1..$end1])
    #foreach($j in $range1)
    #set($stud = 'Student ')
-   #set($prof = '-prof')
-   #set($discard = $algoritm.addStudent("$stud$j$prof$i",$obj.getProperty('member').value))
+   #set($studNum = $i*$j)
+   #set($discard = $algoritm.addStudent("$stud$studNum",$obj.getProperty('member').value))
    #end
- #end   
+ #end
 #end
 
 
@@ -49,18 +49,16 @@
 
 #set ($i = 0)
 
-#set($hql = "select distinct doc.name from XWikiDocument as doc where doc.space='BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees' and doc.name &lt;&gt; 'WebPreferences' and doc.name &lt;&gt; 'WebHome'")
-#set($results = $xwiki.search($hql))
+#set($docName='BachelorsAndMastersManagement.Setup.SetupData')
+#set ($doc = $xwiki.getDocument($docName))
 #set($count = 0)
-#set ($char = 'c')
-#foreach($result in $results)
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Setup.BachelorsCommittee"))
       #set($count = $count + 1)
-      #set($docName='BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees.'+$result)
-      #set ($doc = $xwiki.getDocument($docName))
-      #set($class = $xwiki.getClass("BachelorsAndMastersManagement.Setup.BachelorsCommittee"))
-      #set($obj=$doc.getObject("BachelorsAndMastersManagement.Setup.BachelorsCommittee"))
-     #set($discard = $algoritm.addCommittee("$char$count",$obj.getProperty('head').value,$obj.getProperty('secretary').value, $obj.getProperty('member1').value, $obj.getProperty('member2').value))
+      #set($discard = $algoritm.addCommittee($obj.getProperty('id').value,$obj.getProperty('head').value,$obj.getProperty('secretary').value, $obj.getProperty('member1').value, $obj.getProperty('member2').value))
 #end
+
+
+
 #set($discard = $algoritm.setNoOfCommittees($count))
 
 
@@ -81,9 +79,9 @@
 #set ($number = 0)
 #foreach($comisie in $comisii)
 #set ($number = $number + 1)
-#set ($docName = 'BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees.Committee-Nr ' +$number+'.Repartition')
+#set ($docName = 'BachelorsAndMastersManagement.Distribution.Committees.BachelorsCommittees.Committee-Nr ' +$number)
 #set ($doc = $xwiki.getDocument($docName))
-#set ($obj = $doc.getObject('BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass'))
+#set ($obj = $doc.getObject('BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionClass'))
 #if (!$doc.isNew())
 #set($class = $xwiki.getClass("AppWithinMinutes.Users"))
       #foreach($obj in $doc.getObjects("AppWithinMinutes.Users"))
@@ -92,8 +90,11 @@
       #foreach($obj in $doc.getObjects("AppWithinMinutes.String"))
         #set($discard = $doc.removeObject($obj))
       #end
+      #foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.StudentTeacherClass"))
+        #set($discard = $doc.removeObject($obj))
+      #end
 #else
-#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass'))
+#set ($obj = $doc.newObject('BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionClass'))
 #end
 
 #set($i=0)
@@ -106,8 +107,9 @@
 #set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
 #set ($discard = $teacherList[$i].set('user', $teacher.getName()))
 #foreach($student in $teacher.getStudents())
-#set ($discard = $studentList.add($doc.newObject('AppWithinMinutes.String')))
-#set ($discard = $studentList[$studentCount].set('shortText', $student.getName()))
+#set ($discard = $studentList.add($doc.newObject('BachelorsAndMastersManagement.Distribution.StudentTeacherClass')))
+#set ($discard = $studentList[$studentCount].set('student', $student.getName()))
+#set ($discard = $studentList[$studentCount].set('teacher', $teacher.getName()))
 #set ($studentCount = $studentCount + 1)
 #end
 #set($i=$i+1)
@@ -119,8 +121,9 @@
 #set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
 #set ($discard = $teacherList[$i].set('user', $teacher.getName()))
 #foreach($student in $teacher.getStudents())
-#set ($discard = $studentList.add($doc.newObject('AppWithinMinutes.String')))
-#set ($discard = $studentList[$studentCount].set('shortText', $student.getName()))
+#set ($discard = $studentList.add($doc.newObject('BachelorsAndMastersManagement.Distribution.StudentTeacherClass')))
+#set ($discard = $studentList[$studentCount].set('student', $student.getName()))
+#set ($discard = $studentList[$studentCount].set('teacher', $teacher.getName()))
 #set ($studentCount = $studentCount + 1)
 #end
 #set($i=$i+1)
@@ -131,8 +134,9 @@
 #set ($discard = $teacherList.add($doc.newObject('AppWithinMinutes.Users')))
 #set ($discard = $teacherList[$i].set('user', $teacher.getName()))
 #foreach($student in $teacher.getStudents())
-#set ($discard = $studentList.add($doc.newObject('AppWithinMinutes.String')))
-#set ($discard = $studentList[$studentCount].set('shortText', $student.getName()))
+#set ($discard = $studentList.add($doc.newObject('BachelorsAndMastersManagement.Distribution.StudentTeacherClass')))
+#set ($discard = $studentList[$studentCount].set('student', $student.getName()))
+#set ($discard = $studentList[$studentCount].set('teacher', $teacher.getName()))
 #set ($studentCount = $studentCount + 1)
 #end
 #set($i=$i+1)
@@ -149,9 +153,9 @@
   padding: 10px;"&gt;
    #foreach($comisie in $comisii)
    #set ($number = $number + 1)
-   &lt;div  id=c$number style="border: thin solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondrop="drop(event)" ondragover="allowDrop(event)"&gt;
+   &lt;div  id=$comisie.getId() style="border: thin solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondrop="drop(event)" ondragover="allowDrop(event)"&gt;
       ##div-ul comisiei
-      &lt;div style="margin-top: 10px; border-bottom: thin solid black; " &gt;&lt;b&gt;Comisia $number&lt;/b&gt;&lt;/div&gt;
+      &lt;div style="margin-top: 10px; border-bottom: thin solid black; " &gt;&lt;b&gt; Comisia $comisie.getId()&lt;/b&gt;&lt;/div&gt;
       #foreach($teacher in $comisie.getCommitteeTeachers() )
       &lt;div style="padding-left: 10px; margin-top: 2px"&gt;  $xwiki.getUserName($teacher.getName()) &lt;/div&gt;
       #end
