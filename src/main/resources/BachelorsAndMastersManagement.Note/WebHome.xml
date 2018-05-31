@@ -8,9 +8,9 @@
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1356998400000</creationDate>
-  <parent>xwiki:BachelorsAndMastersManagement.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <parent>xwiki:BachelorsAndMastersManagement.WebHome</parent>
   <date>1356998400000</date>
   <contentUpdateDate>1356998400000</contentUpdateDate>
   <version>1.1</version>

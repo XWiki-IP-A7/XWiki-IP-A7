@@ -37,11 +37,11 @@
     #set($macro.save = true)
   #end
   #set($macro.users = "")
-  #foreach($entry in $notaCommittee)
+  #foreach($entry in $notaCommitteeFull)
     #if($macro.users != "")
-      #set($macro.users = "${macro.users},${entry[2]}")
+      #set($macro.users = "${macro.users},${entry}")
     #else
-      #set($macro.users = $entry[2])
+      #set($macro.users = $entry)
     #end
   #end
   #if($macro.rights.getProperty("users") != $macro.users)
@@ -95,16 +95,11 @@
   #set($notaStudents = [])
   #set($notaStudentProjects = {})
   #if($tipExamen == "master")
-    #set($macro.registrationSpace = "BachelorsAndMastersManagement.Registration.Candidates.MastersCandidates")
+    #set($macro.repartitionClass = "BachelorsAndMastersManagement.Distribution.MastersCommitteeRepartitionClass")
   #else
-    #set($macro.registrationSpace = "BachelorsAndMastersManagement.Registration.Candidates.BachelorCandidates")
+    #set($macro.repartitionClass = "BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionClass")
   #end
-  #if($tipExamen == "master")
-    #set($macro.committeeSpace = "BachelorsAndMastersManagement.Setup.Committees.MastersCommittees")
-  #else
-    #set($macro.committeeSpace = "BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees")
-  #end
-  #set($macro.query = "select doc2.name, stud.project_title from Document doc, doc.object(BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass) as obj, doc.object(AppWithinMinutes.Users) as prof, Document doc2, doc2.object(BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass) as stud where doc.object(AppWithinMinutes.Users).user = '$xcontext.user' and stud.coordinator = prof.user and doc2.space = '$macro.registrationSpace' and doc.space like '$macro.committeeSpace%'")
+  #set($macro.query = "select doc2.name, stud.project_title from Document doc, doc.object($macro.repartitionClass) as obj, doc.object(AppWithinMinutes.Users) as prof, Document doc2, doc2.object(BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass) as stud where doc.object(AppWithinMinutes.Users).user = '$xcontext.user' and stud.coordinator = prof.user")
   #foreach($row in $services.query.xwql($macro.query).execute())
     #set($macro.student = "XWiki.${row[0].trim()}")
     #set($discard = $notaStudents.add($macro.student))
@@ -120,13 +115,35 @@
   #else
     #set($macro.queryClass = "BachelorsAndMastersManagement.Setup.BachelorsCommittee")
   #end
-  #set($macro.query = "select distinct ${macro.queryColumns} from Document doc, doc.object(BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass) as obj, doc.object(AppWithinMinutes.Users) as prof, Document doc2, doc2.object(BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass) as stud, Document doc3, doc3.object($macro.queryClass) as comisie where doc.object(AppWithinMinutes.Users).user = '$xcontext.user' and stud.coordinator = prof.user and doc3.fullName = doc.space")
-  #set($notaCommittee = [])
   #set($macro.titluri = ["", "Presedinte comisie", "Secretar", "Membru comisie", "Membru comisie", "Membru comisie"])
+  #if($tipExamen == "master")
+    #set($macro.repartitionClass = "BachelorsAndMastersManagement.Distribution.MastersCommitteeRepartitionClass")
+  #else
+    #set($macro.repartitionClass = "BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionClass")
+  #end
+  #set($macro.query = "select doc.name from Document doc, doc.object($macro.repartitionClass) as obj where doc.object(AppWithinMinutes.Users).user = '$xcontext.user'")
+  #set($notaCommittee = [])
   #foreach($row in $services.query.xwql($macro.query).execute())
-    #foreach($col in $row)
-      #set($discard = $notaCommittee.add([$macro.titluri[$foreach.count], $xwiki.getUserName($col, false), $col, $foreach.count]))
+    #set($macro.id = $row.split("-Nr ")[1])
+    #set($macro.query = "select $macro.queryColumns from Document doc, doc.object($macro.queryClass) as comisie where comisie.id = '$row'")
+    #foreach($row2 in $services.query.xwql($macro.query).execute())
+      #foreach($col in $row2)
+        #set($discard = $notaCommittee.add([$macro.titluri[$foreach.count], $xwiki.getUserName($col, false), $col, $foreach.count]))
+      #end
     #end
+  #end
+#end
+##
+#macro(getNotaCommitteeFull $tipExamen)
+  #if($tipExamen == "master")
+    #set($macro.repartitionClass = "BachelorsAndMastersManagement.Distribution.MastersCommitteeRepartitionClass")
+  #else
+    #set($macro.repartitionClass = "BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionClass")
+  #end
+  #set($macro.query = "select prof.user from Document doc, doc.object($macro.repartitionClass) as obj, doc.object(AppWithinMinutes.Users) as prof where doc.object(AppWithinMinutes.Users).user = '$xcontext.user'")
+  #set($notaCommitteeFull = [])
+  #foreach($row in $services.query.xwql($macro.query).execute())
+    #set($discard = $notaCommitteeFull.add($row))
   #end
 #end
 {{/velocity}}</content>

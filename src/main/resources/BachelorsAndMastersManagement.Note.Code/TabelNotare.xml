@@ -82,7 +82,16 @@ xcontext.put('propertyCustomDisplayer', new PropertyCustomDisplayer(xcontext))
   #set($tipExamen = "licenta")
 #end
 
+#getNotaCommitteeFull($tipExamen)
 #getNotaCommittee($tipExamen)
+
+#set($inComisie = false)
+#foreach($prof in $notaCommittee)
+  #if($prof[2] == $xcontext.user &amp;&amp; $prof[0] != "Secretar")
+    #set($inComisie = true)
+  #end
+#end
+#if($inComisie)
 
 {{html clean="false" wiki="true"}}
 
@@ -196,5 +205,9 @@ window.onbeforeunload = function(e) {
 };
 &lt;/script&gt;
 {{/html}}
+
+#else
+Nu sunteti membru al comisiei.
+#end
 {{/velocity}}</content>
 </xwikidoc>

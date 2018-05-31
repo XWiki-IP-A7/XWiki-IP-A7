@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.WebHome" locale="">
+  <web>BachelorsAndMastersManagement</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.SetupTemp.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>BachelorsAndMastersManagement</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+#set ($setupDataURL = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData').getURL('view'))
+#set ($setupDatesURL = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.Dates').getURL('view'))
+#set ($setupCoursesURL = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.Courses.WebHome').getURL('view'))
+#set ($setupBachelorsSelectorURL = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.BachelorsSelector.WebHome').getURL('view'))
+#set ($setupMastersSelectorURL = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.MastersSelector.WebHome').getURL('view'))
+#set ($registrationURL = $xwiki.getDocument('BachelorsAndMastersManagement.Registration.WebHome').getURL('view'))
+#set ($registrationBachelorsURL = $xwiki.getDocument('BachelorsAndMastersManagement.Registration.Bachelors').getURL('view'))
+#set ($registrationMastersURL = $xwiki.getDocument('BachelorsAndMastersManagement.Registration.Masters').getURL('view'))
+#set ($distributionBachelorsURL = $xwiki.getDocument('BachelorsAndMastersManagement.Distribution.BachelorsDistributionPage').getURL('view'))
+#set ($distributionMastersURL = $xwiki.getDocument('BachelorsAndMastersManagement.Distribution.MastersDistributionPage').getURL('view'))
+#set ($catalogURL = $xwiki.getDocument('BachelorsAndMastersManagement.Note.WebHome').getURL('view'))
+#set ($groups = $xwiki.rightsmanager.getAllGroupsNamesForMember($xcontext.user))
+
+#set ($access = 0)
+#if ($groups.contains('XWiki.XWikiAdminGroup') or $groups.contains('XWiki.Profs'))
+	#set ($access = 1)
+#else
+	#if ($groups.contains('XWiki.Studs'))
+		#set ($access = 2)
+	#end
+#end
+{{html clean="false"}}
+
+&lt;style&gt;
+	#document-title{
+		display: none;
+	}
+	.document-header + hr{
+		display: none;
+	}
+	.dropdown-menu{
+		padding: 0;
+		border: none;
+	}
+	.list-group-item i{
+		margin-right: 5px;
+	}
+	#xwikicontent{
+		overflow: visible;
+	}
+
+&lt;/style&gt;
+
+&lt;div class="container-fluid"&gt;
+	&lt;div class="jumbotron"&gt;
+		&lt;h2&gt;Gestiunea examenului de diplomă&lt;/h2&gt;
+		&lt;p&gt;Aplicație ce gestionează desfășurarea examenelor de diplomă (licență și master)&lt;/p&gt;
+		&lt;hr class="my-4"&gt;
+		&lt;p class="lead"&gt;
+			&lt;a class="btn btn-primary btn-lg" href="$setupDataURL" role="button"&gt;
+				&lt;i class="fa fa-info-circle"&gt;&lt;/i&gt; Mai multe informații
+			&lt;/a&gt;
+		&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;div class="row"&gt;
+		#if ($access == 2)
+		&lt;div class="col-xs-12"&gt;
+			&lt;div class="list-group"&gt;
+				&lt;a href="$registrationURL" class="list-group-item list-group-item-action active"&gt;
+				Înscriere 
+				&lt;/a&gt;
+				&lt;a href="$registrationBachelorsURL" class="list-group-item list-group-item-action"&gt;Licență&lt;/a&gt;
+				&lt;a href="$registrationMastersURL" class="list-group-item list-group-item-action"&gt;Master&lt;/a&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+		#end
+		#if ($access == 1)
+		&lt;div class="col-md-6 col-sm-12"&gt;
+			&lt;div class="list-group"&gt;
+				&lt;a href="$registrationURL" class="list-group-item list-group-item-action active"&gt;
+				Înscriere 
+				&lt;/a&gt;
+				&lt;a href="$registrationBachelorsURL" class="list-group-item list-group-item-action"&gt;Licență&lt;/a&gt;
+				&lt;a href="$registrationMastersURL" class="list-group-item list-group-item-action"&gt;Master&lt;/a&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;div class="col-md-6 col-sm-12"&gt;
+			&lt;div class="list-group"&gt;
+				&lt;a href="$registrationURL" class="list-group-item list-group-item-action active"&gt;
+				Administrare 
+				&lt;/a&gt;
+				&lt;a href="$setupDatesURL" class="list-group-item list-group-item-action"&gt;Intervale calendaristice&lt;/a&gt;
+				&lt;a href="$setupCoursesURL" class="list-group-item list-group-item-action"&gt;Cursuri&lt;/a&gt;
+				&lt;div class="dropdown"&gt;
+					&lt;button type="button" class="list-group-item list-group-item-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+						Comisii
+					&lt;/button&gt;
+					&lt;div class="dropdown-menu list-group"&gt;
+						&lt;a class="list-group-item" href="$setupBachelorsSelectorURL"&gt;&lt;i class="fa fa-chevron-right"&gt;&lt;/i&gt;Licență&lt;/a&gt;
+						&lt;a class="list-group-item" href="$setupMastersSelectorURL"&gt;&lt;i class="fa fa-chevron-right"&gt;&lt;/i&gt;Master&lt;/a&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class="dropdown"&gt;
+					&lt;button type="button" class="list-group-item list-group-item-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+						Distribuție
+					&lt;/button&gt;
+					&lt;div class="dropdown-menu list-group"&gt;
+						&lt;a class="list-group-item" href="$distributionBachelorsURL"&gt;&lt;i class="fa fa-chevron-right"&gt;&lt;/i&gt;Licență&lt;/a&gt;
+						&lt;a class="list-group-item" href="$distributionMastersURL"&gt;&lt;i class="fa fa-chevron-right"&gt;&lt;/i&gt;Master&lt;/a&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;a href="$catalogURL" class="list-group-item list-group-item-action"&gt;Catalog&lt;/a&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+		#end
+	&lt;/div&gt;
+&lt;/div&gt;
+
+{{/html}}
+
+
+{{/velocity}}
+</content>
+</xwikidoc>
