@@ -1,0 +1,75 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Distribution.TestSpinner1.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Distribution.TestSpinner1</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage>en</defaultLanguage>
+  <translation>0</translation>
+  <creator>XWiki.Admin</creator>
+  <creationDate>1526975592000</creationDate>
+  <parent>Main.WebHome</parent>
+  <author>XWiki.Admin</author>
+  <contentAuthor>XWiki.Admin</contentAuthor>
+  <date>1526975592000</date>
+  <contentUpdateDate>1526975592000</contentUpdateDate>
+  <version>1.1</version>
+  <title>TestSpinner1</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}&#xd;
+{{html}}&#xd;
+  &lt;link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">&#xd;
+  &lt;link rel="stylesheet" href="/resources/demos/style.css">&#xd;
+  &lt;script src="https://code.jquery.com/jquery-1.12.4.js">&lt;/script>&#xd;
+  &lt;script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js">&lt;/script>&#xd;
+  &lt;script src="/resources/demos/external/jquery-mousewheel/jquery.mousewheel.js">&lt;/script>&#xd;
+  &lt;script>&#xd;
+  $( function() {&#xd;
+    var spinner = $( "#spinner" ).spinner();&#xd;
+ &#xd;
+    $( "#disable" ).on( "click", function() {&#xd;
+      if ( spinner.spinner( "option", "disabled" ) ) {&#xd;
+        spinner.spinner( "enable" );&#xd;
+      } else {&#xd;
+        spinner.spinner( "disable" );&#xd;
+      }&#xd;
+    });&#xd;
+    $( "#destroy" ).on( "click", function() {&#xd;
+      if ( spinner.spinner( "instance" ) ) {&#xd;
+        spinner.spinner( "destroy" );&#xd;
+      } else {&#xd;
+        spinner.spinner();&#xd;
+      }&#xd;
+    });&#xd;
+    $( "#getvalue" ).on( "click", function() {&#xd;
+      alert( spinner.spinner( "value" ) );&#xd;
+    });&#xd;
+    $( "#setvalue" ).on( "click", function() {&#xd;
+      spinner.spinner( "value", 5 );&#xd;
+    });&#xd;
+ &#xd;
+    $( "button" ).button();&#xd;
+  } );&#xd;
+  &lt;/script>&#xd;
+&#xd;
+&lt;p>&#xd;
+  &lt;label for="spinner">Select a value:&lt;/label>&#xd;
+  &lt;input id="spinner" name="value">&#xd;
+&lt;/p>&#xd;
+ &#xd;
+&lt;p>&#xd;
+  &lt;button id="disable">Toggle disable/enable&lt;/button>&#xd;
+  &lt;button id="destroy">Toggle widget&lt;/button>&#xd;
+&lt;/p>&#xd;
+ &#xd;
+&lt;p>&#xd;
+  &lt;button id="getvalue">Get value&lt;/button>&#xd;
+  &lt;button id="setvalue">Set value to 5&lt;/button>&#xd;
+&lt;/p>&#xd;
+&#xd;
+{{/html}}&#xd;
+{{/velocity}}&#xd;
+</content>
+</xwikidoc>
