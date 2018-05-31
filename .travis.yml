@@ -13,7 +13,9 @@ deploy:
   api_key:
     secure: vIgPzu9fJWUnFtxYSJGlFBL+Bw8zW/Sc/hRhGSg7ZZbk1wNqrcZ1eaK6t8j9XWC9Xd0y29cplOd8nqaIeaCFUSJ9wGB/cyyfBDlIDN4djL7Mxxc2MRnhKXmGbQy0j2VoVShMw9HJ88N08L+02tIknhW0DAK1LdB90d0w0rhJvNatq2BFWXr9qi6g5Qt3lJrGljvbm+H/d+8+f6Cke7e/hdBXxLwV7CO44KNOE7maDvrLmPkFU5erXAPoa/R79rRKuu76SUyK9z2tT83mOMVXczAz59EwZO30b4P5cJIzRBlcEIZDohGcstAdHl6wwbnoZFeOQm4AFkn9T/O479pQVLD+oazZSvrTG0HKAYzBTmAb6AFoujve/r7n3jjQymvBeoR+uHCMmjoRrD7wycc4HCT0U1oidv/Da7vYCrsv7JKg4sMT8vYs7CAam+kl4GivxEFanhw8ymn+MGDhQew208e3Z5x25XkJec0Tpa2Do5tZtMu1jPX1S0HfqWk+K41cAffNtpREDoeQ2YCW8BtXk0l05c4XhWtPwz2Bvc1KCcUBilneAjlUyySjLsmnc7YAK4geVJU39zOzllhDIOYvRwq65EtsOtQSvs36Gf51I9BdM0g6Ak6QBGLrknHttraju1MDPw8WUR6U7lS3+UlFAegppB019SueqibEq5INbts=
   skip_cleanup: true
-  file: target/application-bachelorsandmastersmanagement.xar
+  file:
+  - target/application-bachelorsandmastersmanagement.xar
+  - bin/distribution-bachelorsandmastersmanagement-0.1.jar  
   on:
     repo: XWiki-IP-A7/XWiki-IP-A7
     tags: false
