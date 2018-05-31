@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Setup.Dates.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Setup.Dates</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.SetupTemp.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Dates</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+#set($showcomments = false)
+#set($showannotations = false)
+#set($showattachments = false)
+#set($showhistory = false)
+#set($showinformation = false)
+##Get SetupData object
+#set($dataDoc = $xwiki.getDocument('BachelorsAndMastersManagement.Setup.SetupData'))
+#set($obj = $dataDoc.getObject('BachelorsAndMastersManagement.Setup.SetupData'))
+##Enrollment period start
+#set($enrollmentPeriodStart = $obj.getProperty('enrollPeriodStart'))
+  #set($enrollmentPeriodStartHTMLYear = 1900+$enrollmentPeriodStart.value.getYear())
+  #set($enrollmentPeriodStartHTMLMonth = $enrollmentPeriodStart.value.getMonth()+1)
+  #set($enrollmentPeriodStartHTMLDay = $enrollmentPeriodStart.value.date)
+  #if( $enrollmentPeriodStartHTMLMonth&lt;10 )
+    #set($enrollmentPeriodStartHTMLMonth = '0'+$enrollmentPeriodStartHTMLMonth)
+  #end
+  #if( $enrollmentPeriodStartHTMLDay&lt;10 )
+    #set($enrollmentPeriodStartHTMLDay = '0'+$enrollmentPeriodStartHTMLDay)
+  #end
+  #set($enrollmentPeriodStart = $enrollmentPeriodStartHTMLYear+'-'+$enrollmentPeriodStartHTMLMonth+'-'+$enrollmentPeriodStartHTMLDay)
+##Enrollment period end
+#set($enrollmentPeriodEnd = $obj.getProperty('enrollPeriodEnd'))
+  #set($enrollmentPeriodEndHTMLYear = 1900+$enrollmentPeriodEnd.value.getYear())
+  #set($enrollmentPeriodEndHTMLMonth = $enrollmentPeriodEnd.value.getMonth()+1)
+  #set($enrollmentPeriodEndHTMLDay = $enrollmentPeriodEnd.value.date)
+  #if( $enrollmentPeriodEndHTMLMonth&lt;10 )
+    #set($enrollmentPeriodEndHTMLMonth = '0'+$enrollmentPeriodEndHTMLMonth)
+  #end
+  #if( $enrollmentPeriodEndHTMLDay&lt;10 )
+    #set($enrollmentPeriodEndHTMLDay = '0'+$enrollmentPeriodEndHTMLDay)
+  #end
+  #set($enrollmentPeriodEnd = $enrollmentPeriodEndHTMLYear+'-'+$enrollmentPeriodEndHTMLMonth+'-'+$enrollmentPeriodEndHTMLDay)
+##Evaluation period start
+#set($evaluationPeriodStart = $obj.getProperty('evaluationPeriodStart'))
+  #set($evaluationPeriodStartHTMLYear = 1900+$evaluationPeriodStart.value.getYear())
+  #set($evaluationPeriodStartHTMLMonth = $evaluationPeriodStart.value.getMonth()+1)
+  #set($evaluationPeriodStartHTMLDay = $evaluationPeriodStart.value.date)
+  #if( $evaluationPeriodStartHTMLMonth&lt;10 )
+    #set($evaluationPeriodStartHTMLMonth = '0'+$evaluationPeriodStartHTMLMonth)
+  #end
+  #if( $evaluationPeriodStartHTMLDay&lt;10 )
+    #set($evaluationPeriodStartHTMLDay = '0'+$evaluationPeriodStartHTMLDay)
+  #end
+  #set($evaluationPeriodStart = $evaluationPeriodStartHTMLYear+'-'+$evaluationPeriodStartHTMLMonth+'-'+$evaluationPeriodStartHTMLDay)
+##Evaluation period end
+#set($evaluationPeriodEnd = $obj.getProperty('evaluationPeriodEnd'))
+  #set($evaluationPeriodEndHTMLYear = 1900+$evaluationPeriodEnd.value.getYear())
+  #set($evaluationPeriodEndHTMLMonth = $evaluationPeriodEnd.value.getMonth()+1)
+  #set($evaluationPeriodEndHTMLDay = $evaluationPeriodEnd.value.date)
+  #if( $evaluationPeriodEndHTMLMonth&lt;10 )
+    #set($evaluationPeriodEndHTMLMonth = '0'+$evaluationPeriodEndHTMLMonth)
+  #end
+  #if( $evaluationPeriodEndHTMLDay&lt;10 )
+    #set($evaluationPeriodEndHTMLDay = '0'+$evaluationPeriodEndHTMLDay)
+  #end
+  #set($evaluationPeriodEnd = $evaluationPeriodEndHTMLYear+'-'+$evaluationPeriodEndHTMLMonth+'-'+$evaluationPeriodEndHTMLDay)
+##Request the periods
+#set($enrollPeriodStartRequest = $!request.get('day1'))
+#set($discard = $obj.set('enrollPeriodStart', $enrollPeriodStartRequest))
+#set($enrollPeriodEndRequest = $!request.get('day2'))
+#set($discard = $obj.set('enrollPeriodEnd', $enrollPeriodEndRequest))
+#set($evalPeriodStartRequest = $!request.get('day3'))
+#set($discard = $obj.set('evaluationPeriodStart', $evalPeriodStartRequest))
+#set($evalPeriodEndRequest = $!request.get('day4'))
+#set($discard = $obj.set('evaluationPeriodEnd', $evalPeriodEndRequest))
+#if($enrollPeriodStartRequest and $enrollPeriodEndRequest and $evalPeriodStartRequest and $evalPeriodEndRequest)
+  Saved !
+  #set($discard = $dataDoc.save('saved data'))
+#end
+
+{{html wiki=true}}
+##Form for periods
+&lt;form action=""&gt;
+  ##Enrollment first day
+  &lt;label for="enrollPeriodStart"&gt;Enrollment first day:&lt;/label&gt;
+  &lt;input id="enrollPeriodStart" name="day1" class="datetime" type="date" value="$enrollmentPeriodStart"&gt;
+  ##Enrollment last day
+  &lt;label for="enrollPeriodEnd"&gt;and last day:&lt;/label&gt;
+  &lt;input id="enrollPeriodEnd" name="day2" class="datetime" type="date" value="$enrollmentPeriodEnd"&gt;
+  &lt;br/&gt;
+  ##Evaluation first day
+  &lt;label for="evaluationPeriodStart"&gt;Evaluation period first day:&lt;/label&gt;
+  &lt;input id="evaluationPeriodStart" name="day3" class="datetime" type="date" value="$evaluationPeriodStart"&gt;
+  ##Enrollment last day
+  &lt;label for="evaluationPeriodEnd"&gt;and last day:&lt;/label&gt;
+  &lt;input id="evaluationPeriodEnd" name="day4" class="datetime" type="date" value="$evaluationPeriodEnd"&gt;
+  &lt;br/&gt;
+  &lt;span class="buttonwrapper"&gt;&lt;input type="submit" id="getDay" name="getDay" value="Submit" class="button"/&gt;&lt;/span&gt;
+&lt;/form&gt;
+
+{{/html}}
+
+{{/velocity}}</content>
+</xwikidoc>

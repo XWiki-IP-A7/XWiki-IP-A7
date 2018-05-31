@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Distribution.QueryRepartizari.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Distribution.QueryRepartizari</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>BachelorsAndMastersManagement.Distribution.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>QueryRepartizari</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+#set($algoritm = $services.hello.run())
+#set($i = 0)
+#set($docName='BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees.Committee-Nr 1.Repartition')
+      #set ($doc = $xwiki.getDocument($docName))
+      #set($class = $xwiki.getClass("AppWithinMinutes.Users"))
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.Users"))
+       #set($discard = $algoritm.addTeacher($i,$obj.getProperty('user').value))
+ #set($i = $i+1)
+   #set($start1 = 0)
+   #set($end1 = 7)
+   #set($range1 = [$start1..$end1])
+   #foreach($j in $range1)
+   #set($stud = 'Student ')
+   #set($prof = '-prof')
+   #set($discard = $algoritm.addStudent("$stud$j$prof$i",$obj.getProperty('user').value))
+   #end
+   #set($discard = $algoritm.addToCommittee($obj.getProperty('user').value))
+#end
+
+#set($repartizari = $algoritm.repartitionStudents())
+
+#foreach ($student in $repartizari)
+$student.getStudent().getName()  Ziua $student.getSchedule().getDay(), $student.getSchedule().toString()
+
+#end
+
+{{/velocity}}</content>
+  <object>
+    <name>BachelorsAndMastersManagement.Distribution.QueryRepartizari.WebHome</name>
+    <number>0</number>
+    <className>AppWithinMinutes.Users</className>
+    <guid>035afffd-a07f-4157-9110-97a1774786f0</guid>
+    <class>
+      <name>AppWithinMinutes.Users</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <user>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>user</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>User</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </user>
+    </class>
+  </object>
+</xwikidoc>

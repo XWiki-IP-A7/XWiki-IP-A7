@@ -53,6 +53,7 @@
   #set($tipExamen = "licenta")
 #end
 
+#getNotaCommitteeFull($tipExamen)
 #getNotaCommittee($tipExamen)
 
 #set($Integer = 0)

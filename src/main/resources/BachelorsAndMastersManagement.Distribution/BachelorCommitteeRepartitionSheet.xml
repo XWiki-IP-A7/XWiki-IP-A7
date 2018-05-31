@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionSheet" locale="">
+  <web>BachelorsAndMastersManagement.Distribution</web>
+  <name>BachelorCommitteeRepartitionSheet</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionClass</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>#if($doc.name == 'BachelorCommitteeRepartitionSheet')BachelorCommitteeRepartition Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+{{html}}
+
+
+#set($algoritm = $services.hello.run())
+#set($i = 0)
+
+      #set($class = $xwiki.getClass("AppWithinMinutes.Users"))
+      #foreach($obj in $doc.getObjects("AppWithinMinutes.Users"))
+       #set($discard = $algoritm.addTeacher($i,$obj.getProperty('user').value))
+     #set($i = $i+1)
+   #set($discard = $algoritm.addToCommittee($obj.getProperty('user').value))
+#end
+
+
+#foreach($obj in $doc.getObjects("BachelorsAndMastersManagement.Distribution.StudentTeacherClass"))
+   #set($discard = $algoritm.addStudent($obj.getProperty('student').value,$obj.getProperty('teacher').value))
+#end
+
+#set($repartizari = $algoritm.repartitionStudents())
+
+#set ($documentName = 'BachelorsAndMastersManagement.Distribution.TimeConstraints.BachelorsConstraints.'+$doc.getName())
+#set ($document = $xwiki.getDocument($documentName))
+#foreach($obj in $document.getObjects("BachelorsAndMastersManagement.Distribution.TimeConstraintClass"))
+  #set($repartizari = $algoritm.switchRepartitions($repartizari,$obj.getProperty('student').value,$obj.getProperty('position').value))
+#end
+
+#set($dragid = 0)
+
+
+
+&lt;form action="#" method="POST" &gt;
+&lt;div style="display: grid;
+   grid-template-columns: 70% 30% ;
+  grid-gap: 0px;
+  padding: 0px;"&gt;
+   &lt;table style="border: 1px solid black; border-radius: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px;" ondragover="allowDrop(event)"&gt;
+       &lt;tr&gt;
+    &lt;th&gt;Student&lt;/th&gt;
+    &lt;th&gt;Profesor&lt;/th&gt;
+    &lt;th&gt;Proiect&lt;/th&gt;
+    &lt;/tr&gt;
+      #foreach($student in $repartizari)
+      #set ($dragid = $dragid + 1)
+      &lt;tr style=" padding-left: 10px;margin-bottom: 2px; margin-top: 2px;" id=$dragid draggable="true" ondragstart="drag(event)" ondrop="drop(event)"&gt;
+      &lt;td&gt;
+      &lt;input type="hidden" id=i$dragid name=$student.getStudent().getName().replace(' ','') value=''&gt;
+         $student.getStudent().getName()
+         &lt;/td&gt;
+         &lt;td&gt;$xwiki.getUserName($student.getStudent().getCoordinator().getName())&lt;/td&gt;
+         &lt;td&gt;
+         Proiect de cercetare 
+         &lt;/td&gt;
+      &lt;/tr&gt;
+      #end
+&lt;/table&gt;
+
+&lt;table style="border: 1px solid black;"&gt;
+&lt;tr&gt;
+&lt;th&gt; Programare &lt;/th&gt;
+&lt;/tr&gt;
+#foreach($student in $repartizari)
+&lt;tr &gt;
+&lt;td&gt;
+Ziua $student.getSchedule().getDay(), $student.getSchedule().toString()
+&lt;/td&gt;
+&lt;/tr&gt;
+#end
+&lt;/table&gt;
+   &lt;/div&gt;
+
+
+#set ($documentName = 'BachelorsAndMastersManagement.Distribution.TimeConstraints.BachelorsConstraints.'+$doc.getName())
+#set ($document = $xwiki.getDocument($documentName))
+#if ($document.isNew())
+#set ($rightsObj = $doc.newObject('XWiki.XWikiRights'))
+#set ($discard = $rightsObj.set('groups', 'XWiki.Profs'))
+#set ($discard = $rightsObj.set('levels', 'view,edit,delete,script'))
+#set ($discard = $rightsObj.set('allow', 1))
+#end
+#foreach($student in $repartizari)
+#if ($request.get('submit'))
+#set($nume = $student.getStudent().getName().replace(' ','') )
+#set($pozitie=$request.get($nume))
+#if($pozitie != '')
+#set ($obj = $document.newObject('BachelorsAndMastersManagement.Distribution.TimeConstraintClass'))
+#set ($discard = $obj.set('student', $student.getStudent().getName()))
+#set ($discard = $obj.set('position', $pozitie))
+#end
+#end
+#set ($discard = $document.save())
+#end
+
+
+#if ($request.get('reset'))
+#set ($documentName = 'BachelorsAndMastersManagement.Distribution.TimeConstraints.BachelorsConstraints.'+$doc.getName())
+#set ($document = $xwiki.getDocument($documentName))
+#foreach($obj in $document.getObjects("BachelorsAndMastersManagement.Distribution.TimeConstraintClass"))
+  #set($discard = $document.removeObject($obj))
+#end
+#set($discard =$document.save())
+#end
+
+
+  &lt;p align="center"&gt;
+      &lt;input name="submit" type="submit" value="Salvare" class="button" &gt;
+   &lt;/p&gt;
+   &lt;p align="center"&gt;
+      &lt;input name="reset" type="submit" value="Reset" class="button"&gt;
+   &lt;/p&gt;
+
+&lt;/form&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+   function allowDrop(ev) {
+       ev.preventDefault();
+   }
+
+   function drag(ev) {
+       ev.dataTransfer.setData("text", ev.target.id);
+
+   }
+   
+//window.addEventListener('DOMContentLoaded', plsWork, false);
+// ^ autorefresher
+
+   function plsWork()
+{
+if(localStorage.getItem("refresh") !== "yes"){
+window.location.reload();
+localStorage.setItem("refresh","yes");
+}
+else
+localStorage.removeItem("refresh");
+}
+
+   function drop(ev) {
+       ev.preventDefault();
+       var data = ev.dataTransfer.getData("text");
+       ev.target.parentElement.parentElement.insertBefore(document.getElementById(data),ev.target.parentElement.nextSibling);
+       document.getElementById('i'+data).value = ev.target.parentElement.id;
+       // inserts after the target
+       }
+&lt;/script&gt;
+
+
+
+{{/html}}
+{{/velocity}}
+
+
+ </content>
+  <object>
+    <name>BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionSheet</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>3c931359-a18b-4617-a39a-02bf6f3a0390</guid>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAdminGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,script,delete</levels>
+    </property>
+  </object>
+  <object>
+    <name>BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionSheet</name>
+    <number>1</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>24dd5a17-b177-4712-a257-ad3c1945ea0d</guid>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.Profs</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,script,delete</levels>
+    </property>
+  </object>
+  <object>
+    <name>BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionSheet</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>6c2a5a2f-398e-4ee8-9b15-df9ace0341f4</guid>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.XWikiAllGroup</groups>
+    </property>
+    <property>
+      <levels>view</levels>
+    </property>
+  </object>
+  <object>
+    <name>BachelorsAndMastersManagement.Distribution.BachelorCommitteeRepartitionSheet</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>72f9f380-f1ee-4934-8e83-12e216419985</guid>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>XWiki.Studs</groups>
+    </property>
+    <property>
+      <levels>view</levels>
+    </property>
+  </object>
+</xwikidoc>
