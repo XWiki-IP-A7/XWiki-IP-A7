@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Setup.DateBachelorsHandler" locale="">
+  <web>BachelorsAndMastersManagement.Setup</web>
+  <name>DateBachelorsHandler</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>BachelorsAndMastersManagement.Setup.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>DateBachelorsHandler</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content/>
+  <class>
+    <name>BachelorsAndMastersManagement.Setup.DateBachelorsHandler</name>
+    <customClass/>
+    <customMapping/>
+    <defaultViewSheet/>
+    <defaultEditSheet/>
+    <defaultWeb/>
+    <nameField/>
+    <validationScript/>
+    <daysForBachelors>
+      <disabled>0</disabled>
+      <name>daysForBachelors</name>
+      <number>1</number>
+      <numberType>long</numberType>
+      <prettyName>daysForBachelors</prettyName>
+      <size>30</size>
+      <unmodifiable>0</unmodifiable>
+      <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+    </daysForBachelors>
+  </class>
+</xwikidoc>
