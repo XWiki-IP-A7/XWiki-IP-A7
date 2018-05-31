@@ -18,7 +18,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{velocity}}
 ## Replace the default space with the space where you want your documents to be created.
 ## Replace the default parent with the one of your choice and save the document.
@@ -40,13 +40,13 @@
       <disabled>0</disabled>
       <hint/>
       <name>nota</name>
-      <number>2</number>
+      <number>3</number>
       <numberType>integer</numberType>
       <prettyName>Nota</prettyName>
-      <size>30</size>
+      <size>10</size>
       <unmodifiable>0</unmodifiable>
-      <validationMessage>Nota nu corespunde formatului.</validationMessage>
-      <validationRegExp>^(1|2|3|4|5|6|7|8|9|10)$</validationRegExp>
+      <validationMessage>Nota trebuie sa fie formata dintr-un singur numar, fara virgula, intre 4 si 10.</validationMessage>
+      <validationRegExp>^(4|5|6|7|8|9|10)$</validationRegExp>
       <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
     </nota>
     <proba>
@@ -57,7 +57,7 @@
       <hint/>
       <multiSelect>0</multiSelect>
       <name>proba</name>
-      <number>3</number>
+      <number>4</number>
       <picker>0</picker>
       <prettyName>Proba</prettyName>
       <relationalStorage>0</relationalStorage>
@@ -71,9 +71,41 @@
       <values>proba1=Proba 1|proba2=Proba 2</values>
       <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
     </proba>
-    <student>
+    <profesor>
       <cache>0</cache>
       <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>input</displayType>
+      <hint/>
+      <multiSelect>0</multiSelect>
+      <name>profesor</name>
+      <number>2</number>
+      <picker>1</picker>
+      <prettyName>Profesor</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators/>
+      <size>20</size>
+      <sort>none</sort>
+      <unmodifiable>0</unmodifiable>
+      <usesList>0</usesList>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+    </profesor>
+    <student>
+      <cache>0</cache>
+      <customDisplay>{{velocity}}
+#set($propertyClass = $object.getxWikiClass().get($name))
+#if($type == "edit")
+  {{html}}
+    #set($parameters = {"name": "${prefix}${name}", "value": $value})
+    #userPicker(false $parameters)
+  {{/html}}
+#else
+  $xwiki.getUserName($value, false)
+#end
+{{/velocity}}</customDisplay>
       <disabled>0</disabled>
       <displayType>input</displayType>
       <hint/>
@@ -94,6 +126,38 @@
       <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
     </student>
   </class>
+  <object>
+    <name>BachelorsAndMastersManagement.Note.Code.NotaClass</name>
+    <number>0</number>
+    <className>XWiki.ClassSheetBinding</className>
+    <guid>1fb53d9a-99d2-408b-89c8-76418b5f3314</guid>
+    <class>
+      <name>XWiki.ClassSheetBinding</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <sheet>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>sheet</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Sheet</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </sheet>
+    </class>
+    <property>
+      <sheet>NotaSheet</sheet>
+    </property>
+  </object>
   <object>
     <name>BachelorsAndMastersManagement.Note.Code.NotaClass</name>
     <number>0</number>

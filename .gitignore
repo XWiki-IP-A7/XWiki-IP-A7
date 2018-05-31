@@ -207,3 +207,4 @@ venv.bak/
 # End of https://www.gitignore.io/api/java,maven,python,intellij
 
 *.xar
+backup/

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Note.WebHome" locale="">
+  <web>BachelorsAndMastersManagement.Note</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Catalog</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+
+{{/velocity}}
+
+{{velocity}}
+(% style="text-align: center" %)
+== Licenta ==
+{{html}}
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Bachelors.TabelNotare")" class="button" style="width: 48%"&gt;Adaugare note&lt;/a&gt;
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Bachelors.Raport")" class="button" style="width: 48%; float: right"&gt;Generare raport&lt;/a&gt;
+{{/html}}
+
+\\
+\\
+
+(% style="text-align: center" %)
+== Master ==
+{{html}}
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Masters.TabelNotare")" class="button" style="width: 48%"&gt;Adaugare note&lt;/a&gt;
+&lt;a href="$xwiki.getURL("BachelorsAndMastersManagement.Note.Masters.Raport")" class="button" style="width: 48%; float: right"&gt;Generare raport&lt;/a&gt;
+{{/html}}
+{{/velocity}}
+</content>
+</xwikidoc>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Note.Code.NotaMacros" locale="">
+  <web>BachelorsAndMastersManagement.Note.Code</web>
+  <name>NotaMacros</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.Note.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Nota Macros</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+#set($notaClass = "BachelorsAndMastersManagement.Note.Code.NotaClass")
+#set($notaClassObj = $xwiki.getDocument($notaClass).xWikiClass)
+#set($notaObjectRoot = "BachelorsAndMastersManagement.Note.Code.NotaObjects")
+##
+#macro(getNotaPage $student)
+  #set($macro.space = $services.model.resolveSpace($notaObjectRoot))
+  #set($macro.pageName = $services.model.resolveDocument($student).name)
+  #set($macro.docRef = $services.model.resolveDocument($macro.pageName, $macro.space))
+  #set($macro.doc = $xwiki.getDocument($macro.docRef))
+  #set($notaPage = $macro.doc)
+  #set($macro.rights = $notaPage.getObject("XWiki.XWikiGlobalRights", true))
+  #set($macro.save = false)
+  #if($macro.rights.getProperty("groups") != "")
+    #set($discard = $macro.rights.set("groups", ""))
+    #set($macro.save = true)
+  #end
+  #set($macro.users = "")
+  #foreach($entry in $notaCommittee)
+    #if($macro.users != "")
+      #set($macro.users = "${macro.users},${entry[2]}")
+    #else
+      #set($macro.users = $entry[2])
+    #end
+  #end
+  #if($macro.rights.getProperty("users") != $macro.users)
+    #set($discard = $macro.rights.set("users", $macro.users))
+    #set($macro.save = true)
+  #end
+  #if($macro.rights.getProperty("levels") != "view,edit")
+    #set($discard = $macro.rights.set("levels", "view,edit"))
+    #set($macro.save = true)
+  #end
+  #if($macro.rights.getProperty("allow") != "1")
+    #set($discard = $macro.rights.set("allow", "1"))
+    #set($macro.save = true)
+  #end
+  #if($macro.save)
+    #set($discard = $notaPage.save())
+  #end
+#end
+##
+#macro(saveNota $student $profesor $proba $nota)
+  #if(!$nota.matches($notaClassObj.nota.validationRegExp))
+    &lt;b&gt;Nota pentru $student la $proba ($nota) nu este valida&lt;/b&gt;: $notaClassObj.nota.validationMessage&lt;br&gt;
+    #break($macro)
+  #end
+  #getNotaPage($student)
+  #foreach($obj in $notaPage.getObjects($notaClass))
+    #if($obj.getProperty("student").value == $student &amp;&amp; $obj.getProperty("profesor").value == $profesor &amp;&amp; $obj.proba == $proba)
+      ## found existing nota, update value
+      #if($obj.nota != $nota)
+        #if($nota.trim() != "")
+          $obj.set("nota", $nota)
+        #else
+          $notaPage.removeObject($obj)
+        #end
+        $notaPage.save()
+      #end
+      #break($macro)
+    #end
+  #end
+  #if($nota.trim() != "")
+    #set($macro.obj = $notaPage.newObject($notaClass))
+    $macro.obj.set("student", $student)
+    $macro.obj.set("profesor", $profesor)
+    $macro.obj.set("proba", $proba)
+    $macro.obj.set("nota", $nota)
+    $notaPage.save()
+  #end
+#end
+##
+#macro(getNotaStudents $tipExamen)
+  #set($notaStudents = [])
+  #set($notaStudentProjects = {})
+  #if($tipExamen == "master")
+    #set($macro.registrationSpace = "BachelorsAndMastersManagement.Registration.Candidates.MastersCandidates")
+  #else
+    #set($macro.registrationSpace = "BachelorsAndMastersManagement.Registration.Candidates.BachelorCandidates")
+  #end
+  #if($tipExamen == "master")
+    #set($macro.committeeSpace = "BachelorsAndMastersManagement.Setup.Committees.MastersCommittees")
+  #else
+    #set($macro.committeeSpace = "BachelorsAndMastersManagement.Setup.Committees.BachelorsCommittees")
+  #end
+  #set($macro.query = "select doc2.name, stud.project_title from Document doc, doc.object(BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass) as obj, doc.object(AppWithinMinutes.Users) as prof, Document doc2, doc2.object(BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass) as stud where doc.object(AppWithinMinutes.Users).user = '$xcontext.user' and stud.coordinator = prof.user and doc2.space = '$macro.registrationSpace' and doc.space like '$macro.committeeSpace%'")
+  #foreach($row in $services.query.xwql($macro.query).execute())
+    #set($macro.student = "XWiki.${row[0].trim()}")
+    #set($discard = $notaStudents.add($macro.student))
+    #set($notaStudentProjects[$macro.student] = $row[1])
+  #end
+#end
+##
+#macro(getNotaCommittee $tipExamen)
+  #set($macro.queryColumns = "comisie.head, comisie.secretary, comisie.member1, comisie.member2")
+  #if($tipExamen == "master")
+    #set($macro.queryColumns = "${macro.queryColumns}, comisie.member3")
+    #set($macro.queryClass = "BachelorsAndMastersManagement.Setup.MastersCommittee")
+  #else
+    #set($macro.queryClass = "BachelorsAndMastersManagement.Setup.BachelorsCommittee")
+  #end
+  #set($macro.query = "select distinct ${macro.queryColumns} from Document doc, doc.object(BachelorsAndMastersManagement.Distribution.CommitteeRepartitionClass) as obj, doc.object(AppWithinMinutes.Users) as prof, Document doc2, doc2.object(BachelorsAndMastersManagement.Registration.Candidate.Code.CandidateClass) as stud, Document doc3, doc3.object($macro.queryClass) as comisie where doc.object(AppWithinMinutes.Users).user = '$xcontext.user' and stud.coordinator = prof.user and doc3.fullName = doc.space")
+  #set($notaCommittee = [])
+  #set($macro.titluri = ["", "Presedinte comisie", "Secretar", "Membru comisie", "Membru comisie", "Membru comisie"])
+  #foreach($row in $services.query.xwql($macro.query).execute())
+    #foreach($col in $row)
+      #set($discard = $notaCommittee.add([$macro.titluri[$foreach.count], $xwiki.getUserName($col, false), $col, $foreach.count]))
+    #end
+  #end
+#end
+{{/velocity}}</content>
+</xwikidoc>

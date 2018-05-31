@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="BachelorsAndMastersManagement.Note.Code.TabelNotare" locale="">
+  <web>BachelorsAndMastersManagement.Note.Code</web>
+  <name>TabelNotare</name>
+  <language/>
+  <defaultLanguage></defaultLanguage>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1356998400000</creationDate>
+  <parent>xwiki:BachelorsAndMastersManagement.Note.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1356998400000</date>
+  <contentUpdateDate>1356998400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Tabel notare</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{include reference="BachelorsAndMastersManagement.Note.Code.NotaMacros"/}}
+
+{{velocity}}
+
+#set ($showcomments = false)
+#set ($showannotations = false)
+#set ($showattachments = false)
+#set ($showhistory = false)
+#set ($showinformation = false)
+
+{{/velocity}}
+
+{{groovy}}
+import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.api.Context;
+import com.xpn.xwiki.api.Object;
+import com.xpn.xwiki.api.PropertyClass;
+import com.xpn.xwiki.doc.XWikiDocument;
+import com.xpn.xwiki.objects.BaseObject;
+
+/**
+ * Used to preview class fields that have a custom display associated, before they are actually added/saved to the
+ * class. For instance, when the user drags a Date field from the palette to the field canvas the class editor needs to
+ * display that Date field as if the user would be editing an object with this Date field in "Inline form" edit mode.
+ * This means that if the Date field has a custom display, the custom display should be used (e.g. using a Date picker).
+ */
+class PropertyCustomDisplayer
+{
+    private XWikiContext context;
+
+    public PropertyCustomDisplayer(Context context)
+    {
+        this.context = context.getContext();
+    }
+
+    public String display(PropertyClass property, String prefix, com.xpn.xwiki.api.Object object)
+    {
+        HashMap&lt;String, Object&gt; backup = new HashMap&lt;String, Object&gt;();
+        try {
+            XWikiDocument.backupContext(backup, this.context);
+            return this.displayInternal(property.getPropertyClass(), prefix, object.getXWikiObject());
+        } finally {
+            XWikiDocument.restoreContext(backup, this.context);
+        }
+    }
+
+    private String displayInternal(com.xpn.xwiki.objects.classes.PropertyClass property, String prefix, BaseObject object)
+    {
+        StringBuffer result = new StringBuffer();
+        property.displayCustom(result, property.getName(), prefix, "edit", object, this.context);
+        return result.toString();
+    }
+}
+xcontext.put('propertyCustomDisplayer', new PropertyCustomDisplayer(xcontext))
+{{/groovy}}
+
+{{velocity}}
+#if($doc.fullName.contains(".Masters."))
+  #set($tipExamen = "master")
+#else
+  #set($tipExamen = "licenta")
+#end
+
+#getNotaCommittee($tipExamen)
+
+{{html clean="false" wiki="true"}}
+
+#if("$!request.nota_go" == "yes")
+  Se salveaza notele...&lt;br&gt;
+  #foreach($name in $request.parameterNames)
+    #set($nota = $request.get($name))
+    #if($name.endsWith("_nota") &amp;&amp; $request.get($name).trim() != "")
+      #set($nameParts = $name.split("-_"))
+      #set($user = $nameParts[0])
+      #set($proba = $nameParts[1])
+      #if($nota.trim() == "-")
+        #set($nota = "")
+      #end
+      #saveNota($user $xcontext.user $proba $nota)
+    #end
+  #end
+  Salvarea s-a finalizat.&lt;br&gt;
+#end
+
+&lt;form method="post" id="form_note"&gt;&lt;input type="hidden" name="nota_go" value="yes" /&gt;
+$xwiki.ssfx.use("js/xwiki/table/table.css")
+$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
+
+#set($className = "BachelorsAndMastersManagement.Note.Code.NotaClass")
+#set($class = $xwiki.getDocument($className).xWikiClass)
+#macro(displayPropertyEditInput $property $prefix $object)#*
+  *##set($wrappedProperty = $property.propertyClass)#*
+  *##if($wrappedProperty.isCustomDisplayed($xcontext.context))#*
+    *#$xcontext.get('propertyCustomDisplayer').display($property, $prefix, $object)#*
+  *##else#*
+    *#$doc.displayEdit($property, $prefix, $object)#*
+  *##end#*
+*##end
+
+#set($probe = ["Proba 1", "Proba 2"])
+(% class="sortable doOddEven" id="tableid" %)
+(% class="sortHeader" %)|=Nume|=Prenume#foreach($proba in $probe)|=Notă $proba#end
+
+#getNotaStudents()
+#set($obj = $doc.newObject($className))
+#foreach($user in $notaStudents)
+  #set($fields = {})
+  #set($userObj = $xwiki.getDocument($user).getObject("XWiki.XWikiUsers"))
+  #foreach($proba in $probe)
+    #set($fields[$proba] = $obj)
+  #end
+  #getNotaPage($user)
+  #foreach($nota in $notaPage.getObjects("BachelorsAndMastersManagement.Note.Code.NotaClass"))
+    #if($nota.getProperty("student").value == $user &amp;&amp; $nota.getProperty("profesor").value == $xcontext.user)
+      #foreach($proba in $probe)
+        #if($nota.proba == $proba)
+          #set($fields[$proba] = $nota)
+        #end
+      #end
+    #end
+  #end
+  #set($sep = "-_")
+  |$userObj.last_name|$userObj.first_name#foreach($proba in $probe)|#displayPropertyEditInput($class.nota "$user$sep$proba$sep" $fields[$proba])#end
+
+#end
+
+&lt;input type="submit" value="Submit" class="button" /&gt;
+&lt;/form&gt;
+&lt;script type="text/javascript"&gt;
+var editedFields = {};
+
+function addInputEditedEffect(el) {
+  var originalValue = el.value;
+  editedFields[el.name] = false;
+  var handler = function() {
+    editedFields[el.name] = el.value !== originalValue;
+    if (editedFields[el.name]) {
+      el.style.backgroundColor = "#FCF3CF";
+    } else {
+      el.style.backgroundColor = "";
+    }
+  };
+  el.addEventListener("change", handler);
+  el.addEventListener("input", handler);
+}
+
+function countEditedFields() {
+  var num = 0;
+  for (var key in editedFields) {
+    if (editedFields.hasOwnProperty(key) &amp;&amp; editedFields[key] === true) {
+      num++;
+    }
+  }
+  return num;
+}
+
+var form = document.getElementById("form_note");
+var inputs = form.getElementsByTagName("input");
+for (var i = 0; i &lt; inputs.length; i++) {
+  if (inputs[i].name.endsWith("_nota")) {
+    addInputEditedEffect(inputs[i]);
+  }
+}
+
+var promptBeforeLeave = true;
+form.addEventListener("submit", function() {
+  promptBeforeLeave = false;
+});
+window.onbeforeunload = function(e) {
+  console.log("Triggered beforeunload");
+  if (promptBeforeLeave &amp;&amp; countEditedFields() &gt; 0) {
+    e.returnValue = "Sigur doriti sa parasiti pagina? Aveti modificari nesalvate.";
+    return e.returnValue;
+  }
+};
+&lt;/script&gt;
+{{/html}}
+{{/velocity}}</content>
+</xwikidoc>

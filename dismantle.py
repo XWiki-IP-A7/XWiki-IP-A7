@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from lxml import etree
+import errno
+import io
 import os
 import re
 import sys
@@ -10,9 +12,18 @@ APP_NAME = "BachelorsAndMastersManagement"
 PAGE_AUTHOR = "xwiki:XWiki.Admin"
 PAGE_TIMESTAMP = "1356998400000"
 PAGE_VERSION = "1.1"
-XML_HEADER = '<?xml version="1.0" encoding="UTF-8"?>\n\n'
+XML_HEADER = u'<?xml version="1.0" encoding="UTF-8"?>\n\n'
 
-REPO_PATH = os.path.dirname(__file__)
+REPO_PATH = os.path.dirname(os.path.abspath(sys.argv[0]))
+
+def mkdir_p(path):
+	try:
+		os.makedirs(path)
+	except OSError as exc: # Python >2.5
+		if exc.errno == errno.EEXIST and os.path.isdir(path):
+			pass
+		else:
+			raise
 
 def remove_xwiki_tags(root):
 	for element in root.findall("./object[className='XWiki.TagClass']"):
@@ -36,8 +47,10 @@ def extract_page(xar, name):
 	# Remove carriage returns from text nodes
 	remove_cr(root)
 
-	# Clear default language
-	root.find("./defaultLanguage").text = ""
+	# Don't collapse the defaultLanguage tag
+	defaultLanguage = root.find("./defaultLanguage")
+	if defaultLanguage.text is None:
+		defaultLanguage.text = ""
 
 	# Set author
 	root.find("./creator").text = PAGE_AUTHOR
@@ -56,8 +69,8 @@ def extract_page(xar, name):
 
 	resource = root.find("./web").text + "/" + root.find("./name").text + ".xml"
 	path = REPO_PATH + "/src/main/resources/" + resource
-	os.makedirs(os.path.dirname(path), exist_ok=True)
-	with open(path, "w", newline="\r\n") as f:
+	mkdir_p(os.path.dirname(path))
+	with io.open(path, "w", newline="\r\n", encoding="utf-8") as f:
 		print("Exporting " + resource + "...")
 		f.write(XML_HEADER)
 		f.write(etree.tostring(root, pretty_print=True, encoding="utf-8").decode("utf-8"))
